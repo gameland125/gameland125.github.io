@@ -1,1 +1,26 @@
-<script>location.href='index.html';</script>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>GAMELAND AUTO</title>
+</head>
+
+<body style="background:black;color:#00ffcc;text-align:center;">
+
+<h2>Loading GAMELAND...</h2>
+
+<script>
+setTimeout(()=>{
+ fetch("goldhen.bin")
+ .then(r=>r.arrayBuffer())
+ .then(()=>{
+   document.body.innerHTML="<h2>GoldHEN Loaded ✅</h2>";
+ })
+ .catch(()=>{
+   document.body.innerHTML="<h2>Error ❌</h2>";
+ });
+},2000);
+</script>
+
+</body>
+</html>
