@@ -1,1 +1,18 @@
 
+function runPayload() {
+    alert("Exploit Loaded - ارسال GoldHEN...");
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', 'GoldHEN.bin', true);
+    xhr.responseType = 'arraybuffer';
+
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            alert("GoldHEN ارسال شد ✅");
+        } else {
+            alert("خطا در لود GoldHEN ❌");
+        }
+    };
+
+    xhr.send();
+}
