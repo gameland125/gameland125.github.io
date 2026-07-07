@@ -1,28 +1,10 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="utf-8">
-<title>Auto GoldHEN</title>
-</head>
-<body>
-
-<h3>Loading GoldHEN...</h3>
+<script src="exploit/rop.js"></script>
+<script src="exploit/syscalls.js"></script>
+<script src="exploit/exploit.js"></script>
+<script src="exploit/loader.js"></script>
 
 <script>
-function loadPayload(){
-    fetch("payloads/goldhen.bin")
-    .then(r => r.arrayBuffer())
-    .then(b => {
-        console.log("GoldHEN loaded");
-        document.body.innerHTML = "GoldHEN Loaded ✔️";
-    })
-    .catch(e => {
-        document.body.innerHTML = "Error loading payload";
-    });
-}
-
-loadPayload();
+setTimeout(function(){
+    loadPayload("payloads/goldhen.bin");
+}, 3000);
 </script>
-
-</body>
-</html>
