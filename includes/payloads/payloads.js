@@ -241,3 +241,6 @@ function custom(payloadFile) {
     Loadpayloadlocal(URL.createObjectURL(payloadFile), payloadFile.name);
     log(window.lang.customPayloadLoaded + payloadFile.name);
 }
+function load_GoldHEN(name) {
+    Loadpayloadlocal("./includes/payloads/GoldHEN.bin", name);
+}
