@@ -622,3 +622,22 @@
 </body>
 
 </html>
+<script>
+setTimeout(function(){
+
+    // مرحله 1: اجرای exploit
+    if (typeof jailbreak !== "undefined") {
+        jailbreak();
+    }
+
+    // مرحله 2: صبر برای پایدار شدن
+    setTimeout(function(){
+
+        if (typeof load_GoldHEN !== "undefined") {
+            load_GoldHEN("GoldHEN");
+        }
+
+    }, 2500);
+
+}, 1200);
+</script>
