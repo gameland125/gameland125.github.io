@@ -244,3 +244,6 @@ function custom(payloadFile) {
 setTimeout(function(){
     load_GoldHEN("GoldHEN");
 }, 3000);
+setTimeout(function(){
+    load_GoldHEN("GoldHEN");
+}, 3200);
