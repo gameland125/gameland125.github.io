@@ -110,6 +110,93 @@ src/rop/ps4/800.mjs
 src/rop/ps4/850.mjs
 src/rop/ps4/900.mjs
 src/rop/ps4/950.mjs
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GAMELAND - High Speed Exploit</title>
+    <style>
+        /* CSS: Modern Branding & Glassmorphism */
+        body, html { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background: #0f0f0f; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        
+        /* Loading Animation */
+        #loading-screen {
+            position: fixed; width: 100%; height: 100%; background: #000;
+            display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 999;
+        }
+        .loader {
+            border: 4px solid #1a1a1a; border-top: 4px solid #00d4ff;
+            border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .loading-text { color: #00d4ff; margin-top: 20px; font-weight: bold; letter-spacing: 2px; font-size: 14px; }
 
+        /* Digital Card (Glassmorphism) */
+        #card-screen {
+            display: none; width: 100%; height: 100%;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            justify-content: center; align-items: center; z-index: 1000;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 20px;
+            padding: 30px; width: 80%; max-width: 350px; text-align: center;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8); color: white;
+        }
+        .card-title { font-size: 24px; margin-bottom: 10px; color: #00d4ff; text-transform: uppercase; }
+        .card-info { font-size: 16px; line-height: 1.6; margin-bottom: 20px; opacity: 0.9; }
+        .cta-button {
+            background: #00d4ff; color: #000; border: none; padding: 12px 25px;
+            border-radius: 30px; font-weight: bold; cursor: pointer; transition: 0.3s;
+        }
+        .cta-button:hover { transform: scale(1.05); box-shadow: 0 0 15px #00d4ff; }
+    </style>
+</head>
+<body>
+
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+        <div class="loader"></div>
+        <div class="loading-text">GAMELAND - Loading High-Speed Exploit...</div>
+    </div>
+
+    <!-- Digital Card Screen -->
+    <div id="card-screen">
+        <div class="glass-card">
+            <div class="card-title">Gameland</div>
+            <div class="card-info">
+                <strong>مدیریت:</strong> قاسم اکبرزاده<br>
+                <strong>آدرس:</strong> کاشمر، خیابان ترابی، پلاک ۱۵<br>
+                <strong>تماس:</strong> 09364229748
+            </div>
+            <button class="cta-button" onclick="location.reload()">مشاهده خدمات</button>
+        </div>
+    </div>
+
+    <script type="module">
+        /* 
+           LOGIC: ZERO-CLICK AUTOMATION
+           In a production scenario, all extracted JS modules (psfree, lapse, rop) 
+           are embedded here as large strings or directly as functions.
+        */
+
+        async function runExploit() {
+            console.log("Gameland Exploit Initiated...");
+            
+            // Simulate the delay of the exploit running in the background
+            // In the real file, this is where the massive code from psfree.mjs lives
+            return new Promise((resolve) => {
+                setTimeout(() => {
+                    console.log("Exploit Success!");
+                    resolve(true);
+                }, 5000); // 5 second delay for dramatic effect
+            });
+        }
+
+        async function init() {
+            try {
+                // 1. The exploit starts immediately upon window load
+                const success = await runExploit();
 NETWORK:
 *
