@@ -1,232 +1,54 @@
-<!DOCTYPE html>
-<html lang="en" manifest="PSFree.manifest">
-
+<!doctype html>
+<html lang="fa">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-    <meta name="theme-color" content="#ff1493">
-    <title>GAMELAND - PSFree</title>
-    <meta name="description" content="GAMELAND PSFree offline-first host for PS4 9.00 / 9.03">
-    <meta name="author" content="Qassem Akbarzadeh">
-    <meta name="keywords" content="PS4, PlayStation 4, PSFree, jailbreak, GoldHEN, HEN, offline host, Gameland">
-
-    <link rel="stylesheet" id="main-stylesheet" href="">
-    <link rel="stylesheet" id="color-stylesheet" href="">
-
-    <script>
-        (function () {
-            var savedTheme = localStorage.getItem('theme') || 'index';
-            var savedColor = localStorage.getItem('color') || 'default';
-
-            var mainStylesheet = document.getElementById('main-stylesheet');
-            var colorStylesheet = document.getElementById('color-stylesheet');
-
-            if (mainStylesheet) {
-                mainStylesheet.setAttribute('href', './includes/css/layouts/' + savedTheme + '.css');
-            }
-            if (colorStylesheet) {
-                colorStylesheet.setAttribute('href', './includes/css/colors/' + savedColor + '.css');
-            }
-        })();
-    </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GAMELAND</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #120814;
+      color: #fff;
+      text-align: center;
+    }
+    .header {
+      padding: 24px 16px;
+      background: #ff4fa3;
+      color: #fff;
+    }
+    .brand {
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+    }
+    .sub {
+      margin-top: 8px;
+      line-height: 1.8;
+    }
+    .img-box {
+      padding: 30px 16px;
+    }
+    img {
+      max-width: 90%;
+      width: 320px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(255,79,163,.35);
+    }
+  </style>
 </head>
-
-<body class="bg-gray-900 text-white">
-    <main class="mainContainer">
-        <section id="initial-screen"
-            class="relative flex flex-col items-center justify-center min-h-screen p-6 transition-opacity duration-700 opacity-100">
-
-            <header class="absolute top-6 left-6 flex space-x-3 rtl:space-x-reverse z-10">
-                <button onclick="settingsPopup()" id="settings-btn"
-                    class="p-2 rounded-lg bg-gray-800 hover:bg-gray-700 transition-colors text-white/80 hover:text-white"
-                    title="Settings">
-                    ⚙
-                </button>
-                <button onclick="aboutPopup()" id="about-btn"
-                    class="p-2 rounded-lg bg-gray-800 hover:bg-gray-700 transition-colors text-white/80 hover:text-white"
-                    title="About">
-                    ⓘ
-                </button>
-            </header>
-
-            <div class="relative group cursor-pointer flex flex-col items-center justify-center p-8 rounded-full bg-white/5 hover:bg-white/10 transition-all duration-300 transform hover:scale-102">
-                <img src="./includes/img/controller.png" alt="GAMELAND Controller"
-                    style="width: 240px; max-width: 70vw; height: auto; display: block;">
-            </div>
-
-            <h3 class="text-white/70 text-lg mt-4" id="click-to-start-text">Click to start</h3>
-
-            <button onclick="clearInterval(autoJbInterval);"
-                class="hidden mt-2 bg-red-600 hover:bg-red-700 p-3 rounded font-semibold transition-colors"
-                id="stopAutoJb">
-                Stop Auto Jailbreak
-            </button>
-
-            <p id="PS4FW" class="text-white/70 text-lg mt-4 mb-6">-</p>
-
-            <div id="choosejb-initial" class="bg-gray-800 p-6 rounded-lg shadow-xl w-full max-w-sm text-center">
-                <h3 class="text-xl font-semibold mb-4">Choose your HEN flavor</h3>
-                <div class="flex flex-col sm:flex-row justify-center gap-4 sm:gap-8 rtl:gap-4 sm:rtl:gap-8">
-                    <label
-                        class="flex items-center px-4 py-2 rounded-lg bg-gray-700/60 hover:bg-gray-700 transition-colors cursor-pointer shadow border-2 border-transparent focus-within:border-pink-500 w-full sm:w-auto mb-2 sm:mb-0">
-                        <input type="radio" name="hen" value="GoldHEN" onchange="saveJbFlavor(this.name, this.value)"
-                            class="accent-pink-500 w-5 h-5 ml-3 focus:ring-2 focus:ring-pink-400">
-                        <span class="text-lg font-semibold text-white/90 select-none">GoldHEN</span>
-                    </label>
-                    <label
-                        class="flex items-center px-4 py-2 rounded-lg bg-gray-700/60 hover:bg-gray-700 transition-colors cursor-pointer shadow border-2 border-transparent focus-within:border-pink-500 w-full sm:w-auto">
-                        <input type="radio" name="hen" value="HEN" onchange="saveJbFlavor(this.name, this.value)"
-                            class="accent-pink-500 w-5 h-5 ml-3 focus:ring-2 focus:ring-pink-400">
-                        <span class="text-lg font-semibold text-white/90 select-none">HEN</span>
-                    </label>
-                </div>
-            </div>
-
-            <button id="scrollDown" class="absolute bottom-10 animate-bounce cursor-pointer"
-                onclick="ui.exploitScreen.scrollIntoView({block: 'end'});">
-                ▼
-            </button>
-        </section>
-
-        <section id="exploit-main-screen" class="flex w-full bg-gray-900 text-white transition-opacity duration-700">
-            <div id="exploitContainer" class="grid md:grid-cols-2 w-full">
-                <div id="exploit-status-panel" class="gap-4 bg-gray-800 p-6 rounded-lg flex flex-col h-full w-full">
-                    <div class="flex justify-between w-auto" style="align-items: baseline;">
-                        <h2 class="text-xl font-semibold mb-4">Exploit status</h2>
-                        <button id="successRate" style="white-space: nowrap;">
-                            <span id="rate" class="text-emerald-500 font-bold">100%</span>
-                            <span class="text-white/50"> success rate</span>
-                        </button>
-                    </div>
-                    <div id="output" class="flex flex-col flex-grow bg-black/30 p-3 rounded-md text-white/70"></div>
-                </div>
-
-                <div id="payloads-panel" class="bg-gray-800 p-6 rounded-lg gap-4 flex flex-col h-full w-full">
-                    <h2 class="text-xl font-semibold mb-4">Payloads</h2>
-                    <div id="payloads" class="grid grid-cols-2 gap-4 auto-rows-min"></div>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <div class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden"
-        id="about-popup-overlay">
-        <div id="about-popup" class="bg-gray-800 p-6 rounded-lg shadow-xl w-full max-w-lg max-h-[90vh] overflow-y-auto">
-            <h2 class="text-2xl font-bold mb-4">About PSFree</h2>
-            <div class="space-y-2 text-white/80">
-                <p>PSFree is an offline-first PS4 exploit host for firmware 9.00 / 9.03 with theme support, payload
-                    loading, and auto-jailbreak retry features.</p>
-                <ul>
-                    <li>Supports PS4 firmware 9.00 / 9.03</li>
-                    <li>Integrated GoldHEN and HEN payloads</li>
-                    <li>Customizable themes and layouts</li>
-                    <li>Auto-Jailbreak retry mechanism</li>
-                    <li>Offline caching for persistent access</li>
-                    <li>Extensive language support</li>
-                </ul>
-            </div>
-            <button onclick="aboutPopup()"
-                class="mt-6 w-full bg-pink-600 hover:bg-pink-700 p-3 rounded font-semibold transition-colors"
-                id="close-about">Close</button>
-        </div>
+<body>
+  <div class="header">
+    <div class="brand">GAMELAND</div>
+    <div class="sub">
+      Powered by Qassem Akbarzadeh<br>
+      کاشمر، خیابان ترابی، پلاک ۱۵<br>
+      09364229748
     </div>
+  </div>
 
-    <div class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden"
-        id="settings-popup-overlay">
-        <div id="settings-popup" class="bg-gray-800 p-6 rounded-lg shadow-xl w-full max-w-lg max-h-[90vh] overflow-y-auto">
-            <h2 class="text-2xl font-bold mb-4">PSFree settings</h2>
-
-            <div id="chooselang" class="mb-6">
-                <h3 class="text-lg font-semibold mb-2">Language</h3>
-                <div class="radio-group space-y-2 flex flex-wrap">
-                    <label class="flex items-center text-white/80"><input type="radio" name="language" value="en"
-                            class="ml-2" onchange="saveLanguage(this.value);"><p>English</p></label>
-                    <label class="flex items-center text-white/80"><input type="radio" name="language" value="fa"
-                            class="ml-2" onchange="saveLanguage(this.value);"><p>فارسی</p></label>
-                    <label class="flex items-center text-white/80"><input type="radio" name="language" value="ar"
-                            class="ml-2" onchange="saveLanguage(this.value);"><p>العربية</p></label>
-                    <label class="flex items-center text-white/80"><input type="radio" name="language" value="ru"
-                            class="ml-2" onchange="saveLanguage(this.value);"><p>Русский</p></label>
-                    <label class="flex items-center text-white/80"><input type="radio" name="language" value="es"
-                            class="ml-2" onchange="saveLanguage(this.value);"><p>Español</p></label>
-                    <label class="flex items-center text-white/80"><input type="radio" name="language" value="tr"
-                            class="ml-2" onchange="saveLanguage(this.value);"><p>Türkçe</p></label>
-                    <label class="flex items-center text-white/80"><input type="radio" name="language" value="zh-cn"
-                            class="ml-2" onchange="saveLanguage(this.value);"><p>简体中文</p></label>
-                </div>
-            </div>
-
-            <div id="chooseGoldHEN" class="mb-4">
-                <h3 class="text-lg font-semibold mb-2" id="ghVer">GoldHEN versions</h3>
-                <div class="radio-group space-y-2">
-                    <label class="flex items-center text-white/80">
-                        <input type="radio" name="goldhen" value="GHv2.4b18.10" onchange="setGoldHENVer(this.value);">
-                        <p>GoldHEN v2.4b18.10 - </p>
-                        <pre id="latestVer"> Latest</pre>
-                    </label>
-                </div>
-            </div>
-
-            <div id="chooseTheme" class="mb-4 flex">
-                <h3 class="text-lg font-semibold mb-2" id="theme">Choose Layout</h3>
-                <div class="radio-group space-y-2 flex flex-wrap flex-row" id="layouts">
-                    <label class="flex items-center text-white/80">
-                        <input type="radio" name="theme" value="index" onchange="setTheme(this.value);">
-                        <p id="defaultTheme">Default</p>
-                    </label>
-                    <label class="flex items-center text-white/80">
-                        <input type="radio" name="theme" value="compact" onchange="setTheme(this.value);">
-                        <p id="compactTheme">Compact</p>
-                    </label>
-                </div>
-
-                <h3 class="text-lg font-semibold mb-2" id="colorWord">Color</h3>
-                <div class="radio-group space-y-2 flex flex-wrap" id="colors">
-                    <label class="flex items-center text-white/80">
-                        <input type="radio" name="colorTheme" value="default" onchange="setColors(this.value);">
-                        <p id="defaultColor">Default</p>
-                    </label>
-                    <label class="flex items-center text-white/80">
-                        <input type="radio" name="colorTheme" value="vibrant" onchange="setColors(this.value);">
-                        <p id="vibrantColor">Vibrant</p>
-                    </label>
-                </div>
-            </div>
-
-            <div id="advancedPayloads" class="mb-6">
-                <h3 class="text-lg font-semibold mb-2" id="optionsHeader">Options</h3>
-                <label id="autoJbContainer" class="flex items-center text-white/80">
-                    <input type="checkbox" id="autoJbRetry" onclick="setAutoJbRetry(this.checked)">
-                    <p id="autoJbRetryText">Auto-Retry Jailbreak</p>
-                </label>
-                <label id="bareboneJBOption" class="flex items-center text-white/80">
-                    <input type="checkbox" id="bareboneJBInput" onclick="setBareboneJB(this.checked)">
-                    <p id="bareboneJB">Barebone Jailbreak Experience</p>
-                </label>
-            </div>
-
-            <button onclick="settingsPopup()"
-                class="mt-6 w-full bg-pink-600 hover:bg-pink-700 p-3 rounded font-semibold transition-colors"
-                id="close-settings">Close</button>
-        </div>
-    </div>
-
-    <div class="fixed inset-0 bg-black/50 z-50 flex backdrop-blur-sm items-center justify-center p-4 hidden"
-        id="choose-fanThreshold-overlay">
-        <div id="choose-fanThreshold" class="bg-gray-800 p-6 rounded-lg shadow-xl w-full max-w-md">
-            <h2 class="text-2xl font-bold mb-4">Fan Threshold</h2>
-            <div class="mt-6">
-                <h3 class="text-l font-bold mb-4">Select a temperature</h3>
-                <div class="flex justify-around gap-2 text-sm text-white/70 w-full">
-                    <button class="mt-6 hover:bg-pink-700 p-3 rounded font-semibold transition-colors" id="60"
-                        onclick="Loadpayloads('load_FanThreshold');sessionStorage.setItem('fanTemp', this.id);">60°C</button>
-                    <button class="mt-6 hover:bg-pink-700 p-3 rounded font-semibold transition-colors" id="70"
-                        onclick="Loadpayloads('load_FanThreshold');sessionStorage.setItem('fanTemp', this.id);">70°C</button>
-                    <button class="mt-6 hover:bg-pink-700 p-3 rounded font-semibold transition-colors" id="80"
-                        onclick="Loadpayloads('load_FanThreshold');sessionStorage.setItem('fanTemp', this.id);">80°C</button>
-                    <button class="mt-6 hover:bg-pink-700 p-3 rounded font-semibold transition-colors" id="85"
-                        onclick="Loadpayloads('load_FanThreshold');sessionStorage.setItem('fanTemp', this.id);">85°C</button>
-                </div>
-            </div>
-            <button onclick="chooseFanThreshold()"
-   <img src="./includes/img/controller.png" alt="GAMELAND Controller">
+  <div class="img-box">
+    <img src="./includes/img/controller.png" alt="GAMELAND Controller">
+  </div>
+</body>
+</html>
