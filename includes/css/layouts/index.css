@@ -857,3 +857,31 @@ button {
     width: 75%;
     float: right;
 }
+
+/* Neon Pink Theme for GAMELAND */
+:root {
+    --neon-pink: #FF1493;
+    --soft-pink: #FF69B4;
+    --dark-bg: #0a0a0a;
+}
+
+body {
+    background-color: var(--dark-bg);
+    color: white;
+}
+
+/* Styling for the Footer specifically */
+footer h1 {
+    letter-spacing: 5px;
+    text-transform: uppercase;
+}
+
+/* Add premium touch to buttons or links if they exist */
+a, button {
+    transition: all 0.3s ease;
+}
+
+a:hover, button:hover {
+    text-shadow: 0 0 10px var(--neon-pink);
+    color: var(--neon-pink);
+}
