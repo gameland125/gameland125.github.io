@@ -353,7 +353,11 @@ async function loadSettings() {
     autoJailbreak();
     if (autoJbInterval) clearInterval(autoJbInterval);
 sessionStorage.setItem('autoJbRetry', 'true');
-
+const urlParams = new URLSearchParams(window.location.search);
+if (urlParams.has('auto')) {
+  sessionStorage.setItem('autoJbRetry', 'true');
+}
+    
     updateBareboneJB();
     loadLapseChain();
     userlandOnlyOnJB67x();
