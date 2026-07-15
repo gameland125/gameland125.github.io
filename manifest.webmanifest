@@ -1,0 +1,28 @@
+{
+  "name": "GAMELAND",
+  "short_name": "GAMELAND",
+  "description": "GAMELAND offline-first PWA powered by Qassem Akbarzadeh",
+  "lang": "fa",
+  "dir": "rtl",
+  "id": "./",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "landscape",
+  "background_color": "#1f1f1f",
+  "theme_color": "#2b2b2b",
+  "icons": [
+    {
+      "src": "./icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
