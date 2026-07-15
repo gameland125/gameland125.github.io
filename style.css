@@ -1,64 +1,64 @@
-:root {
-  --bg: #17191c;
-  --panel: #24272b;
-  --panel-soft: #2d3035;
-  --line: #41454b;
-  --text: #f2f3f5;
-  --muted: #b9bdc4;
-  --accent: #d6d9de;
-  --ok: #67d391;
-  --warn: #f1bd62;
-  font-family: Arial, Tahoma, sans-serif;
-  color-scheme: dark;
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#222;
+  color:#eee;
+  display:flex;
+  flex-direction:column;
+  min-height:100vh;
 }
-* { box-sizing: border-box; }
-html { min-height: 100%; background: var(--bg); }
-body {
-  min-height: 100vh;
-  margin: 0;
-  display: grid;
-  place-items: center;
-  color: var(--text);
-  background: radial-gradient(circle at top, #34383e 0, var(--bg) 52%);
+main{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
 }
-button, a { font: inherit; }
-.shell { width: min(92vw, 760px); padding: 42px 0 28px; }
-.brand-card, .status-card, .info-card {
-  border: 1px solid var(--line);
-  border-radius: 18px;
-  background: linear-gradient(145deg, rgba(49,53,59,.96), rgba(31,34,38,.98));
-  box-shadow: 0 20px 55px rgba(0,0,0,.32);
+.header{
+  width:100%;
+  display:flex;
+  justify-content:center;
+  margin-bottom:24px;
 }
-.brand-card { display: flex; align-items: center; gap: 24px; padding: 34px; direction: ltr; }
-.brand-mark {
-  width: 88px; height: 88px; flex: 0 0 88px; display: grid; place-items: center;
-  border: 2px solid #7c8189; border-radius: 22px; color: #fff; background: #202327;
-  font-size: 54px; font-weight: 900; box-shadow: inset 0 0 0 6px #2e3237;
+.logo img{
+  width:120px;
+  height:120px;
+  object-fit:contain;
+  display:block;
 }
-.eyebrow { margin: 0 0 5px; color: var(--muted); font-size: 14px; letter-spacing: .28em; }
-h1 { margin: 0; font-size: clamp(46px, 10vw, 78px); line-height: .95; letter-spacing: .04em; }
-.powered { margin: 12px 0 0; color: var(--muted); font-size: clamp(15px, 2.6vw, 19px); }
-.status-card { margin-top: 18px; display: flex; align-items: center; gap: 16px; padding: 22px 25px; }
-.status-dot { width: 15px; height: 15px; flex: 0 0 15px; border-radius: 50%; background: var(--warn); box-shadow: 0 0 18px currentColor; }
-.status-dot.ready { color: var(--ok); background: var(--ok); }
-.status-card h2, .info-card h2 { margin: 0 0 6px; font-size: 22px; }
-.status-card p, .info-card p { margin: 0; color: var(--muted); font-size: 17px; line-height: 1.9; }
-.info-card { margin-top: 18px; padding: 26px; }
-.info-card button {
-  width: 100%; margin-top: 22px; padding: 15px 20px; border: 1px solid #777d85;
-  border-radius: 12px; color: #17191c; background: var(--accent); font-weight: 800;
-  cursor: pointer; transition: transform .15s ease, background .15s ease;
+.content{
+  width:100%;
+  display:flex;
+  justify-content:center;
 }
-.info-card button:hover { background: #fff; transform: translateY(-1px); }
-.info-card button:focus-visible, footer a:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
-footer { padding: 24px 8px 0; display: flex; justify-content: space-between; gap: 16px; color: var(--muted); font-size: 17px; }
-footer p { margin: 0; }
-footer a { color: var(--text); text-decoration: none; }
-noscript { position: fixed; inset: auto 0 0; padding: 12px; text-align: center; background: #7e2929; color: #fff; }
-@media (max-width: 560px) {
-  .shell { padding-top: 20px; }
-  .brand-card { padding: 25px 20px; gap: 16px; }
-  .brand-mark { width: 66px; height: 66px; flex-basis: 66px; border-radius: 17px; font-size: 40px; }
-  footer { flex-direction: column; align-items: center; }
+.card{
+  background:#333;
+  padding:28px 24px;
+  border-radius:10px;
+  width:100%;
+  max-width:420px;
+  text-align:center;
+  box-shadow:0 8px 24px rgba(0,0,0,.25);
 }
-@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; transition: none !important; } }
+h1{
+  margin:0 0 14px;
+  color:#00e676;
+  font-size:2rem;
+  line-height:1.1;
+}
+p{
+  margin:10px 0 0;
+  font-size:1rem;
+  line-height:1.5;
+}
+footer{
+  width:100%;
+  padding:10px 20px;
+  background:#333;
+  color:#bbb;
+  text-align:center;
+  font-size:.9rem;
+}
