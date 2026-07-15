@@ -252,3 +252,8 @@ footer{
   .actions,
   .info-grid{grid-template-columns:1fr}
 }
+body { background: #333; color: #eee; font-family: sans-serif; text-align: center; }
+header { padding: 20px; border-bottom: 2px solid #555; }
+h1 { font-size: 3em; margin: 0; }
+#status { margin: 50px; font-size: 1.5em; }
+button { padding: 15px 30px; font-size: 1.2em; cursor: pointer; }
