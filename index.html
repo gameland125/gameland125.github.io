@@ -1,19 +1,35 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <title>GAMELAND | قاسم اکبرزاده</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="manifest" href="manifest.webmanifest">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#444444">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>GAMELAND | قاسم اکبرزاده</title>
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" href="./icon-192.png">
+  <link rel="apple-touch-icon" href="./icon-192.png">
+  <link rel="stylesheet" href="./style.css">
 </head>
 <body>
-    <header>
-        <h1>GAMELAND</h1>
-        <p>Powered by Qassem Akbarzadeh</p>
-        <p>کاشمر، خیابان ترابی ۱۵ | ۰۹۳۶۴۲۲۹۷۴۸</p>
+  <div class="app">
+    <header class="header">
+      <h1>GAMELAND</h1>
+      <p class="subtitle">Powered by Qassem Akbarzadeh</p>
+      <p class="meta">کاشمر، خیابان ترابی ۱۵</p>
+      <p class="meta">09364229748</p>
     </header>
-    <main id="status">در حال بارگذاری اکسپلویت...</main>
-    <button id="restart-btn" style="display:none;" onclick="location.reload()">خطا در اجرا - کلیک برای ری‌استارت</button>
-    <script src="main.js"></script>
+
+    <main class="main">
+      <div id="status" class="status">در حال آماده‌سازی...</div>
+
+      <div class="actions">
+        <button id="restartBtn" class="btn hidden" type="button">ری‌استارت</button>
+      </div>
+    </main>
+  </div>
+
+  <script src="./main.js"></script>
 </body>
 </html>
