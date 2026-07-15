@@ -1,84 +1,59 @@
 <!DOCTYPE html>
 <html lang="fa">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-  <meta name="theme-color" content="#2b2b2b" />
-  <meta name="description" content="GAMELAND | Offline-first PWA" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <meta name="apple-mobile-web-app-title" content="GAMELAND" />
-  <link rel="manifest" href="./manifest.webmanifest" />
-  <link rel="apple-touch-icon" href="./icon-192.png" />
-  <link rel="icon" href="./icon-192.png" />
-  <link rel="stylesheet" href="./style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#5a5a5a">
+  <meta name="description" content="Gameland — PWA offline-first, lightweight and professional">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Gameland">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="apple-touch-icon" href="./icon-192.png">
   <title>GAMELAND</title>
+  <link rel="stylesheet" href="./style.css">
 </head>
 <body>
   <main class="app-shell">
     <header class="topbar">
       <div class="brand-block">
-        <div class="brand-mark" aria-hidden="true">G</div>
-        <div class="brand-text">
-          <h1>GAMELAND</h1>
-          <p>Powered by Qassem Akbarzadeh</p>
-        </div>
+        <div class="brand-title">GAMELAND</div>
+        <div class="brand-subtitle">Powered by Qassem Akbarzadeh</div>
+        <div class="brand-meta">کاشمر، خیابان ترابی ۱۵</div>
+        <div class="brand-meta">09364229748</div>
       </div>
-
-      <div class="status-pill" aria-live="polite">
-        <span id="jbStatus">آماده</span>
-      </div>
+      <div id="jbStatus" class="status-pill" aria-live="polite">Ready</div>
     </header>
 
     <section class="hero">
-      <div class="panel">
-        <h2>GAMELAND PWA</h2>
-        <p class="lead">
-          نسخه‌ی سبک، آفلاین‌محور و آماده‌ی اجرا با ساختار ساده و قابل‌اعتماد.
-        </p>
-
-        <div class="grid">
-          <label class="field">
-            <span>حالت نمایش</span>
-            <select id="modeSelect">
-              <option value="classic">Classic Gray</option>
-              <option value="compact">Compact</option>
-            </select>
-          </label>
-
-          <label class="field">
-            <span>زبان رابط</span>
-            <select id="langSelect">
-              <option value="fa">فارسی</option>
-              <option value="en">English</option>
-            </select>
-          </label>
-        </div>
-
-        <div class="actions">
-          <button id="startBtn" type="button">اجرای برنامه</button>
-          <button id="retryBtn" type="button" class="secondary">بازآغاز</button>
-        </div>
-
-        <div class="note-box">
-          <p>کاشمر، خیابان ترابی ۱۵</p>
-          <p>09364229748</p>
-        </div>
+      <h1>GAMELAND</h1>
+      <p>
+        نسخه‌ی سبک، آفلاین و قابل‌نصب برای اجرای سریع در GitHub Pages.
+      </p>
+      <div class="actions">
+        <button id="installBtn" type="button">Install App</button>
+        <button id="refreshBtn" type="button">Refresh Cache</button>
       </div>
+    </section>
 
-      <div class="loader-container" id="loaderBox" hidden>
-        <div id="loader" aria-hidden="true"></div>
-        <p id="loader-msg">در حال بارگذاری...</p>
-      </div>
+    <section class="card">
+      <h2>Offline Ready</h2>
+      <p id="loader-msg">Preparing app shell...</p>
+      <div class="loader" aria-hidden="true"></div>
+    </section>
+
+    <section class="card muted">
+      <h2>About</h2>
+      <p>
+        This build is a clean PWA shell with cache-first offline support and minimal footprint.
+      </p>
     </section>
   </main>
 
   <footer class="footer">
-    <span>© 2026 GAMELAND</span>
-    <span>Qassem Akbarzadeh</span>
+    <p>© 2026 Gameland — All rights reserved.</p>
   </footer>
 
-  <script type="module" src="./main.js"></script>
+  <script src="./main.js" defer></script>
 </body>
 </html>
