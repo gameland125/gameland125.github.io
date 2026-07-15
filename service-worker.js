@@ -1,8 +1,5 @@
-'use strict';
-
-var CACHE_NAME = 'gameland-v2';
-
-var APP_FILES = [
+const CACHE_NAME = 'gameland-v4';
+const APP_SHELL = [
   './',
   './index.html',
   './style.css',
@@ -16,7 +13,7 @@ self.addEventListener('install', function (event) {
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then(function (cache) {
-        return cache.addAll(APP_FILES);
+        return cache.addAll(APP_SHELL);
       })
       .then(function () {
         return self.skipWaiting();
@@ -26,65 +23,44 @@ self.addEventListener('install', function (event) {
 
 self.addEventListener('activate', function (event) {
   event.waitUntil(
-    caches.keys()
-      .then(function (cacheNames) {
-        return Promise.all(
-          cacheNames.map(function (cacheName) {
-            if (cacheName !== CACHE_NAME) {
-              return caches.delete(cacheName);
-            }
-
-            return Promise.resolve(false);
-          })
-        );
-      })
-      .then(function () {
-        return self.clients.claim();
-      })
+    caches.keys().then(function (keyList) {
+      return Promise.all(
+        keyList.map(function (key) {
+          if (key !== CACHE_NAME) {
+            return caches.delete(key);
+          }
+        })
+      );
+    }).then(function () {
+      return self.clients.claim();
+    })
   );
 });
 
 self.addEventListener('fetch', function (event) {
-  if (event.request.method !== 'GET') {
-    return;
-  }
+  if (event.request.method !== 'GET') return;
 
   event.respondWith(
-    caches.match(event.request)
-      .then(function (cachedResponse) {
-        if (cachedResponse) {
-          return cachedResponse;
-        }
+    caches.match(event.request).then(function (cached) {
+      if (cached) return cached;
 
-        return fetch(event.request)
-          .then(function (networkResponse) {
-            if (
-              !networkResponse ||
-              networkResponse.status !== 200 ||
-              networkResponse.type === 'opaque'
-            ) {
-              return networkResponse;
-            }
+      return fetch(event.request)
+        .then(function (response) {
+          if (!response || response.status !== 200 || response.type === 'opaque') return response;
 
-            var responseCopy = networkResponse.clone();
-
-            caches.open(CACHE_NAME)
-              .then(function (cache) {
-                cache.put(event.request, responseCopy);
-              });
-
-            return networkResponse;
-          })
-          .catch(function () {
-            if (event.request.mode === 'navigate') {
-              return caches.match('./index.html');
-            }
-
-            return new Response('', {
-              status: 503,
-              statusText: 'Offline'
-            });
+          const copy = response.clone();
+          caches.open(CACHE_NAME).then(function (cache) {
+            cache.put(event.request, copy);
           });
-      })
+
+          return response;
+        })
+        .catch(function () {
+          if (event.request.mode === 'navigate') {
+            return caches.match('./index.html');
+          }
+          return new Response('', { status: 503, statusText: 'Offline' });
+        });
+    })
   );
 });
