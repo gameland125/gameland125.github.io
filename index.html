@@ -1,22 +1,77 @@
-<div class="container">
-  <header class="header">
-    <h1>GAMELAND</h1>
-    <div class="subtitle">Powered by Qassem Akbarzadeh</div>
-    <div class="meta">کاشمر، خیابان ترابی ۱۵</div>
-    <div class="phone">09364229748</div>
-  </header>
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GAMELAND | PS4 9.00 / 9.03 GoldHEN PWA</title>
 
-  <main class="main-content">
-    <section class="panel">
-      <h2>PS4 9.00 / 9.03 GoldHEN Loader</h2>
-      <div class="status-box" id="status-box">در حال آماده‌سازی...</div>
-      <div class="button-row">
-        <button id="restart-button">راه اندازی مجدد</button>
-      </div>
-    </section>
-  </main>
+    <!-- PWA -->
+    <meta name="theme-color" content="#2b2b2b">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="GAMELAND">
+    <link rel="manifest" href="./manifest.webmanifest">
 
-  <footer class="footer">
-    Gameland PWA Loader
-  </footer>
-</div>
+    <!-- Styles -->
+    <link rel="stylesheet" href="./style.css">
+
+    <!-- Optional Icons -->
+    <link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png">
+    <link rel="apple-touch-icon" href="./icon-192.png">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>GAMELAND</h1>
+            <div class="subtitle">Powered by Qassem Akbarzadeh</div>
+            <div class="meta">کاشمر، خیابان ترابی ۱۵</div>
+            <div class="phone">09364229748</div>
+        </header>
+
+        <main class="main-content">
+            <section class="panel center">
+                <h2>لودر آفلاین GoldHEN برای PS4 9.00 / 9.03</h2>
+                <p>
+                    پس از بارگذاری صفحه، فرآیند اجرای اکسپلویت و GoldHEN به صورت خودکار آغاز می‌شود.
+                </p>
+
+                <div class="status-box" id="status-box">
+                    در حال آماده‌سازی محیط اجرا...
+                </div>
+
+                <div class="button-row">
+                    <button id="restart-button">راه اندازی مجدد</button>
+                </div>
+            </section>
+
+            <section class="panel">
+                <h2>اطلاعات سیستم</h2>
+                <ul class="info-list">
+                    <li>حالت اجرا: آفلاین / PWA</li>
+                    <li>نسخه‌های هدف: PS4 Firmware 9.00 / 9.03</li>
+                    <li>اجرای خودکار: فعال</li>
+                    <li>ریدایرکت پس از موفقیت: about:blank</li>
+                    <li>مدیریت خطا: Alert 1 + Alert 2 + Restart</li>
+                </ul>
+            </section>
+        </main>
+
+        <footer class="footer">
+            GAMELAND © Powered by Qassem Akbarzadeh
+        </footer>
+    </div>
+
+    <!-- Core exploit / payload scripts -->
+    <script src="./includes/js/checkFw.js"></script>
+    <script src="./includes/js/language.js"></script>
+    <script src="./includes/js/autoJbRetry.js"></script>
+    <script src="./includes/js/payloadsList.js"></script>
+    <script src="./includes/js/HENs.js"></script>
+    <script src="./includes/js/events.js"></script>
+    <script src="./includes/js/design.js"></script>
+    <script src="./includes/js/index.js"></script>
+
+    <!-- Main controller -->
+    <script src="./main.js"></script>
+</body>
+</html>
