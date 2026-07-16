@@ -1,78 +1,190 @@
-/* تنظیمات کلی و فونت */
-body, html {
-    margin: 0;
-    padding: 0;
+:root {
+  --bg: #b9b9b9;
+  --panel: #d8d8d8;
+  --panel-dark: #c6c6c6;
+  --text: #1d1d1d;
+  --muted: #4a4a4a;
+  --border: #7b7b7b;
+  --shadow: rgba(0, 0, 0, 0.25);
+  --accent: #4d4d4d;
+  --accent-2: #2f2f2f;
+  --success: #2e6b3f;
+  --danger: #8b2d2d;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+  background: linear-gradient(180deg, #c8c8c8 0%, #a9a9a9 100%);
+  color: var(--text);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.container {
+  width: 100%;
+  max-width: 760px;
+  background: var(--panel);
+  border: 2px solid var(--border);
+  box-shadow: 0 14px 30px var(--shadow);
+  padding: 24px;
+}
+
+.header {
+  text-align: center;
+  border-bottom: 2px solid var(--border);
+  padding-bottom: 18px;
+  margin-bottom: 18px;
+}
+
+h1 {
+  margin: 0 0 8px;
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  letter-spacing: 0.08em;
+  color: #222;
+  text-shadow: 1px 1px 0 #fff;
+}
+
+.subtitle {
+  margin: 4px 0;
+  font-size: 1.05rem;
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.panel {
+  background: var(--panel-dark);
+  border: 1px solid var(--border);
+  padding: 18px;
+  margin-bottom: 18px;
+}
+
+.badge {
+  display: inline-block;
+  padding: 6px 12px;
+  border: 1px solid var(--border);
+  font-weight: 700;
+  background: #eee;
+}
+
+.badge.online {
+  background: #d7f0dc;
+  color: var(--success);
+}
+
+.badge.offline {
+  background: #f4d7d7;
+  color: var(--danger);
+}
+
+.progress-container {
+  width: 100%;
+  height: 22px;
+  background: #ececec;
+  border: 1px solid var(--border);
+  margin: 14px 0;
+  overflow: hidden;
+}
+
+.progress-bar {
+  width: 0%;
+  height: 100%;
+  background: linear-gradient(90deg, #5c5c5c, #2e2e2e);
+  transition: width 0.35s ease;
+}
+
+#status-text {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin: 12px 0 0;
+  min-height: 1.6em;
+}
+
+.buttons {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 16px;
+}
+
+button {
+  appearance: none;
+  border: 1px solid #2f2f2f;
+  background: linear-gradient(180deg, #777, #444);
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 700;
+  padding: 12px 16px;
+  cursor: pointer;
+  min-height: 48px;
+  min-width: 180px;
+}
+
+button:hover:not(:disabled) {
+  background: linear-gradient(180deg, #8a8a8a, #555);
+}
+
+button:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+hr {
+  border: 0;
+  border-top: 2px solid var(--border);
+  margin: 18px 0;
+}
+
+h2 {
+  margin-top: 0;
+  font-size: 1.4rem;
+  color: #222;
+}
+
+ul {
+  margin: 0;
+  padding-right: 20px;
+}
+
+li {
+  margin: 8px 0;
+  line-height: 1.7;
+  font-size: 1rem;
+}
+
+code {
+  background: #efefef;
+  border: 1px solid #bbb;
+  padding: 1px 6px;
+}
+
+@media (max-width: 640px) {
+  .container {
+    padding: 16px;
+  }
+
+  .buttons {
+    flex-direction: column;
+  }
+
+  button {
     width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #1a1a1a; /* پس‌زمینه تیره */
-    color: #ffffff;
-    font-family: sans-serif;
-    overflow: hidden;
-}
-
-#app {
-    width: 100%;
-    text-align: center;
-}
-
-#status-container {
-    padding: 20px;
-}
-
-/* کلاس‌های وضعیت */
-.message {
-    font-size: 1.5rem;
-    font-weight: bold;
-    margin-bottom: 20px;
-    transition: all 0.3s ease;
-}
-
-/* وضعیت موفقیت - رنگ طلایی */
-.state-success .message {
-    color: #ffd700; 
-}
-
-/* وضعیت خطا - رنگ زرد ملایم */
-.state-error .message {
-    color: #ffcc00;
-}
-
-/* وضعیت آماده‌سازی */
-.state-preparing .message {
-    color: #aaaaaa;
-}
-
-/* دکمه‌ها */
-.btn {
-    display: block;
-    width: 200px;
-    margin: 10px auto;
-    padding: 15px;
-    font-size: 1.1rem;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: opacity 0.2s;
-}
-
-.btn-retry {
-    background-color: #444;
-    color: white;
-}
-
-.btn-menu {
-    background-color: #333;
-    color: #bbb;
-}
-
-.btn:active {
-    opacity: 0.7;
-}
-
-.hidden {
-    display: none;
+    min-width: 0;
+  }
 }
