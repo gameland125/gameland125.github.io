@@ -74,6 +74,21 @@ const ui = {
   langRadios: document.querySelectorAll('#chooselang input[name="language"]'),
 };
 
+const RETRY_COUNT_KEY = 'retryCount';
+const JAILBREAK_NOW_KEY = 'jailbreakNow';
+
+function clearRetryState() {
+  sessionStorage.removeItem(RETRY_COUNT_KEY);
+  sessionStorage.removeItem(JAILBREAK_NOW_KEY);
+}
+
+function showJbSuccessState() {
+  if (ui.consoleElement) {
+    log("Jailbreak completed successfully.", "green");
+    log("Returning to the main screen...", "green");
+  }
+}
+
 // payloads tabs
 function loadLastTab() {
   if (user.lastTab == "advanced" && user.advancedPayloads != "true") {
@@ -141,9 +156,14 @@ function sleep(ms = 0) {
 // Jailbreak-related functions
 async function jailbreak() {
   if (user.platform !== "PS4") return;
+  if (user.blockJailbreak) return;
+
+  user.blockJailbreak = true;
 
   // clear terminal
   ui.consoleElement.textContent = '';
+  user.clearLog = true;
+
   // stop counter
   if (autoJbInterval) clearInterval(autoJbInterval);
 
@@ -163,6 +183,7 @@ async function jailbreak() {
     location.href = "./exploit.html";
     return;
   }
+
   let fwVersion = Number(user.ps4Fw);
 
   switch (true) {
@@ -173,15 +194,22 @@ async function jailbreak() {
         // set userlandOnlyOnJB67x to false, on reload to load userland exploit
         localStorage.setItem('userlandOnlyOnJB67x', "false");
         // set jailbreakNow to true to automatically launch jailbreak function
-        sessionStorage.setItem("jailbreakNow", 'true');
+        sessionStorage.setItem(JAILBREAK_NOW_KEY, 'true');
         location.reload();
+        return;
       }
       badHoistJailbreak();
       break;
+
     case (fwVersion >= 7.00 && fwVersion <= 9.60):
       psfreeLapse();
       break;
+
+    default:
+      user.blockJailbreak = false;
+      break;
   }
+
   // add one jailbreak attempt to the stats
   updateJbStats(1, 0);
 }
@@ -193,6 +221,7 @@ async function psfreeLapse() {
       await loadScript('./src/alert.mjs');
     } catch (e) {
       log("alert.mjs is not defined", "red");
+      user.blockJailbreak = false;
     }
   } else {
     log("Loading Feyzee61's PSFree Lapse implementation..");
@@ -203,9 +232,11 @@ async function psfreeLapse() {
         doJailBreak();
       } else {
         log("Error: doJailBreak is not defined", "red");
+        user.blockJailbreak = false;
       }
     } catch (e) {
       log("Failed to load bundle script: " + e.message, "red");
+      user.blockJailbreak = false;
     }
   }
 }
@@ -214,18 +245,22 @@ async function psfreeLapse() {
 async function badHoistJailbreak() {
   if (window.entrypoint672_result < 1) {
     log("An error occured during Bad Hoist Entrypoint\nRetrying..", "orange");
+    user.blockJailbreak = false;
     await sleep(2000);
     location.reload();
     return;
-  }
-  else
+  } else {
     log("Bad Hoist Entrypoint succeeded");
+  }
+
   if (window.exploitsetup672_result < 1) {
     log("An error occured during Exploit Setup\nPlease refresh page and try again...", "red");
+    user.blockJailbreak = false;
     return;
-  }
-  else
+  } else {
     log("Exploit Setup complete\n");
+  }
+
   log("Starting Kernel Exploit...");
   await sleep(200); // Wait 200ms
 
@@ -247,17 +282,25 @@ async function badHoistJailbreak() {
     jailbreakSuccess();
   } else {
     log("\nAn error occured during Kernel Exploit\nPlease restart console and try again...", "red");
+    user.blockJailbreak = false;
   }
 }
 
 function jailbreakSuccess() {
-  if (sessionStorage.getItem('jailbreakNow') == "true" && user.ps4Fw >= 6.70 && user.ps4Fw <= 6.72) {
-    sessionStorage.removeItem('jailbreakNow');
+  if (sessionStorage.getItem(JAILBREAK_NOW_KEY) == "true" && user.ps4Fw >= 6.70 && user.ps4Fw <= 6.72) {
+    sessionStorage.removeItem(JAILBREAK_NOW_KEY);
     localStorage.setItem("userlandOnlyOnJB67x", "false");
   }
+
   sessionStorage.setItem('autoJbRetry', 'false');
+  clearRetryState();
   updateJbStats(0, 1);
-  setTimeout(() => { window.location.href = "./"; }, 5000);
+  showJbSuccessState();
+  user.blockJailbreak = false;
+
+  setTimeout(() => {
+    window.location.href = "./";
+  }, 5000);
 }
 
 // Taken from Feyzee61's ps4jb
@@ -654,7 +697,6 @@ function cleanUp() {
     ui.payloadsList.innerHTML = '';
   }
 
-
   // Wipe individual refs
   const toDestroy = [
     'settingsBtn', 'aboutBtn', 'initialScreen', 'chooseGoldHEN',
@@ -718,8 +760,4 @@ function loadLapseChain() {
   }
 
   // Protective check
-  var radioElement = document.querySelector(`input[name="exploitChain"][value="${user.lapseChain}"]`);
-  if (radioElement) {
-    radioElement.checked = true;
-  }
-}
+  var radioElement = document.querySelector(`
