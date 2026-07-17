@@ -1,62 +1,67 @@
-/**
- * Gameland Service Worker
- * Strategy: Cache-First, Network Fallback
- */
-
-const CACHE_NAME = 'gameland-shell-v1';
-const ASSETS_TO_CACHE = [
-    './',
-    './index.html',
-    './main.js',
-    './style.css',
-    './manifest.webmanifest',
-    './includes/js/index.js', // در صورت وجود فایل‌های اضافی در پوشه includes
-    './includes/css/layouts/index.css'
+var CACHE_NAME = 'gameland-shell-v1';
+var APP_SHELL = [
+  './',
+  './index.html',
+  './style.css',
+  './main.js',
+  './manifest.webmanifest'
 ];
 
-// نصب و کش کردن فایل‌ها
-self.addEventListener('install', (event) => {
-    event.waitUntil(
-        caches.open(CACHE_NAME).then((cache) => {
-            return cache.addAll(ASSETS_TO_CACHE);
-        })
-    );
-    self.skipWaiting();
+self.addEventListener('install', function (event) {
+  event.waitUntil(
+    caches.open(CACHE_NAME).then(function (cache) {
+      return cache.addAll(APP_SHELL);
+    }).then(function () {
+      return self.skipWaiting();
+    })
+  );
 });
 
-// فعال‌سازی و پاکسازی کش‌های قدیمی
-self.addEventListener('activate', (event) => {
-    event.waitUntil(
-        caches.keys().then((cacheNames) => {
-            return Promise.all(
-                cacheNames.map((cache) => {
-                    if (cache !== CACHE_NAME) {
-                        return caches.delete(cache);
-                    }
-                })
-            );
+self.addEventListener('activate', function (event) {
+  event.waitUntil(
+    caches.keys().then(function (names) {
+      return Promise.all(
+        names.map(function (name) {
+          if (name !== CACHE_NAME) {
+            return caches.delete(name);
+          }
         })
-    );
-    self.clients.claim();
+      );
+    }).then(function () {
+      return self.clients.claim();
+    })
+  );
 });
 
-// استراتژی پاسخ‌دهی: اول کش، اگر نبود شبکه
-self.addEventListener('fetch', (event) => {
-    if (event.request.mode === 'navigate') {
-        event.respondWith(
-            fetch(event.request).catch(() => {
-                return caches.match('./index.html');
-            })
-        );
-        return;
-    }
+self.addEventListener('fetch', function (event) {
+  if (event.request.method !== 'GET') {
+    return;
+  }
 
-    event.respondWith(
-        caches.match(event.request).then((response) => {
-            return response || fetch(event.request).catch(() => {
-                // اگر فایل در کش نبود و اینترنت هم قطع بود، تلاش برای یافتن در کش
-                return caches.match('./index.html');
-            });
-        })
-    );
+  event.respondWith(
+    caches.match(event.request).then(function (cached) {
+      if (cached) {
+        return cached;
+      }
+
+      return fetch(event.request).then(function (response) {
+        if (!response || response.status !== 200 || response.type === 'opaque') {
+          return response;
+        }
+
+        var copy = response.clone();
+        caches.open(CACHE_NAME).then(function (cache) {
+          cache.put(event.request, copy);
+        });
+
+        return response;
+      }).catch(function () {
+        if (event.request.mode === 'navigate') {
+          return caches.match('./index.html');
+        }
+
+        return new Response('', { status: 503, statusText: 'Offline' });
+      });
+    })
+  );
 });
