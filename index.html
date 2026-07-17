@@ -1,57 +1,70 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gameland</title>
-
-  <meta name="theme-color" content="#5a5a5a">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="Gameland">
-
-  <link rel="manifest" href="./manifest.webmanifest">
-  <link rel="icon" type="image/png" href="./icon-192.png">
-  <link rel="apple-touch-icon" href="./icon-192.png">
-  <link rel="stylesheet" href="./style.css">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>GAMELAND | PWA</title>
+    <link rel="stylesheet" href="style.css">
+    <meta name="theme-color" content="#4a4a4a">
 </head>
 <body>
-  <div class="container">
+    <!-- Header Section -->
     <header class="header">
-      <h1>GAMELAND</h1>
-      <p class="subtitle">Powered by Qassem Akbarzadeh</p>
-      <p class="subtitle">کاشمر، خیابان ترابی ۱۵</p>
-      <p class="subtitle">09364229748</p>
+        <h1>GAMELAND</h1>
+        <p class="subtitle">Powered by Qassem Akbarzadeh</p>
+        <p class="subtitle">کاشمر، خیابان ترابی ۱۵</p>
+        <p class="subtitle">09364229748</p>
     </header>
 
-    <section class="panel">
-      <p>وضعیت سیستم: <span id="network-badge" class="badge">در حال بررسی...</span></p>
+    <!-- Main Container -->
+    <div id="mainContainer" class="main-container">
+        <!-- Initial Screen -->
+        <div id="initialScreen" class="screen">
+            <div id="psLogoContainer" class="logo-container"></div>
+            <h2 id="clickToStartText">برای شروع کلیک کنید</h2>
+            <button id="exploitRunBtn" class="main-btn">اجرای Jailbreak</button>
+        </div>
 
-      <div class="progress-container">
-        <div id="progress-bar" class="progress-bar"></div>
-      </div>
+        <!-- Exploit Section -->
+        <div id="exploitContainer" class="screen">
+            <div id="statusContainer">
+                <p id="statusMsg">در حال آماده‌سازی...</p>
+                <div id="progressBar" class="progress-bar"><div></div></div>
+            </div>
+        </div>
 
-      <p id="status-text">در حال راه‌اندازی...</p>
+        <!-- Payloads UI -->
+        <div id="payloadsContainer" class="screen">
+            <div class="tabs">
+                <button id="toolsTab" aria-selected="true">ابزارها</button>
+                <button id="linuxTab">لینوکس</button>
+                <button id="advancedPayloadsTab">پیشرفته</button>
+                <button id="customPayloadsTab">سفارشی</button>
+            </div>
+            <div id="payloadsList">
+                <!-- Dynamic Content -->
+                <section id="toolsSection"></section>
+                <section id="linuxSection" class="hidden"></section>
+                <section id="advancedPayloadsSection" class="hidden"></section>
+                <section id="customPayloadsSection" class="hidden"></section>
+            </div>
+        </div>
+    </div>
 
-      <div class="buttons">
-        <button id="check-button">بررسی مجدد وضعیت آفلاین</button>
-        <button id="restart-button">راه‌اندازی مجدد</button>
-      </div>
-    </section>
+    <!-- Modals -->
+    <div id="retryModal" class="modal hidden">
+        <div class="modal-content">
+            <h3>خطا در عملیات</h3>
+            <p>Jailbreak با موفقیت انجام نشد.</p>
+            <button onclick="location.reload()">راه‌اندازی مجدد</button>
+            <button onclick="hideJbRetryModal()">ادامه</button>
+        </div>
+    </div>
 
-    <hr>
-
-    <section class="panel">
-      <h2>اطلاعات</h2>
-      <ul>
-        <li>این PWA برای استفاده آفلاین طراحی شده است.</li>
-        <li>فایل‌های اصلی در کش مرورگر ذخیره می‌شوند.</li>
-        <li>ساختار پروژه به‌صورت ریشه‌ای و سبک نگه داشته شده است.</li>
-        <li>پوشه <code>/hen</code> برای فایل‌های کاربر در نظر گرفته شده است.</li>
-      </ul>
-    </section>
-  </div>
-
-  <script src="./main.js" defer></script>
+    <!-- Scripts (Loading sequence) -->
+    <script src="includes/js/index.js"></script>
+    <script src="includes/js/autoJbRetry.js"></script>
+    <script src="includes/js/events.js"></script>
+    <script src="includes/js/design.js"></script>
 </body>
 </html>
