@@ -1,57 +1,106 @@
-<!DOCTYPE html>
-<html lang="fa" dir="rtl">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gameland</title>
+(function () {
+  'use strict';
 
-  <meta name="theme-color" content="#5a5a5a">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="Gameland">
+  var CACHE_NAME = 'gameland-shell-v1';
 
-  <link rel="manifest" href="./manifest.webmanifest">
-  <link rel="icon" type="image/png" href="./icon-192.png">
-  <link rel="apple-touch-icon" href="./icon-192.png">
-  <link rel="stylesheet" href="./style.css">
-</head>
-<body>
-  <div class="container">
-    <header class="header">
-      <h1>GAMELAND</h1>
-      <p class="subtitle">Powered by Qassem Akbarzadeh</p>
-      <p class="subtitle">کاشمر، خیابان ترابی ۱۵</p>
-      <p class="subtitle">09364229748</p>
-    </header>
+  var badge = document.getElementById('network-badge');
+  var statusText = document.getElementById('status-text');
+  var progressBar = document.getElementById('progress-bar');
+  var checkButton = document.getElementById('check-button');
+  var restartButton = document.getElementById('restart-button');
 
-    <section class="panel">
-      <p>وضعیت سیستم: <span id="network-badge" class="badge">در حال بررسی...</span></p>
+  function setStatus(message) {
+    if (statusText) {
+      statusText.textContent = message;
+    }
+  }
 
-      <div class="progress-container">
-        <div id="progress-bar" class="progress-bar"></div>
-      </div>
+  function setProgress(value) {
+    if (progressBar) {
+      progressBar.style.width = value;
+    }
+  }
 
-      <p id="status-text">در حال راه‌اندازی...</p>
+  function setButtonState(button, disabled) {
+    if (button) {
+      button.disabled = disabled;
+    }
+  }
 
-      <div class="buttons">
-        <button id="check-button">بررسی مجدد وضعیت آفلاین</button>
-        <button id="restart-button">راه‌اندازی مجدد</button>
-      </div>
-    </section>
+  function setNetworkStatus() {
+    if (!badge) {
+      return;
+    }
 
-    <hr>
+    var online = navigator.onLine;
+    badge.textContent = online ? 'آنلاین' : 'حالت آفلاین';
+    badge.className = 'badge ' + (online ? 'online' : 'offline');
+  }
 
-    <section class="panel">
-      <h2>اطلاعات</h2>
-      <ul>
-        <li>این PWA برای استفاده آفلاین طراحی شده است.</li>
-        <li>فایل‌های اصلی در کش مرورگر ذخیره می‌شوند.</li>
-        <li>ساختار پروژه به‌صورت ریشه‌ای و سبک نگه داشته شده است.</li>
-        <li>پوشه <code>/hen</code> برای فایل‌های کاربر در نظر گرفته شده است.</li>
-      </ul>
-    </section>
-  </div>
+  function checkOfflineReady() {
+    setButtonState(checkButton, true);
+    setProgress('35%');
+    setStatus('در حال بررسی حافظهٔ آفلاین...');
 
-  <script src="./main.js" defer></script>
-</body>
-</html>
+    if (!('serviceWorker' in navigator) || !('caches' in window)) {
+      setProgress('100%');
+      setStatus('این مرورگر از Service Worker پشتیبانی نمی‌کند.');
+      setButtonState(checkButton, false);
+      return;
+    }
+
+    caches
+      .has(CACHE_NAME)
+      .then(function (ready) {
+        setProgress('100%');
+        setStatus(
+          ready
+            ? 'رابط گیم‌لند برای استفادهٔ آفلاین آماده است.'
+            : 'کش هنوز آماده نیست؛ صفحه را یک‌بار تازه‌سازی کنید.'
+        );
+      })
+      .catch(function () {
+        setProgress('100%');
+        setStatus('بررسی حافظه انجام نشد. دوباره تلاش کنید.');
+      })
+      .finally(function () {
+        setButtonState(checkButton, false);
+      });
+  }
+
+  function registerServiceWorker() {
+    if (!('serviceWorker' in navigator)) {
+      return;
+    }
+
+    window.addEventListener('load', function () {
+      navigator.serviceWorker
+        .register('./service-worker.js', { scope: './' })
+        .then(function () {
+          setStatus('سامانه آماده است؛ ذخیره‌سازی آفلاین فعال شد.');
+        })
+        .catch(function () {
+          setStatus('ثبت حالت آفلاین ناموفق بود؛ سایت باید از HTTPS یا localhost باز شود.');
+        });
+    });
+  }
+
+  function bindEvents() {
+    window.addEventListener('online', setNetworkStatus);
+    window.addEventListener('offline', setNetworkStatus);
+
+    if (checkButton) {
+      checkButton.addEventListener('click', checkOfflineReady);
+    }
+
+    if (restartButton) {
+      restartButton.addEventListener('click', function () {
+        window.location.reload();
+      });
+    }
+  }
+
+  setNetworkStatus();
+  bindEvents();
+  registerServiceWorker();
+}());
