@@ -1,7 +1,0 @@
-self.addEventListener('install', e=>{
- e.waitUntil(
-  caches.open('ps4-cache').then(c=>c.addAll([
-    'index.html','auto.html','offline.html','loader.js'
-  ]))
- );
-});
