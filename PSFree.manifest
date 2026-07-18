@@ -1,6 +1,6 @@
 CACHE MANIFEST
-# v1
-# Rebuilt for actual archive files
+# v3
+# cache-only manifest for current archive
 
 CACHE:
 index.html
@@ -13,19 +13,19 @@ includes/js/checkFw.js
 includes/js/HENs.js
 includes/js/design.js
 includes/js/autoJbRetry.js
+includes/js/exploits/bundle.js
 includes/js/languages/ar.js
 includes/js/languages/en.js
-includes/js/languages/tr.js
-includes/js/languages/zh-cn.js
+includes/js/languages/es.js
 includes/js/languages/fa.js
 includes/js/languages/ru.js
-includes/js/languages/es.js
-includes/js/exploits/bundle.js
-includes/payloads/payloads.js
+includes/js/languages/tr.js
+includes/js/languages/zh-cn.js
 includes/css/layouts/compact.css
 includes/css/layouts/index.css
 includes/css/colors/default.css
 includes/css/colors/vibrant.css
+includes/payloads/payloads.js
 src/alert.mjs
 src/config.mjs
 src/lapse.mjs
