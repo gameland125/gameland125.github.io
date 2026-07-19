@@ -1,7 +1,6 @@
 // @ts-nocheck
 var user = {
   currentLanguage: localStorage.getItem('language') || 'fa',
-
   currentJbFlavor: localStorage.getItem('jailbreakFlavor') || 'GoldHEN',
   platform: "PS4", // PS4/PC/Mobile etc..
   lastTab: localStorage.getItem('lastTab') || 'tools',
