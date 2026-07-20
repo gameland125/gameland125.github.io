@@ -723,23 +723,3 @@ function loadLapseChain() {
     radioElement.checked = true;
   }
 }
-function jailbreakSuccess() {
-    if (sessionStorage.getItem('jailbreakNow') == "true" && user.ps4Fw >= 6.70 && user.ps4Fw <= 6.72) {
-        sessionStorage.removeItem('jailbreakNow');
-        localStorage.setItem("userlandOnlyOnJB67x", "false");
-    }
-
-    sessionStorage.setItem('autoJbRetry', 'false');
-    updateJbStats(0, 1);
-
-    // پاک کردن کامل رابط بعد از موفقیت
-    document.documentElement.style.background = "#000";
-    if (document.body) {
-        document.body.innerHTML = "";
-    }
-
-    // جلوگیری از بازگشت به صفحه اصلی
-    setTimeout(() => {
-        window.location.replace("about:blank");
-    }, 800);
-}
