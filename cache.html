@@ -1,39 +1,45 @@
-<html manifest="psfree_lapse.cache">
+<!DOCTYPE html>
+<html manifest="PSFree.manifest">
 <head>
-<title>PSFree-Lapse Exploit For PS4 9.00</title>
-<link rel="shortcut icon" href="favicon.ico"></link>
-<style>
-body{background-image:url("bg.jpg");background-repeat:no-repeat;background-size:70%;background-position:center;background-color:white;color:black;font-size:20px;text-align:center;margin:0;overflow:hidden;}
-.info{overflow:hidden;position:fixed;position:absolute;top:45%;left:50%;font-size:25px;font-family:sans-serif;color:black;transform:translate(-50%, -50%);}
-</style>
-<script>
-function DLProgress(e){
-    Percent=(Math.round(e.loaded / e.total * 100));
-    msgs.innerHTML="Installing Offline Cache ... " + Percent + "%";
-}
-
-function DisplayCacheProgress(){
-    setTimeout(function(){
-        msgs.innerHTML="Cache Installed Successfully";
-        localStorage.setItem('offlineCacheInstalled', 'true');
-    },2000);
-}
-
-window.applicationCache.addEventListener("progress", DLProgress, false);
-window.applicationCache.oncached = function(e){
-    localStorage.setItem('offlineCacheInstalled', 'true');
-    DisplayCacheProgress();
-};
-window.applicationCache.onupdateready = function(e){
-    localStorage.setItem('offlineCacheInstalled', 'true');
-    DisplayCacheProgress();
-};
-window.applicationCache.onerror = function(e){
-    msgs.innerHTML="Error while installing cache";
-};
-</script>
+    <meta charset="UTF-8">
+    <title>Gameland Cache Installer</title>
+    <style>
+        body { background-color: #1a1a1a; color: white; font-family: sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; text-align: center; }
+        #msgs { font-size: 24px; font-weight: bold; }
+    </style>
 </head>
-<body style="overflow:hidden">
-<div id="msgs" class="info" style='-webkit-font-feature-settings:"tnum";font-feature-settings:"tnum";'></div>
+<body>
+    <div id="msgs">در حال آماده‌سازی حافظه آفلاین...</div>
+
+    <script>
+        // حذف دستکاری تاریخچه برای جلوگیری از تداخل
+        var msgs = document.getElementById('msgs');
+
+        function DLProgress(e) {
+            var percent = Math.round(e.loaded / e.total * 100);
+            msgs.innerHTML = "در حال نصب کش آفلاین: " + percent + "%";
+        }
+
+        function DisplayCacheProgress() {
+            msgs.innerHTML = "کش با موفقیت نصب شد!";
+            localStorage.setItem('offlineCacheInstalled', 'true');
+            setTimeout(function() {
+                location.href = "index.html"; // بازگشت به صفحه اصلی بعد از موفقیت
+            }, 2000);
+        }
+
+        if (window.applicationCache) {
+            window.applicationCache.addEventListener("progress", DLProgress, false);
+            window.applicationCache.oncached = function(e) { DisplayCacheProgress(); };
+            window.applicationCache.onupdateready = function(e) { DisplayCacheProgress(); };
+            
+            window.applicationCache.onerror = function(e) {
+                msgs.innerHTML = "خطا در نصب کش! لطفا صفحه را رفرش کنید.";
+                console.log("Cache Error");
+            };
+        } else {
+            msgs.innerHTML = "مرورگر شما از کش پشتیبانی نمی‌کند.";
+        }
+    </script>
 </body>
 </html>
