@@ -622,28 +622,3 @@
 </body>
 
 </html>
-document.addEventListener('DOMContentLoaded', () => {
-    if (typeof loadSettings === 'function') loadSettings();
-
-    if (window.applicationCache) {
-        window.applicationCache.addEventListener("progress", DLProgress, false);
-
-        window.applicationCache.oncached = function (e) {
-            DisplayCacheProgress();
-            setTimeout(() => {
-                try {
-                    chooseHEN();
-                    jailbreak();
-                } catch (err) {
-                    console.error("Auto jailbreak failed:", err);
-                }
-            }, 1500);
-        };
-
-        window.applicationCache.onupdateready = function (e) {
-            DisplayCacheProgress();
-        };
-    } else {
-        console.warn("This browser does not support save in cache!");
-    }
-});
