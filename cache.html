@@ -1,112 +1,50 @@
-<!DOCTYPE html>
-<html lang="fa" manifest="PSFree.manifest">
+<html manifest="PSFree.manifest">
 <head>
-    <meta charset="UTF-8">
-    <title>PSFree-Lapse Exploit For PS4 9.00</title>
-
-    <link rel="shortcut icon" href="favicon.ico">
-
-    <style>
-        body {
-            background-image: url("bg.jpg");
-            background-repeat: no-repeat;
-            background-size: 70%;
-            background-position: center;
-            background-color: white;
-            color: black;
-            font-size: 20px;
-            text-align: center;
-            margin: 0;
-            overflow: hidden;
-        }
-
-        .info {
-            overflow: hidden;
-            position: absolute;
-            top: 45%;
-            left: 50%;
-            font-size: 25px;
-            font-family: sans-serif;
-            color: black;
-            transform: translate(-50%, -50%);
-        }
-    </style>
+<meta charset="utf-8">
+<title>Cache Installer</title>
+<style>
+body {
+    background-color: #333;
+    color: white;
+    font-family: sans-serif;
+    text-align: center;
+    padding-top: 100px;
+}
+#msgs {
+    font-size: 24px;
+    font-weight: bold;
+}
+</style>
 </head>
-
 <body>
-    <div
-        id="msgs"
-        class="info"
-        style="-webkit-font-feature-settings:'tnum';font-feature-settings:'tnum';">
-        Preparing Offline Cache...
-    </div>
+<div id="msgs">Installing Offline Cache...</div>
 
-    <script>
-        history.replaceState(null, null, "index.html");
+<script>
+history.replaceState(null, null, "index.html");
 
-        var cacheFinished = false;
+function DLProgress(e) {
+    var percent = Math.round((e.loaded / e.total) * 100);
+    document.getElementById("msgs").innerHTML = "Installing Offline Cache ... " + percent + "%";
+}
 
-        function DLProgress(e) {
-            var msgs = document.getElementById("msgs");
-            var percent = 0;
+function DisplayCacheProgress() {
+    setTimeout(function () {
+        document.getElementById("msgs").innerHTML = "Cache Installed Successfully";
+    }, 2000);
 
-            if (e.total) {
-                percent = Math.round((e.loaded / e.total) * 100);
-            }
+    setTimeout(function () {
+        sessionStorage.setItem("continueAfterInstall", "true");
+        location.href = "index.html";
+    }, 3000);
+}
 
-            msgs.innerHTML =
-                "Installing Offline Cache ... " + percent + "%";
-        }
-
-        function DisplayCacheProgress() {
-            if (cacheFinished) {
-                return;
-            }
-
-            cacheFinished = true;
-
-            var msgs = document.getElementById("msgs");
-
-            setTimeout(function () {
-                msgs.innerHTML = "Cache Installed Successfully";
-            }, 2000);
-
-            setTimeout(function () {
-                sessionStorage.setItem(
-                    "continueAfterInstall",
-                    "true"
-                );
-
-                location.href = "index.html";
-            }, 3000);
-        }
-
-        window.applicationCache.addEventListener(
-            "progress",
-            DLProgress,
-            false
-        );
-
-        window.applicationCache.addEventListener(
-            "cached",
-            DisplayCacheProgress,
-            false
-        );
-
-        window.applicationCache.addEventListener(
-            "updateready",
-            DisplayCacheProgress,
-            false
-        );
-
-        window.applicationCache.addEventListener(
-            "error",
-            function () {
-                document.getElementById("msgs").innerHTML =
-                    "Offline Cache Installation Failed";
-            },
-            false
-        );
-    </script>
+window.applicationCache.addEventListener("progress", DLProgress, false);
+window.applicationCache.oncached = function (e) {
+    DisplayCacheProgress();
+};
+window.applicationCache.onupdateready = function (e) {
+    DisplayCacheProgress();
+};
+</script>
 </body>
 </html>
