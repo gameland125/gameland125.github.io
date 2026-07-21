@@ -104,3 +104,6 @@ function CheckFW() {
         }
     }
 }
+function autoJailbreak() {
+    jailbreak();
+}
