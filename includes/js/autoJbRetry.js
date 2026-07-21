@@ -45,3 +45,21 @@ function autoJailbreakTimer() {
         timer--;
     }, 1000);
 }
+<script src="includes/js/checkFw.js"></script>
+<script src="includes/js/HENs.js"></script>
+<script src="includes/js/index.js"></script>
+<script src="includes/js/autoJbRetry.js"></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    if (typeof window.loadSettings === "function") {
+        window.loadSettings();
+    }
+
+    if (
+        typeof window.runJailbreakAfterCache === "function"
+    ) {
+        window.runJailbreakAfterCache();
+    }
+}, false);
+</script>
