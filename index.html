@@ -560,20 +560,25 @@
 
     <script>
         // Global Error Tracker
+            <script>
+        // Global Error Tracker
         window.onerror = function (msg, url, linenumber) {
             alert('Error message: ' + msg + '\nURL: ' + url + '\nLine Number: ' + linenumber);
             return true;
-        }
-
+        };
 
         var ua = navigator.userAgent;
         var isPS4 = ua.indexOf("PlayStation 4") !== -1;
-        var is67x = ((ua.indexOf(" 6.70") !== -1) || (ua.indexOf(" 6.71") !== -1) || (ua.indexOf(" 6.72") !== -1));
+        var is67x = ((ua.indexOf(" 6.70") !== -1) ||
+            (ua.indexOf(" 6.71") !== -1) ||
+            (ua.indexOf(" 6.72") !== -1));
+
         window.entrypoint672_result = 0;
         window.exploitsetup672_result = 0;
 
-        var userlandOnlyOnJB67x = localStorage.getItem("userlandOnlyOnJB67x") == "true";
-        // Load 6.7x entrypoint if needed conditionally
+        var userlandOnlyOnJB67x =
+            localStorage.getItem("userlandOnlyOnJB67x") == "true";
+
         if (isPS4 && is67x && !userlandOnlyOnJB67x) {
             try {
                 var xhr = new XMLHttpRequest();
@@ -583,23 +588,18 @@
                     eval.call(top.window, xhr.responseText);
                 }
             } catch (e) {
-                // Safe non-breaking fallbacks if DOM isn't ready
                 console.error("Early entrypoint hook failed: " + e.message);
             }
         }
-
-        // Initialize settings after the page DOM is ready.
-        document.addEventListener('DOMContentLoaded', function () {
-            if (typeof loadSettings === 'function') {
-                loadSettings();
-            }
-        });
     </script>
-    <!-- Choose index.js or index-legacy.js for older browsers, generated with Babel -->
+
     <script id="main-logic-loader">
         (function () {
             var isModern = 'noModule' in document.createElement('script');
-            var scriptPath = isModern ? './includes/js/index.js' : './includes/js/index-legacy.js';
+            var scriptPath = isModern
+                ? './includes/js/index.js'
+                : './includes/js/index-legacy.js';
+
             document.write('<script src="' + scriptPath + '"><\/script>');
         })();
     </script>
@@ -611,6 +611,14 @@
     <script src="./includes/js/checkFw.js"></script>
     <script src="./includes/js/autoJbRetry.js"></script>
     <script src="./includes/js/events.js"></script>
-</body>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            if (typeof loadSettings === 'function') {
+                loadSettings();
+            }
+        });
+    </script>
+</body>
 </html>
+
