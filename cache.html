@@ -1,111 +1,23 @@
-<!DOCTYPE html>
-<html lang="fa" manifest="PSFree.manifest">
+<html manifest="PSFree.manifest">
 <head>
-    <meta charset="UTF-8">
-    <title>GAMELAND Cache Installer</title>
-    <style>
-        body {
-            margin: 0;
-            background: #292929;
-            color: #fff;
-            font-family: Arial, sans-serif;
-            text-align: center;
-        }
-
-        h1 {
-            margin-top: 120px;
-            font-size: 48px;
-        }
-
-        #status {
-            margin-top: 40px;
-            font-size: 28px;
-            color: #d4af37;
-        }
-
-        #progress {
-            margin-top: 20px;
-            font-size: 22px;
-        }
-    </style>
+<title>PSFree-Lapse Exploit For PS4 9.00</title>
+<link rel="shortcut icon" href="favicon.ico"></link>
+<style>
+body{background-image: url("bg.jpg");background-repeat: no-repeat;background-size:70%;background-position: center;background-color: white;
+color:black;font-size:20px;text-align:center;margin:0;overflow:hidden;}
+.info{overflow: hidden;position: fixed;position: absolute;top: 45%;left: 50%;font-size: 25px;font-family: sans-serif;color: black;transform: translate(-50%, -50%);}
+</style>
+<script>
+history.replaceState(null,null,'index.html');var histlength=history.length;history.go(-histlength);
+function DLProgress(e){Percent=(Math.round(e.loaded / e.total * 100));msgs.innerHTML="Installing Offline Cache ... " + Percent + "%"};
+function DisplayCacheProgress(){
+setTimeout(function(){msgs.innerHTML="Cache Installed Successfully";},2000);
+setTimeout(function(){location.reload();},3000);
+}
+window.applicationCache.addEventListener("progress",DLProgress,false);window.applicationCache.oncached=function(e){DisplayCacheProgress();};window.applicationCache.onupdateready=function(e){DisplayCacheProgress();};
+</script>
 </head>
-<body>
-    <h1>GAMELAND</h1>
-    <div id="status">در حال آماده‌سازی کش...</div>
-    <div id="progress">0%</div>
-
-    <script>
-        (function () {
-            var status = document.getElementById("status");
-            var progress = document.getElementById("progress");
-            var appCache = window.applicationCache;
-
-            function setStatus(text) {
-                status.innerHTML = text;
-            }
-
-            appCache.addEventListener("checking", function () {
-                setStatus("در حال بررسی فایل‌های کش...");
-            }, false);
-
-            appCache.addEventListener("downloading", function () {
-                setStatus("در حال دانلود فایل‌های آفلاین...");
-            }, false);
-
-            appCache.addEventListener("progress", function (event) {
-                if (event.lengthComputable && event.total > 0) {
-                    var percent = Math.floor(
-                        (event.loaded / event.total) * 100
-                    );
-
-                    progress.innerHTML =
-                        percent + "% — " +
-                        event.loaded + " / " + event.total;
-                } else {
-                    progress.innerHTML = "در حال دریافت فایل‌ها...";
-                }
-            }, false);
-
-            appCache.addEventListener("cached", function () {
-                setStatus("کش با موفقیت نصب شد.");
-                progress.innerHTML = "100%";
-
-                setTimeout(function () {
-                    window.location.replace("index.html?cached=1");
-                }, 2000);
-            }, false);
-
-            appCache.addEventListener("updateready", function () {
-                try {
-                    appCache.swapCache();
-                } catch (error) {}
-
-                setStatus("کش با موفقیت به‌روزرسانی شد.");
-                progress.innerHTML = "100%";
-
-                setTimeout(function () {
-                    window.location.replace("index.html?updated=1");
-                }, 2000);
-            }, false);
-
-            appCache.addEventListener("noupdate", function () {
-                setStatus("کش قبلاً نصب شده است.");
-                progress.innerHTML = "آماده اجرا";
-
-                setTimeout(function () {
-                    window.location.replace("index.html?noupdate=1");
-                }, 2000);
-            }, false);
-
-            appCache.addEventListener("obsolete", function () {
-                setStatus("Manifest قدیمی یا حذف شده است.");
-            }, false);
-
-            appCache.addEventListener("error", function () {
-                setStatus("خطا در نصب کش؛ یکی از فایل‌ها پیدا نشد.");
-                progress.innerHTML = "Manifest و مسیر فایل‌ها را بررسی کنید.";
-            }, false);
-        }());
-    </script>
+<body style=overflow:hidden>
+<div id=msgs class=info style='-webkit-font-feature-settings:"tnum";font-feature-settings:"tnum";'></div>
 </body>
 </html>
