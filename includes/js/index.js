@@ -351,12 +351,12 @@ async function loadSettings() {
     loadLastTab();
     loadGoldHENVer();
 
-    var cacheInstalled = localStorage.getItem('cacheInstalled') === 'true';
-    if (cacheInstalled) {
-      localStorage.removeItem('cacheInstalled');
-      autoJailbreak();
-      return;
-    }
+if (sessionStorage.getItem('cacheInstalled') === 'true') {
+  sessionStorage.removeItem('cacheInstalled');
+  autoJailbreak();
+}
+    
+
 
     autoJailbreak();
     updateBareboneJB();
