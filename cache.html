@@ -39,9 +39,11 @@ body {
     }
 
     function onInstalled() {
-        setMessage('Cache Installed Successfully');
-        setTimeout(goToIndex, 1000);
+    sessionStorage.setItem('cacheInstalled', 'true');
+    setMessage('Cache Installed Successfully');
+    setTimeout(goToIndex, 1000);
     }
+    
 
     function onError() {
         setMessage('Offline cache installation failed');
