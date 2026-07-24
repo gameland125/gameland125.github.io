@@ -32,8 +32,10 @@
         var statusEl = document.getElementById('status');
 
         function markAndGoToIndex() {
-            try {
-                // ثبت پرچم در حافظه محلی برای اجرای خودکار در index.html
+    localStorage.setItem('gamelandAutoGoldHEN', '1');
+    location.replace('index.html');
+}
+
                 localStorage.setItem('gamelandAutoGoldHEN', 'true');
             } catch(e) {
                 console.error("Storage error:", e);
