@@ -60,8 +60,41 @@
         <p>گیم لند | کاشمر، خیابان ترابی ۱۵ | تلفن: 09364229748</p>
     </footer>
 
-    <!-- Core Scripts -->
-    <script src="./includes/js/language.js"></script>
+    <!-- Core Scripts --> <script src="./includes/payloads/payloads.js"></script>
+<script src="./includes/js/payloadsList.js"></script>
+<script src="./includes/js/design.js"></script>
+<script src="./includes/js/language.js"></script>
+<script src="./includes/js/HENs.js"></script>
+<script src="./includes/js/checkFw.js"></script>
+<script src="./includes/js/autoJbRetry.js"></script>
+<script src="./includes/js/events.js"></script>
+
+<script>
+(function () {
+    'use strict';
+
+    var started = false;
+
+    function tryStart() {
+        if (started) return;
+        var btn = document.getElementById('exploitRun');
+        if (!btn) return;
+        started = true;
+        btn.click();
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', function () {
+            setTimeout(tryStart, 0);
+        }, { once: true });
+    } else {
+        setTimeout(tryStart, 0);
+    }
+}());
+</script>
+</body>
+</html>
+
     <script src="./includes/js/languages/fa.js"></script>
     <script src="./includes/js/payloadsList.js"></script>
     <script src="./includes/js/HENs.js"></script>
@@ -69,69 +102,4 @@
 (function () {
     'use strict';
 
-    var started = false;
-
-    function startExploitOnce() {
-        if (started) return;
-        var button = document.getElementById('exploitRun');
-        if (!button) return;
-
-        started = true;
-        button.click();
-    }
-
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', function () {
-            setTimeout(startExploitOnce, 0);
-        }, { once: true });
-    } else {
-        setTimeout(startExploitOnce, 0);
-    }
-}());
-</script>
-
-    <script src="./includes/js/design.js"></script>
-
-    <!-- PWA & Auto-start Engine -->
-    <script>
-        // Register PWA Service Worker if supported
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./PSFree.manifest')
-                    .then(reg => console.log('ServiceWorker registered successfully.'))
-                    .catch(err => console.log('ServiceWorker registration failed: ', err));
-            });
-        }
-
-        // Auto-start logic with smart retries
-        (function() {
-            let attempts = 0;
-            const maxAttempts = 100;
-            const intervalTime = 100; // ms
-
-            function autoTrigger() {
-                const btn = document.getElementById('exploitRun');
-                const status = document.getElementById('status-container');
-                
-                if (btn) {
-                    if (status) status.innerText = "در حال شروع خودکار اکسپلویت...";
-                    btn.click();
-                } else if (attempts < maxAttempts) {
-                    attempts++;
-                    setTimeout(autoTrigger, intervalTime);
-                } else {
-                    if (status) {
-                        status.className = "text-red-500 text-sm";
-                        status.innerText = "خطا در شروع خودکار. لطفاً صفحه را رفرش کنید یا دستی کلیک کنید.";
-                    }
-                }
-            }
-
-            // Wait for window load and start the trigger loop
-            window.addEventListener('load', function() {
-                setTimeout(autoTrigger, 500); // Small initial delay to ensure events are attached
-            });
-        })();
-    </script>
-</body>
-</html>
+ 
