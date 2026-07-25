@@ -1,47 +1,72 @@
+function canRunAutoJailbreak() {
+    if (!window.applicationCache) return true;
+
+    const st = window.applicationCache.status;
+    return (
+        st === window.applicationCache.UNCACHED ||
+        st === window.applicationCache.IDLE ||
+        st === window.applicationCache.UPDATEREADY
+    );
+}
+
 function setAutoJbRetry(checked) {
     localStorage.setItem('autoJbRetry', checked);
     sessionStorage.setItem('autoJbRetry', checked);
 
     if (!checked) return;
     if (confirm(window.lang.autoJbRetryConfirm)) {
-        // close settings popup
         settingsPopup();
-
         jailbreak();
     }
 }
 
-// When jailbreak succeds, this will be stopped
 function autoJailbreak() {
+    // Gate: never run while cache is still building/downloading
+    if (!canRunAutoJailbreak()) {
+        if (window.applicationCache) {
+            const appCache = window.applicationCache;
+            const once = () => {
+                if (!window.__gamelandAutoJbDelayed) {
+                    window.__gamelandAutoJbDelayed = true;
+                    autoJailbreak();
+                }
+            };
+
+            appCache.addEventListener('cached', once, { once: true });
+            appCache.addEventListener('updateready', once, { once: true });
+            appCache.addEventListener('noupdate', once, { once: true });
+        }
+        return;
+    }
+
     // used for 6.7x jailbreak when userland is loaded on jailbreak only.
     if (sessionStorage.getItem('jailbreakNow') == "true") {
         jailbreak();
         return;
     }
-    var checked = (localStorage.getItem('autoJbRetry') || 'true') === 'true'; // default to true if not set
+
+    var checked = (localStorage.getItem('autoJbRetry') || 'true') === 'true';
     var sessionChecked = sessionStorage.getItem('autoJbRetry') == 'true';
     ui.autoJbRetry.checked = checked;
-    // check if supported ps4
+
     if (window.ps4Fw < 6.70 || window.ps4Fw > 9.60 || !window.ps4Fw) return;
 
-    // If auto jailbreak is enabled for this session, start it directly.
     if (checked && sessionChecked) {
         jailbreak();
     }
 }
 
-// localStorage retry value true but no sessionStorage value? use timer.
 function autoJailbreakTimer() {
-    var timer = 3; // Start a longer countdown immediately
-    ui.stopAutoJbBtn.classList.toggle('hidden');
-    autoJbInterval = setInterval(() => {
-
-        ui.clickToStartText.textContent = window.lang.jailbreakCountDown.replace('{seconds}', timer);
-        ui.clickToStartText.style.fontSize = "15px";
-        if (timer <= 0) {
-            clearInterval(autoJbInterval);
-            jailbreak();
+    let retry = 3;
+    let timer = setInterval(function () {
+        retry--;
+        if (retry <= 0) {
+            clearInterval(timer);
+            if (canRunAutoJailbreak()) {
+                jailbreak();
+            } else {
+                autoJailbreak();
+            }
         }
-        timer--;
     }, 1000);
 }
