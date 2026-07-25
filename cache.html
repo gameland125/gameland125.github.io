@@ -34,14 +34,13 @@ body {
         setMessage('Installing Offline Cache ... ' + percent + '%');
     }
 
-    function markAndGoToIndex() {
-        // این خط، پرچم را برای اجرای خودکار در index.html تنظیم می‌کند
-        localStorage.setItem('gamelandAutoGoldHEN', '1'); 
-        
-        setMessage('Cache Installed Successfully'); // پیام موفقیت را نمایش می‌دهیم
-        setTimeout(function() {
-            location.replace('index.html'); // سپس به index.html هدایت می‌کنیم
-        }, 1000); // 1 ثانیه تاخیر
+    function goToIndex() {
+        location.replace('index.html');
+    }
+
+    function onInstalled() {
+        setMessage('Cache Installed Successfully');
+        setTimeout(goToIndex, 1000);
     }
 
     function onError() {
@@ -56,13 +55,10 @@ body {
 
         var appCache = window.applicationCache;
         appCache.addEventListener('progress', onProgress, false);
-        appCache.addEventListener('cached', markAndGoToIndex, false);
-        appCache.addEventListener('updateready', markAndGoToIndex, false);
-        appCache.addEventListener('noupdate', markAndGoToIndex, false);
+        appCache.addEventListener('cached', onInstalled, false);
+        appCache.addEventListener('updateready', onInstalled, false);
+        appCache.addEventListener('noupdate', goToIndex, false);
         appCache.addEventListener('error', onError, false);
-        
-        // اطمینان از شروع فرآیند کش
-        appCache.update(); 
     }, false);
 }());
 </script>
