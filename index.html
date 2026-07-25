@@ -65,7 +65,31 @@
     <script src="./includes/js/languages/fa.js"></script>
     <script src="./includes/js/payloadsList.js"></script>
     <script src="./includes/js/HENs.js"></script>
-    <script src="./includes/js/events.js"></script>
+    <script src="./includes/js/events.js"><script>
+(function () {
+    'use strict';
+
+    var started = false;
+
+    function startExploitOnce() {
+        if (started) return;
+        var button = document.getElementById('exploitRun');
+        if (!button) return;
+
+        started = true;
+        button.click();
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', function () {
+            setTimeout(startExploitOnce, 0);
+        }, { once: true });
+    } else {
+        setTimeout(startExploitOnce, 0);
+    }
+}());
+</script>
+
     <script src="./includes/js/design.js"></script>
 
     <!-- PWA & Auto-start Engine -->
