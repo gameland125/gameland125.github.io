@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gameland - PS4 Host</title>
+    <!-- Stylesheets Injection -->
+    <link id="main-stylesheet" rel="stylesheet" href="./includes/css/layouts/index.css">
+    <link id="color-stylesheet" rel="stylesheet" href="./includes/css/colors/default.css">
+    <script>
+        // Theme & Color initializer to prevent flash of unstyled content
+        var savedTheme = localStorage.getItem('theme') || "index";
+        var savedColor = localStorage.getItem('color') || "default";
+        document.addEventListener('DOMContentLoaded', function () {
+            var main = document.getElementById('main-stylesheet');
+            var color = document.getElementById('color-stylesheet');
+            if (main) main.href = './includes/css/layouts/' + savedTheme + '.css';
+            if (color) color.href = './includes/css/colors/' + savedColor + '.css';
+        });
+    </script>
+</head>
+<body class="bg-gray-900 text-white min-h-screen flex flex-col justify-between font-sans">
+
+    <!-- Header / Branding -->
+    <header class="bg-gray-800 p-4 border-b border-gray-700 shadow-md">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
+            <div>
+                <h1 class="text-2xl font-bold tracking-wider text-red-500">GAMELAND</h1>
+                <p class="text-xs text-gray-400">Powered by Qassem Akbarzadeh</p>
+            </div>
+            <div class="flex space-x-2 space-x-reverse">
+                <button type="button" onclick="settingsPopup()" id="settings-btn-top" class="bg-gray-700 hover:bg-gray-600 px-3 py-1.5 rounded text-sm transition">تنظیمات</button>
+                <button type="button" onclick="aboutPopup()" id="about-btn-top" class="bg-gray-700 hover:bg-gray-600 px-3 py-1.5 rounded text-sm transition font-semibold">درباره ما</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="flex-grow max-w-6xl w-full mx-auto p-4 flex flex-col items-center justify-center">
+        <div class="w-full max-w-2xl bg-gray-800 p-6 rounded-lg border border-gray-700 shadow-lg text-center">
+            <h2 class="text-xl mb-4 font-bold">میزبانی اکسپلویت PS4 v9.00 / 9.03</h2>
+            <p class="text-gray-400 text-sm mb-6">فرآیند جیلبریک به صورت خودکار آغاز خواهد شد. در صورت عدم شروع خودکار، روی دکمه اجرای اکسپلویت کلیک کنید.</p>
+            
+            <!-- Exploit Button (Will be triggered automatically) -->
+            <div class="mb-6">
+                <button type="button" id="exploitRun" class="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-8 rounded-full text-lg shadow-lg transform hover:scale-105 transition duration-200">
+                    اجرای اکسپلویت
+                </button>
+            </div>
+
+            <!-- Status Indicator -->
+            <div id="status-container" class="text-sm text-yellow-500 font-mono">
+                در حال آماده‌سازی سیستم...
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 p-4 border-t border-gray-800 text-center text-xs text-gray-500">
+        <p>گیم لند | کاشمر، خیابان ترابی ۱۵ | تلفن: 09364229748</p>
+    </footer>
+
+    <!-- Core Scripts -->
+    <script src="./includes/js/language.js"></script>
+    <script src="./includes/js/languages/fa.js"></script>
+    <script src="./includes/js/payloadsList.js"></script>
+    <script src="./includes/js/HENs.js"></script>
+    <script src="./includes/js/events.js"></script>
+    <script src="./includes/js/design.js"></script>
+
+    <!-- PWA & Auto-start Engine -->
+    <script>
+        // Register PWA Service Worker if supported
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./PSFree.manifest')
+                    .then(reg => console.log('ServiceWorker registered successfully.'))
+                    .catch(err => console.log('ServiceWorker registration failed: ', err));
+            });
+        }
+
+        // Auto-start logic with smart retries
+        (function() {
+            let attempts = 0;
+            const maxAttempts = 100;
+            const intervalTime = 100; // ms
+
+            function autoTrigger() {
+                const btn = document.getElementById('exploitRun');
+                const status = document.getElementById('status-container');
+                
+                if (btn) {
+                    if (status) status.innerText = "در حال شروع خودکار اکسپلویت...";
+                    btn.click();
+                } else if (attempts < maxAttempts) {
+                    attempts++;
+                    setTimeout(autoTrigger, intervalTime);
+                } else {
+                    if (status) {
+                        status.className = "text-red-500 text-sm";
+                        status.innerText = "خطا در شروع خودکار. لطفاً صفحه را رفرش کنید یا دستی کلیک کنید.";
+                    }
+                }
+            }
+
+            // Wait for window load and start the trigger loop
+            window.addEventListener('load', function() {
+                setTimeout(autoTrigger, 500); // Small initial delay to ensure events are attached
+            });
+        })();
+    </script>
+</body>
+</html>
