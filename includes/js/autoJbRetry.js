@@ -1,9 +1,12 @@
-function runJailbreakThroughGate() {
-    if (window.cacheGate && typeof window.cacheGate.run === 'function') {
-        window.cacheGate.run(jailbreak);
-    } else {
-        jailbreak();
-    }
+function canRunAutoJailbreak() {
+    if (!window.applicationCache) return true;
+
+    const st = window.applicationCache.status;
+    return (
+        st === window.applicationCache.UNCACHED ||
+        st === window.applicationCache.IDLE ||
+        st === window.applicationCache.UPDATEREADY
+    );
 }
 
 function setAutoJbRetry(checked) {
@@ -15,15 +18,33 @@ function setAutoJbRetry(checked) {
         // close settings popup
         settingsPopup();
 
-        runJailbreakThroughGate();
+        jailbreak();
     }
 }
 
 // When jailbreak succeds, this will be stopped
 function autoJailbreak() {
+    // Gate: never run while cache is still building/downloading
+    if (!canRunAutoJailbreak()) {
+        if (window.applicationCache) {
+            const appCache = window.applicationCache;
+            const once = () => {
+                if (!window.__gamelandAutoJbDelayed) {
+                    window.__gamelandAutoJbDelayed = true;
+                    autoJailbreak();
+                }
+            };
+
+            appCache.addEventListener('cached', once, { once: true });
+            appCache.addEventListener('updateready', once, { once: true });
+            appCache.addEventListener('noupdate', once, { once: true });
+        }
+        return;
+    }
+
     // used for 6.7x jailbreak when userland is loaded on jailbreak only.
     if (sessionStorage.getItem('jailbreakNow') == "true") {
-        runJailbreakThroughGate();
+        jailbreak();
         return;
     }
     var checked = (localStorage.getItem('autoJbRetry') || 'true') === 'true'; // default to true if not set
@@ -34,7 +55,7 @@ function autoJailbreak() {
 
     // If auto jailbreak is enabled for this session, start it directly.
     if (checked && sessionChecked) {
-        runJailbreakThroughGate();
+        jailbreak();
     }
 }
 
@@ -48,7 +69,11 @@ function autoJailbreakTimer() {
         ui.clickToStartText.style.fontSize = "15px";
         if (timer <= 0) {
             clearInterval(autoJbInterval);
-            runJailbreakThroughGate();
+            if (canRunAutoJailbreak()) {
+                jailbreak();
+            } else {
+                autoJailbreak();
+            }
         }
         timer--;
     }, 1000);
