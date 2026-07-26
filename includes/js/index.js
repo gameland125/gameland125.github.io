@@ -349,12 +349,12 @@ function isCacheReadyForAutostart() {
   );
 }
 
-function runAutoJailbreakWhenSafe() {
-  if (window.cacheGate && typeof window.cacheGate.run === 'function') {
+funcif (window.cacheGate && typeof window.cacheGate.run === 'function') {
   window.cacheGate.run(autoJailbreak);
 } else {
   autoJailbreak();
-  }
+}
+
   
 
   const appCache = window.applicationCache;
