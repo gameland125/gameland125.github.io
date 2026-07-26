@@ -605,29 +605,29 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            if (window.applicationCache) {
-                const appCache = window.applicationCache;
+    if (window.applicationCache) {
+        if (window.cacheGate && typeof window.cacheGate.init === 'function') {
+            window.cacheGate.init();
+        }
+        window.applicationCache.addEventListener("progress", DLProgress, false);
+        window.applicationCache.oncached = function (e) { DisplayCacheProgress(); };
+        window.applicationCache.onupdateready = function (e) { DisplayCacheProgress(); };
+    } else {
+        console.warn("This browser does not support save in cache!");
+        if (window.cacheGate && typeof window.cacheGate.init === 'function') {
+            window.cacheGate.init();
+        }
+    }
 
-                const startOnce = () => {
-                    if (!window.__gamelandStarted) {
-                        window.__gamelandStarted = true;
-                        startAppWhenReady();
-                    }
-                };
+    if (typeof loadSettings === 'function') {
+        if (window.cacheGate && typeof window.cacheGate.run === 'function') {
+            window.cacheGate.run(loadSettings);
+        } else {
+            loadSettings();
+        }
+    }
+});
 
-                appCache.addEventListener("progress", DLProgress, false);
-                appCache.oncached = function (e) { DisplayCacheProgress(); startOnce(); };
-                appCache.onupdateready = function (e) { DisplayCacheProgress(); startOnce(); };
-                appCache.addEventListener('noupdate', startOnce, { once: true });
-
-                if (isAppCacheReady(appCache)) {
-                    startOnce();
-                }
-            } else {
-                console.warn("This browser does not support save in cache!");
-                startAppWhenReady();
-            }
-        });
     </script>
     <!-- Choose index.js or index-legacy.js for older browsers, generated with Babel -->
     <script id="main-logic-loader">
