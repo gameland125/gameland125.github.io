@@ -595,68 +595,40 @@
             }
         }
 
-        <script>
-(function () {
-    var startupDone = false;
-
-    function isCacheReady() {
-        if (!window.applicationCache) return true;
-
-        // ApplicationCache states:
-        // 0 = UNCACHED
-        // 1 = IDLE
-        // 2 = CHECKING
-        // 3 = DOWNLOADING
-        // 4 = UPDATEREADY
-        // 5 = OBSOLETE
-        var s = window.applicationCache.status;
-        return s === 1 || s === 4;
-    }
-
-    function startAppWhenSafe() {
-        if (startupDone) return;
-        if (!isCacheReady()) return;
-
-        startupDone = true;
-
-        if (typeof loadSettings === 'function') {
-            loadSettings();
+        function isAppCacheReady(appCache) {
+            if (!appCache) return true;
+            return (
+                appCache.status === appCache.UNCACHED ||
+                appCache.status === appCache.IDLE ||
+                appCache.status === appCache.UPDATEREADY
+            );
         }
-    }
 
-    document.addEventListener('DOMContentLoaded', function () {
-        if (window.applicationCache) {
-            window.applicationCache.addEventListener("progress", DLProgress, false);
+        document.addEventListener('DOMContentLoaded', () => {
+            if (window.applicationCache) {
+                const appCache = window.applicationCache;
 
-            window.applicationCache.addEventListener("cached", function () {
-                DisplayCacheProgress();
-                startAppWhenSafe();
-            }, false);
+                const startOnce = () => {
+                    if (!window.__gamelandStarted) {
+                        window.__gamelandStarted = true;
+                        startAppWhenReady();
+                    }
+                };
 
-            window.applicationCache.addEventListener("updateready", function () {
-                DisplayCacheProgress();
-                startAppWhenSafe();
-            }, false);
+                appCache.addEventListener("progress", DLProgress, false);
+                appCache.oncached = function (e) { DisplayCacheProgress(); startOnce(); };
+                appCache.onupdateready = function (e) { DisplayCacheProgress(); startOnce(); };
+                appCache.addEventListener('noupdate', startOnce, { once: true });
 
-            window.applicationCache.addEventListener("noupdate", function () {
-                DisplayCacheProgress();
-                startAppWhenSafe();
-            }, false);
-
-            window.applicationCache.addEventListener("error", function () {
-                console.warn("ApplicationCache error");
-                startAppWhenSafe();
-            }, false);
-
-            // اگر cache از قبل آماده بود، فوراً ادامه بده
-            startAppWhenSafe();
-        } else {
-            startAppWhenSafe();
-        }
-    });
-})();
-</script>
-
+                if (isAppCacheReady(appCache)) {
+                    startOnce();
+                }
+            } else {
+                console.warn("This browser does not support save in cache!");
+                startAppWhenReady();
+            }
+        });
+    </script>
     <!-- Choose index.js or index-legacy.js for older browsers, generated with Babel -->
     <script id="main-logic-loader">
         (function () {
