@@ -723,3 +723,42 @@ function loadLapseChain() {
     radioElement.checked = true;
   }
 }
+function isCacheReadyForStartup() {
+  if (!window.applicationCache) return true;
+  var s = window.applicationCache.status;
+  return s === 1 || s === 4; // IDLE or UPDATEREADY
+}
+
+function waitForCacheReady() {
+  if (isCacheReadyForStartup()) return Promise.resolve();
+
+  return new Promise(function (resolve) {
+    if (!window.applicationCache) {
+      resolve();
+      return;
+    }
+
+    var ac = window.applicationCache;
+
+    function done() {
+      ac.removeEventListener("cached", done, false);
+      ac.removeEventListener("updateready", done, false);
+      ac.removeEventListener("noupdate", done, false);
+      ac.removeEventListener("error", done, false);
+      resolve();
+    }
+
+    ac.addEventListener("cached", done, false);
+    ac.addEventListener("updateready", done, false);
+    ac.addEventListener("noupdate", done, false);
+    ac.addEventListener("error", done, false);
+  });
+}
+
+async function runAutoJailbreakWhenSafe() {
+  await waitForCacheReady();
+
+  if (typeof autoJailbreak === 'function') {
+    autoJailbreak();
+  }
+}
