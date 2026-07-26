@@ -141,8 +141,16 @@ function sleep() {
 
 // Jailbreak-related functions
 function jailbreak() {
+  if (window.cacheGate && typeof window.cacheGate.run === 'function') {
+    var args = arguments;
+    window.cacheGate.run(function () {
+      _jailbreak.apply(window, args);
+    });
+    return;
+  }
   return _jailbreak.apply(this, arguments);
 }
+
 function _jailbreak() {
   _jailbreak = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee() {
     var fwVersion, value, _t;
