@@ -47,11 +47,9 @@ function autoJailbreak() {
         jailbreak();
         return;
     }
-
     var checked = (localStorage.getItem('autoJbRetry') || 'true') === 'true'; // default to true if not set
     var sessionChecked = sessionStorage.getItem('autoJbRetry') == 'true';
     ui.autoJbRetry.checked = checked;
-
     // check if supported ps4
     if (window.ps4Fw < 6.70 || window.ps4Fw > 9.60 || !window.ps4Fw) return;
 
