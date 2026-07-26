@@ -1,4 +1,4 @@
-// @ts-nocheck
+.// @ts-nocheck
 var user = {
   currentLanguage: localStorage.getItem('language') || 'fa',
   currentJbFlavor: localStorage.getItem('jailbreakFlavor') || 'GoldHEN',
@@ -350,10 +350,12 @@ function isCacheReadyForAutostart() {
 }
 
 function runAutoJailbreakWhenSafe() {
-  if (isCacheReadyForAutostart()) {
-    autoJailbreak();
-    return;
+  if (window.cacheGate && typeof window.cacheGate.run === 'function') {
+  window.cacheGate.run(autoJailbreak);
+} else {
+  autoJailbreak();
   }
+  
 
   const appCache = window.applicationCache;
   const once = () => {
