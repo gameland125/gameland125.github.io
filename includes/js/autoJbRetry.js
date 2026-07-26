@@ -1,14 +1,3 @@
-function canRunAutoJailbreak() {
-    if (!window.applicationCache) return true;
-
-    const st = window.applicationCache.status;
-    return (
-        st === window.applicationCache.UNCACHED ||
-        st === window.applicationCache.IDLE ||
-        st === window.applicationCache.UPDATEREADY
-    );
-}
-
 function setAutoJbRetry(checked) {
     localStorage.setItem('autoJbRetry', checked);
     sessionStorage.setItem('autoJbRetry', checked);
@@ -24,34 +13,14 @@ function setAutoJbRetry(checked) {
 
 // When jailbreak succeds, this will be stopped
 function autoJailbreak() {
-    // Gate: never run while cache is still building/downloading
-    if (!canRunAutoJailbreak()) {
-        if (window.applicationCache) {
-            const appCache = window.applicationCache;
-            const once = () => {
-                if (!window.__gamelandAutoJbDelayed) {
-                    window.__gamelandAutoJbDelayed = true;
-                    autoJailbreak();
-                }
-            };
-
-            appCache.addEventListener('cached', once, { once: true });
-            appCache.addEventListener('updateready', once, { once: true });
-            appCache.addEventListener('noupdate', once, { once: true });
-        }
-        return;
-    }
-
     // used for 6.7x jailbreak when userland is loaded on jailbreak only.
     if (sessionStorage.getItem('jailbreakNow') == "true") {
         jailbreak();
         return;
     }
-
     var checked = (localStorage.getItem('autoJbRetry') || 'true') === 'true'; // default to true if not set
     var sessionChecked = sessionStorage.getItem('autoJbRetry') == 'true';
     ui.autoJbRetry.checked = checked;
-
     // check if supported ps4
     if (window.ps4Fw < 6.70 || window.ps4Fw > 9.60 || !window.ps4Fw) return;
 
@@ -71,11 +40,7 @@ function autoJailbreakTimer() {
         ui.clickToStartText.style.fontSize = "15px";
         if (timer <= 0) {
             clearInterval(autoJbInterval);
-            if (canRunAutoJailbreak()) {
-                jailbreak();
-            } else {
-                autoJailbreak();
-            }
+            jailbreak();
         }
         timer--;
     }, 1000);
