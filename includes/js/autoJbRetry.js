@@ -15,11 +15,14 @@ function setAutoJbRetry(checked) {
 
     if (!checked) return;
     if (confirm(window.lang.autoJbRetryConfirm)) {
+        // close settings popup
         settingsPopup();
+
         jailbreak();
     }
 }
 
+// When jailbreak succeds, this will be stopped
 function autoJailbreak() {
     // Gate: never run while cache is still building/downloading
     if (!canRunAutoJailbreak()) {
@@ -45,28 +48,35 @@ function autoJailbreak() {
         return;
     }
 
-    var checked = (localStorage.getItem('autoJbRetry') || 'true') === 'true';
+    var checked = (localStorage.getItem('autoJbRetry') || 'true') === 'true'; // default to true if not set
     var sessionChecked = sessionStorage.getItem('autoJbRetry') == 'true';
     ui.autoJbRetry.checked = checked;
 
+    // check if supported ps4
     if (window.ps4Fw < 6.70 || window.ps4Fw > 9.60 || !window.ps4Fw) return;
 
+    // If auto jailbreak is enabled for this session, start it directly.
     if (checked && sessionChecked) {
         jailbreak();
     }
 }
 
+// localStorage retry value true but no sessionStorage value? use timer.
 function autoJailbreakTimer() {
-    let retry = 3;
-    let timer = setInterval(function () {
-        retry--;
-        if (retry <= 0) {
-            clearInterval(timer);
+    var timer = 3; // Start a longer countdown immediately
+    ui.stopAutoJbBtn.classList.toggle('hidden');
+    autoJbInterval = setInterval(() => {
+
+        ui.clickToStartText.textContent = window.lang.jailbreakCountDown.replace('{seconds}', timer);
+        ui.clickToStartText.style.fontSize = "15px";
+        if (timer <= 0) {
+            clearInterval(autoJbInterval);
             if (canRunAutoJailbreak()) {
                 jailbreak();
             } else {
                 autoJailbreak();
             }
         }
+        timer--;
     }, 1000);
 }
