@@ -588,44 +588,18 @@
             }
         }
 
-        // Cache + safe startup gate
-        function startAppWhenReady() {
+        // Cache
+        document.addEventListener('DOMContentLoaded', () => {
             if (typeof loadSettings === 'function') {
                 loadSettings();
             }
-        }
-
-        function isAppCacheReady(appCache) {
-            if (!appCache) return true;
-            return (
-                appCache.status === appCache.UNCACHED ||
-                appCache.status === appCache.IDLE ||
-                appCache.status === appCache.UPDATEREADY
-            );
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
+            // check for applicationCache
             if (window.applicationCache) {
-                const appCache = window.applicationCache;
-
-                const startOnce = () => {
-                    if (!window.__gamelandStarted) {
-                        window.__gamelandStarted = true;
-                        startAppWhenReady();
-                    }
-                };
-
-                appCache.addEventListener("progress", DLProgress, false);
-                appCache.oncached = function (e) { DisplayCacheProgress(); startOnce(); };
-                appCache.onupdateready = function (e) { DisplayCacheProgress(); startOnce(); };
-                appCache.addEventListener('noupdate', startOnce, { once: true });
-
-                if (isAppCacheReady(appCache)) {
-                    startOnce();
-                }
+                window.applicationCache.addEventListener("progress", DLProgress, false);
+                window.applicationCache.oncached = function (e) { DisplayCacheProgress(); };
+                window.applicationCache.onupdateready = function (e) { DisplayCacheProgress(); };
             } else {
                 console.warn("This browser does not support save in cache!");
-                startAppWhenReady();
             }
         });
     </script>
@@ -643,7 +617,6 @@
     <script src="./includes/js/language.js"></script>
     <script src="./includes/js/HENs.js"></script>
     <script src="./includes/js/checkFw.js"></script>
-   <script src="./includes/js/cacheGate.js"></script>
     <script src="./includes/js/autoJbRetry.js"></script>
     <script src="./includes/js/events.js"></script>
 </body>
