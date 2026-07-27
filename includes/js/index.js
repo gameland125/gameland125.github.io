@@ -338,36 +338,6 @@ async function initLanguage() {
   }
 }
 
-function isCacheReadyForAutostart() {
-  if (!window.applicationCache) return true;
-
-  const st = window.applicationCache.status;
-  return (
-    st === window.applicationCache.UNCACHED ||
-    st === window.applicationCache.IDLE ||
-    st === window.applicationCache.UPDATEREADY
-  );
-}
-
-function runAutoJailbreakWhenSafe() {
-  if (isCacheReadyForAutostart()) {
-    autoJailbreak();
-    return;
-  }
-
-  const appCache = window.applicationCache;
-  const once = () => {
-    if (!window.__gamelandAutoJbStarted) {
-      window.__gamelandAutoJbStarted = true;
-      autoJailbreak();
-    }
-  };
-
-  appCache.addEventListener('cached', once, { once: true });
-  appCache.addEventListener('updateready', once, { once: true });
-  appCache.addEventListener('noupdate', once, { once: true });
-}
-
 // Load settings
 async function loadSettings() {
   try {
@@ -380,7 +350,7 @@ async function loadSettings() {
     loadAdvancedPayloads();
     loadLastTab();
     loadGoldHENVer();
-    runAutoJailbreakWhenSafe();
+    autoJailbreak();
     updateBareboneJB();
     loadLapseChain();
     userlandOnlyOnJB67x();
