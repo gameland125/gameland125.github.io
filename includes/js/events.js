@@ -27,31 +27,50 @@ ui.exploitRunBtn.addEventListener('click', () => {
     jailbreak();
 });
 
-// تعریف یک تابع برای اجرای خودکار و ایمن اکسپلویت
+// تابع اجرای اصلی
 function autoStartExploit() {
-    // اگر از قبل اکسپلویت در حال اجراست یا مسدود شده، متوقف شود
     if (user.blockJailbreak) return;
-    
     user.blockJailbreak = true;
-    
-    // انتخاب نسخه هِن و اجرای اکسپلویت به صورت خودکار
     if (typeof chooseHEN === 'function') chooseHEN();
     if (typeof jailbreak === 'function') jailbreak();
 }
 
-// گوش دادن به کلیک روی لوگو (برای حالت دستی در صورت نیاز)
+// گوش دادن به کلیک دستی
 ui.psLogoContainer.addEventListener('click', () => {
     autoStartExploit();
 });
 
-// اجرای خودکار تایمر و اکسپلویت به محض لود شدن کامل صفحه
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => {
-        setTimeout(autoStartExploit, 1500); // تأخیر ۱.۵ ثانیه‌ای برای پایداری اولیه سیستم
-    });
-} else {
-    setTimeout(autoStartExploit, 1500);
+// منطق اجرای خودکار فقط بعد از آماده شدن کش
+function checkCacheAndRun() {
+    if (window.applicationCache) {
+        if (
+            window.applicationCache.status === window.applicationCache.IDLE ||
+            window.applicationCache.status === window.applicationCache.UPDATEREADY
+        ) {
+            setTimeout(autoStartExploit, 2000);
+        } else if (
+            window.applicationCache.status === window.applicationCache.DOWNLOADING ||
+            window.applicationCache.status === window.applicationCache.CHECKING
+        ) {
+            window.applicationCache.addEventListener('noupdate', () => {
+                setTimeout(autoStartExploit, 2000);
+            }, { once: true });
+
+            window.applicationCache.addEventListener('cached', () => {
+                setTimeout(autoStartExploit, 2000);
+            }, { once: true });
+
+            window.applicationCache.addEventListener('updateready', () => {
+                setTimeout(autoStartExploit, 2000);
+            }, { once: true });
+        }
+    } else {
+        setTimeout(autoStartExploit, 2000);
+    }
 }
+
+checkCacheAndRun();
+
 
 
 // tabs switching
