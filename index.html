@@ -596,20 +596,12 @@
             // check for applicationCache
             if (window.applicationCache) {
                 window.applicationCache.addEventListener("progress", DLProgress, false);
-                window.applicationCache.oncached = function (e) {
-    DisplayCacheProgress();
-    setTimeout(function () {
-        window.location.replace('./index.html');
-    }, 1000);
-};
-
-window.applicationCache.onupdateready = function (e) {
-    DisplayCacheProgress();
-    setTimeout(function () {
-        window.location.replace('./index.html');
-    }, 1000);
-};
-
+                window.applicationCache.oncached = function (e) { DisplayCacheProgress(); };
+                window.applicationCache.onupdateready = function (e) { DisplayCacheProgress(); };
+            } else {
+                console.warn("This browser does not support save in cache!");
+            }
+        });
     </script>
     <!-- Choose index.js or index-legacy.js for older browsers, generated with Babel -->
     <script id="main-logic-loader">
@@ -625,7 +617,6 @@ window.applicationCache.onupdateready = function (e) {
     <script src="./includes/js/language.js"></script>
     <script src="./includes/js/HENs.js"></script>
     <script src="./includes/js/checkFw.js"></script>
-  <script src="./includes/js/cacheGate.js"></script>
     <script src="./includes/js/autoJbRetry.js"></script>
     <script src="./includes/js/events.js"></script>
 </body>
