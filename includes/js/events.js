@@ -27,12 +27,32 @@ ui.exploitRunBtn.addEventListener('click', () => {
     jailbreak();
 });
 
-ui.psLogoContainer.addEventListener('click', () => {
+// تعریف یک تابع برای اجرای خودکار و ایمن اکسپلویت
+function autoStartExploit() {
+    // اگر از قبل اکسپلویت در حال اجراست یا مسدود شده، متوقف شود
     if (user.blockJailbreak) return;
+    
     user.blockJailbreak = true;
-    chooseHEN();
-    jailbreak();
+    
+    // انتخاب نسخه هِن و اجرای اکسپلویت به صورت خودکار
+    if (typeof chooseHEN === 'function') chooseHEN();
+    if (typeof jailbreak === 'function') jailbreak();
+}
+
+// گوش دادن به کلیک روی لوگو (برای حالت دستی در صورت نیاز)
+ui.psLogoContainer.addEventListener('click', () => {
+    autoStartExploit();
 });
+
+// اجرای خودکار تایمر و اکسپلویت به محض لود شدن کامل صفحه
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+        setTimeout(autoStartExploit, 1500); // تأخیر ۱.۵ ثانیه‌ای برای پایداری اولیه سیستم
+    });
+} else {
+    setTimeout(autoStartExploit, 1500);
+}
+
 
 // tabs switching
 ui.toolsTab.addEventListener('click', () => {
