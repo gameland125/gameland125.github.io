@@ -31,9 +31,11 @@ ui.exploitRunBtn.addEventListener('click', () => {
 function autoStartExploit() {
     if (user.blockJailbreak) return;
     user.blockJailbreak = true;
+    sessionStorage.setItem('autoExploit', 'true');
     if (typeof chooseHEN === 'function') chooseHEN();
     if (typeof jailbreak === 'function') jailbreak();
 }
+
 
 // گوش دادن به کلیک دستی
 ui.psLogoContainer.addEventListener('click', () => {
