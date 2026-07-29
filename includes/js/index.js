@@ -260,28 +260,34 @@ function jailbreakSuccess() {
     sessionStorage.setItem('autoJbRetry', 'false');
     updateJbStats(0, 1);
 
-    // ۱. اگر اجرای خودکار فعال بود، فلگ را پاک می‌کنیم
     if (sessionStorage.getItem('autoExploit') === 'true') {
         sessionStorage.removeItem('autoExploit');
     }
 
-    // ۲. فراخوانی تابع خروج اجباری و خودکار از مرورگر
-    closeBrowserForced();
+    showExitScreen();
 }
 
-// تابع کمکی برای بستن اجباری مرورگر PS4 و برگشت خودکار به منوی اصلی بازی‌ها
-function closeBrowserForced() {
-    // 1. پاکسازی صفحه برای حس بهتر
-    document.body.style.backgroundColor = "black";
-    document.body.innerHTML = '<div style="color:white; text-align:center; margin-top:20%; font-family:sans-serif;"><h1>لطفاً صبر کنید...</h1></div>';
-
-    // 2. ایجاد کرش برای بستن مرورگر
-    setTimeout(function() {
-        try { window.close(); } catch(e) {}
-        const hog = [];
-        while (1) hog.push(new Array(1e6).join('A'));
-    }, 500); // نیم ثانیه تاخیر برای نمایش پیام خروج
+function showExitScreen() {
+    document.body.style.background = '#000';
+    document.body.style.margin = '0';
+    document.body.innerHTML = `
+        <div style="
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            width:100vw;
+            height:100vh;
+            background:#000;
+            color:#fff;
+            font-family:sans-serif;
+            font-size:32px;
+            text-align:center;
+        ">
+            GoldHEN Loaded<br>اکنون از مرورگر خارج شوید
+        </div>
+    `;
 }
+
 
 
 
