@@ -431,7 +431,15 @@ function DLProgress(e) {
   var Percent = (Math.round(e.loaded / e.total * 100));
   document.title = ((window.lang && window.lang.cache) || "Caching ") + " " + Percent + "%";
 }
-function
+function DisplayCacheProgress() {
+  setTimeout(function () {
+    document.title = "\u2713";
+  }, 1000);
+  setTimeout(function () {
+    // location.reload();
+    document.title = ((window.lang && window.lang.title) || "PSFree Enhanced");
+  }, 2000);
+}
 
 function terminateCache() {
   if (window.applicationCache) {
