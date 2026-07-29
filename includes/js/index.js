@@ -251,11 +251,10 @@ async function badHoistJailbreak() {
   }
 }
 
-function jailbreakSuccess() {
-  sessionStorage.setItem('autoJbRetry', 'false');
-  updateJbStats(0, 1);
-  showExitScreen();
-}
+setTimeout(() => {
+    window.close();
+}, 1500);
+
 
 
 function showExitScreen() {
