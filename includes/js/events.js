@@ -21,11 +21,9 @@ ui.mainContainer.addEventListener('scroll', () => {
 
 // Launch jailbreak
 ui.exploitRunBtn.addEventListener('click', () => {
-    if (user.blockJailbreak) return;
-    user.blockJailbreak = true;
-    chooseHEN();
-    jailbreak();
+    autoStartExploit();
 });
+
 
 // تابع اجرای اصلی
 function autoStartExploit() {
