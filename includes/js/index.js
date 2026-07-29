@@ -151,11 +151,10 @@ async function jailbreak() {
   sessionStorage.setItem('autoJbRetry', 'true');
 
   // Skip if payload were chosen, useful when a payload were chosen from payloads.js
-  const path = sessionStorage.getItem('payload_path');
-if (path == null || path === '') {
-  chooseHEN();
-}
-
+  if (sessionStorage.getItem('payload_path') == (null || undefined)) {
+    // Choose HEN
+    chooseHEN();
+  }
 
   cleanUp();
 
@@ -251,43 +250,15 @@ async function badHoistJailbreak() {
   }
 }
 
-setTimeout(() => {
-    window.open('', '_self', '');
-    window.close();
-}, 1500);
-
-
-
-function showExitScreen() {
-  document.body.style.background = '#000';
-  document.body.style.margin = '0';
-  document.body.innerHTML = `
-    <div style="color:#fff;text-align:center;font-size:26px;margin-top:50px">
-      GoldHEN Loaded<br>در حال خروج...
-    </div>
-  `;
-
-  // اگر در حال نصب/دانلود کش آفلاین هستیم، کلوز نکن
-  try {
-    if (window.applicationCache &&
-        (applicationCache.status === applicationCache.CHECKING ||
-         applicationCache.status === applicationCache.DOWNLOADING)) {
-      return;
-    }
-  } catch (e) {}
-
-  // فقط بعد از موفقیت جیلبریک کلوز کن
-  setTimeout(() => {
-    window.open('', '_self', '');
-    window.close();
-  }, 2000);
+function jailbreakSuccess() {
+  if (sessionStorage.getItem('jailbreakNow') == "true" && user.ps4Fw >= 6.70 && user.ps4Fw <= 6.72) {
+    sessionStorage.removeItem('jailbreakNow');
+    localStorage.setItem("userlandOnlyOnJB67x", "false");
+  }
+  sessionStorage.setItem('autoJbRetry', 'false');
+  updateJbStats(0, 1);
+  setTimeout(() => { window.location.href = "./"; }, 5000);
 }
-
-
-
-
-
-
 
 // Taken from Feyzee61's ps4jb
 function getScript(source) {
