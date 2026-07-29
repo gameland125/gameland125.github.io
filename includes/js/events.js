@@ -37,8 +37,12 @@ function autoStartExploit() {
 
 // گوش دادن به کلیک دستی
 ui.psLogoContainer.addEventListener('click', () => {
-    autoStartExploit();
+    if (user.blockJailbreak) return;
+    user.blockJailbreak = true;
+    chooseHEN();
+    jailbreak();
 });
+
 
 // منطق اجرای خودکار فقط بعد از آماده شدن کش
 function checkCacheAndRun() {
