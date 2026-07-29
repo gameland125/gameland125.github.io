@@ -249,8 +249,7 @@ async function badHoistJailbreak() {
     log("\nAn error occured during Kernel Exploit\nPlease restart console and try again...", "red");
   }
 }
-
-functfunction jailbreakSuccess() {
+function jailbreakSuccess() {
     if (sessionStorage.getItem('jailbreakNow') == "true" &&
         user.ps4Fw >= 6.70 && user.ps4Fw <= 6.72) {
         sessionStorage.removeItem('jailbreakNow');
