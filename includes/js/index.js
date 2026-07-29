@@ -1,4 +1,14 @@
-// @ts-nocheck
+
+  // Empty payloads sections
+  if (ui.payloadsList) {
+    ui.payloadsList.innerHTML = '';
+  }
+
+  // Wipe individual refs
+  const toDestroy = [
+    'settingsBtn', 'aboutBtn', 'initialScreen', 'chooseGoldHEN',
+    'psLogoContainer', 'clickToStartText',
+    'ps4FwStatus', '// @ts-nocheck
 var user = {
   currentLanguage: localStorage.getItem('language') || 'fa',
   currentJbFlavor: localStorage.getItem('jailbreakFlavor') || 'GoldHEN',
@@ -627,60 +637,7 @@ function shutdownServer() {
 }
 
 /**
- * A Function to add an attempt and/or a success exploit and update the localStorage.
- * @param {boolean} attemp - Set to true if a jailbreak attempt was made.
- * @param {boolean} isSuccess - Set to true if the jailbreak was successful.
- * - Set both to false will only update the stats, useful when reloading the page.
- */
-function updateJbStats(attemp, isSuccess) {
-  let total = parseInt(localStorage.getItem('jbTotal') || 0);
-  let success = parseInt(localStorage.getItem('jbSuccess') || 0);
-
-  if (attemp) {
-    total++;
-    localStorage.setItem('jbTotal', total);
-  }
-  if (isSuccess) {
-    success++;
-    localStorage.setItem('jbSuccess', success);
-  }
-
-  // Update UI element if present, useful for the case of exploit.html not having the ui element.
-  if (ui.successRateText && window.lang) {
-    let rate = ((success / total) * 100).toFixed(0);
-    rate = isNaN(rate) ? "0" : rate; // Handle NaN case when total is 0
-    ui.successRateText.textContent = (window.lang.successRate || "Success Rate: ") + rate + "%" + ` (${success}/${total})`;
-  }
-}
-
-function clearStats() {
-  if (!confirm(window.lang.clearStatsConfirm)) return;
-  localStorage.removeItem('jbTotal');
-  localStorage.removeItem('jbSuccess');
-  ui.successRateText.textContent = window.lang.successRate + "0% (0/0)";
-}
-
-// A try to free up some memory to improve success rate
-function cleanUp() {
-  // terminateCache(); Still not sure if this drops the success rate and makes more crashes
-  if (!window.ps4Fw) return;
-
-  // Stop auto-jailbreak counter
-  if (autoJbInterval) {
-    clearInterval(autoJbInterval);
-    autoJbInterval = null;
-  }
-
-  // Empty payloads sections
-  if (ui.payloadsList) {
-    ui.payloadsList.innerHTML = '';
-  }
-
-  // Wipe individual refs
-  const toDestroy = [
-    'settingsBtn', 'aboutBtn', 'initialScreen', 'chooseGoldHEN',
-    'psLogoContainer', 'clickToStartText',
-    'ps4FwStatus', 'stopAutoJbBtn', 'payloadsSection', 'payloadsList', 'payloadsSectionTitle',
+ * A Function to add an attempt and/or a succe', 'payloadsSection', 'payloadsList', 'payloadsSectionTitle',
     'ps4IpInput', 'ps4FwSelect', 'scanGoldHENPayLoader', 'shutdownServerBtn',
     'aboutPopup', 'settingsPopup', 'chooseFanThreshold', 'autoJbRetry', 'chooselang',
     'toolsSection', 'toolsTab', 'linuxSection', 'linuxTab', 'advancedPayloadsSection', 'advancedPayloadsTab',
