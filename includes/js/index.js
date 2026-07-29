@@ -258,8 +258,7 @@ setTimeout(() => {
 
 
 
-
-functfunction showExitScreen() {
+function showExitScreen() {
   document.body.style.background = '#000';
   document.body.style.margin = '0';
   document.body.innerHTML = `
