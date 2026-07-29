@@ -252,21 +252,11 @@ async function badHoistJailbreak() {
 }
 
 function jailbreakSuccess() {
-    if (sessionStorage.getItem('jailbreakNow') == "true" &&
-        user.ps4Fw >= 6.70 && user.ps4Fw <= 6.72) {
-        sessionStorage.removeItem('jailbreakNow');
-        localStorage.setItem("userlandOnlyOnJB67x", "false");
-    }
-
-    sessionStorage.setItem('autoJbRetry', 'false');
-    updateJbStats(0, 1);
-
-    if (sessionStorage.getItem('autoExploit') === 'true') {
-        sessionStorage.removeItem('autoExploit');
-    }
-
-    showExitScreen();
+  sessionStorage.setItem('autoJbRetry', 'false');
+  updateJbStats(0, 1);
+  showExitScreen();
 }
+
 
 function showExitScreen() {
     document.body.style.background = '#000';
