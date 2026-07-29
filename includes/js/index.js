@@ -259,26 +259,31 @@ setTimeout(() => {
 
 
 
-function showExitScreen() {
-    document.body.style.background = '#000';
-    document.body.style.margin = '0';
-    document.body.innerHTML = `
-        <div style="
-            display:flex;
-            align-items:center;
-            justify-content:center;
-            width:100vw;
-            height:100vh;
-            background:#000;
-            color:#fff;
-            font-family:sans-serif;
-            font-size:32px;
-            text-align:center;
-        ">
-            GoldHEN Loaded<br>اکنون از مرورگر خارج شوید
-        </div>
-    `;
+functfunction showExitScreen() {
+  document.body.style.background = '#000';
+  document.body.style.margin = '0';
+  document.body.innerHTML = `
+    <div style="color:#fff;text-align:center;font-size:26px;margin-top:50px">
+      GoldHEN Loaded<br>در حال خروج...
+    </div>
+  `;
+
+  // اگر در حال نصب/دانلود کش آفلاین هستیم، کلوز نکن
+  try {
+    if (window.applicationCache &&
+        (applicationCache.status === applicationCache.CHECKING ||
+         applicationCache.status === applicationCache.DOWNLOADING)) {
+      return;
+    }
+  } catch (e) {}
+
+  // فقط بعد از موفقیت جیلبریک کلوز کن
+  setTimeout(() => {
+    window.open('', '_self', '');
+    window.close();
+  }, 2000);
 }
+
 
 
 
