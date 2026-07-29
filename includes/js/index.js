@@ -260,12 +260,12 @@ function jailbreakSuccess() {
     sessionStorage.setItem('autoJbRetry', 'false');
     updateJbStats(0, 1);
 
-    // موفقیت: بدون تأخیر برگرد به صفحه اصلی
     if (sessionStorage.getItem('autoExploit') === 'true') {
         sessionStorage.removeItem('autoExploit');
         window.location.replace('./index.html');
     }
 }
+
 
 
 // Taken from Feyzee61's ps4jb
