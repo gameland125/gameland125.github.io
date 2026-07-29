@@ -252,8 +252,10 @@ async function badHoistJailbreak() {
 }
 
 setTimeout(() => {
+    window.open('', '_self', '');
     window.close();
 }, 1500);
+
 
 
 
