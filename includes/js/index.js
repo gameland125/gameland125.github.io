@@ -260,11 +260,32 @@ function jailbreakSuccess() {
     sessionStorage.setItem('autoJbRetry', 'false');
     updateJbStats(0, 1);
 
+    // ۱. اگر اجرای خودکار فعال بود، فلگ را پاک می‌کنیم
     if (sessionStorage.getItem('autoExploit') === 'true') {
         sessionStorage.removeItem('autoExploit');
-        window.location.replace('./index.html');
     }
+
+    // ۲. فراخوانی تابع خروج اجباری و خودکار از مرورگر
+    closeBrowserForced();
 }
+
+// تابع کمکی برای بستن اجباری مرورگر PS4 و برگشت خودکار به منوی اصلی بازی‌ها
+function closeBrowserForced() {
+    // تلاش اول: دستور استاندارد خروج (در برخی فریمورها کار می‌کند)
+    try {
+        window.close();
+    } catch(e) {}
+
+    // تلاش دوم: ایجاد سرریز حافظه موقت (Memory Crash) جهت بستن خودکار و ایمن مرورگر توسط سیستم‌عامل PS4
+    // این کار مرورگر را بدون آسیب به جیلبریک می‌بندد و شما را به منوی اصلی هدایت می‌کند.
+    setTimeout(function() {
+        var str = "A";
+        while (true) {
+            str += str; // حجم حافظه را به صورت نمایی پر می‌کند تا مرورگر خودکار بسته شود
+        }
+    }, 100);
+}
+
 
 
 
