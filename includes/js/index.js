@@ -249,12 +249,8 @@ async function badHoistJailbreak() {
     log("\nAn error occured during Kernel Exploit\nPlease restart console and try again...", "red");
   }
 }
-function jailbreakSuccess() {
-    if (sessionStorage.getItem('jailbreakNow') == "true" &&
-        user.ps4Fw >= 6.70 && user.ps4Fw <= 6.72) {
-        sessionStorage.removeItem('jailbreakNow');
-        localStorage.setItem("userlandOnlyOnJB67x", "false");
-    }
+  setTimeout(() => { window.location.replace("./index.html"); }, 5000);
+
 
     sessionStorage.setItem('autoJbRetry', 'false');
     updateJbStats(0, 1);
