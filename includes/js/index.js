@@ -257,8 +257,8 @@ function jailbreakSuccess() {
   }
   sessionStorage.setItem('autoJbRetry', 'false');
   updateJbStats(0, 1);
-  setTimeout(() => { window.location.href = "./"; }, 5000);
-}
+    setTimeout(() => { window.location.replace("./index.html"); }, 5000);
+  
 
 // Taken from Feyzee61's ps4jb
 function getScript(source) {
