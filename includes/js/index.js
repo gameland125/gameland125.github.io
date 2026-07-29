@@ -251,14 +251,22 @@ async function badHoistJailbreak() {
 }
 
 function jailbreakSuccess() {
-  if (sessionStorage.getItem('jailbreakNow') == "true" && user.ps4Fw >= 6.70 && user.ps4Fw <= 6.72) {
-    sessionStorage.removeItem('jailbreakNow');
-    localStorage.setItem("userlandOnlyOnJB67x", "false");
-  }
-  sessionStorage.setItem('autoJbRetry', 'false');
-  updateJbStats(0, 1);
-    setTimeout(() => { window.location.replace("./index.html"); }, 5000);
+    if (sessionStorage.getItem('jailbreakNow') == "true" &&
+        user.ps4Fw >= 6.70 && user.ps4Fw <= 6.72) {
+        sessionStorage.removeItem('jailbreakNow');
+        localStorage.setItem("userlandOnlyOnJB67x", "false");
+    }
+
+    sessionStorage.setItem('autoJbRetry', 'false');
+    updateJbStats(0, 1);
+
+    // موفقیت: بدون تأخیر برگرد به صفحه اصلی
+    if (sessionStorage.getItem('autoExploit') === 'true') {
+        sessionStorage.removeItem('autoExploit');
+        window.location.replace('./index.html');
+    }
 }
+
 
 // Taken from Feyzee61's ps4jb
 function getScript(source) {
