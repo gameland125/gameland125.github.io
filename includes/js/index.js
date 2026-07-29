@@ -151,10 +151,11 @@ async function jailbreak() {
   sessionStorage.setItem('autoJbRetry', 'true');
 
   // Skip if payload were chosen, useful when a payload were chosen from payloads.js
-  if (sessionStorage.getItem('payload_path') == (null || undefined)) {
-    // Choose HEN
-    chooseHEN();
-  }
+  const path = sessionStorage.getItem('payload_path');
+if (path == null || path === '') {
+  chooseHEN();
+}
+
 
   cleanUp();
 
