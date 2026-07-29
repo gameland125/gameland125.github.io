@@ -11,6 +11,7 @@ var user = {
   bareboneJB: localStorage.getItem('bareboneJB') === 'true',
   lapseChain: localStorage.getItem('lapseChain') === "true", //Exploit chain method
   blockJailbreak: false,  // Prevent double jailbreak execution
+  jailbreakSuccessDone: false, // Flag: only close browser after successful jailbreak  // Prevent double jailbreak execution
 }
 var autoJbInterval;
 let lastScrollY = 0;
@@ -137,7 +138,6 @@ function sleep(ms = 0) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-
 // Jailbreak-related functions
 async function jailbreak() {
   if (user.platform !== "PS4") return;
@@ -151,10 +151,10 @@ async function jailbreak() {
   sessionStorage.setItem('autoJbRetry', 'true');
 
   // Skip if payload were chosen, useful when a payload were chosen from payloads.js
-  if (sessionStorage.getItem('payload_path') == (null || undefined)) {
-    // Choose HEN
-    chooseHEN();
-  }
+  const path = sessionStorage.getItem('payload_path');
+if (path == null || path === '') {
+  chooseHEN();
+}
 
   cleanUp();
 
@@ -251,13 +251,36 @@ async function badHoistJailbreak() {
 }
 
 function jailbreakSuccess() {
-  if (sessionStorage.getItem('jailbreakNow') == "true" && user.ps4Fw >= 6.70 && user.ps4Fw <= 6.72) {
-    sessionStorage.removeItem('jailbreakNow');
-    localStorage.setItem("userlandOnlyOnJB67x", "false");
-  }
   sessionStorage.setItem('autoJbRetry', 'false');
   updateJbStats(0, 1);
-  setTimeout(() => { window.location.href = "./"; }, 5000);
+  user.jailbreakSuccessDone = true;
+  sessionStorage.setItem('autoJbRetry', 'false');
+  updateJbStats(0, 1);
+  showExitScreen();
+}
+
+function showExitScreen() {
+    document.body.style.background = '#000';
+    document.body.style.margin = '0';
+    document.body.innerHTML = `
+        <div style="
+            display:flex;
+  // Safety: do NOT exit/close during cache install or before jailbreak success
+  if (!user.jailbreakSuccessDone) return;
+
+            align-items:center;
+            justify-content:center;
+            width:100vw;
+            height:100vh;
+            background:#000;
+            color:#fff;
+            font-family:sans-serif;
+            font-size:32px;
+            text-align:center;
+        ">
+            GoldHEN Loaded<br>اکنون از مرورگر خارج شوید
+        </div>
+    `;
 }
 
 // Taken from Feyzee61's ps4jb
@@ -441,32 +464,23 @@ function DisplayCacheProgress() {
   }, 2000);
 }
 
-function showExitScreen() {
-  document.body.style.background = '#000';
-  document.body.style.margin = '0';
-  document.body.innerHTML = `
-    <div style="color:#fff;text-align:center;font-size:26px;margin-top:50px">
-      GoldHEN Loaded<br>در حال خروج...
-    </div>
-  `;
+function terminateCache() {
+  if (window.applicationCache) {
+    // Status 3 is 'downloading', Status 1 is 'checking'
+    if (window.applicationCache.status === 3 || window.applicationCache.status === 1) {
+      console.log("Terminating cache process to save memory...");
+      window.applicationCache.abort();
 
-  // اگر در حال نصب/دانلود کش آفلاین هستیم، کلوز نکن
-  try {
-    if (window.applicationCache &&
-        (applicationCache.status === applicationCache.CHECKING ||
-         applicationCache.status === applicationCache.DOWNLOADING)) {
-      return;
+      // restore title
+      document.title = window.lang.title || "PSFree Enhanced";
+
+      // cleanup
+      window.applicationCache.removeEventListener("progress", DLProgress);
+      window.applicationCache.oncached = null;
+      window.applicationCache.onupdateready = null;
     }
-  } catch (e) {}
-
-  // فقط بعد از موفقیت جیلبریک کلوز کن
-  setTimeout(() => {
-    window.open('', '_self', '');
-    window.close();
-  }, 2000);
+  }
 }
-
-
 
 function setAdvancedPayloads(inputState) {
   // Update variable/localstorage value
@@ -661,7 +675,6 @@ function cleanUp() {
   if (ui.payloadsList) {
     ui.payloadsList.innerHTML = '';
   }
-
 
   // Wipe individual refs
   const toDestroy = [
