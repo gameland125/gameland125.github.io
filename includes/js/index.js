@@ -374,14 +374,8 @@ async function loadSettings() {
     loadAdvancedPayloads();
     loadLastTab();
     loadGoldHENVer();
-    if (typeof ensurePayloadPath === "function") ensurePayloadPath();
-    const __startAutoJb = () => autoJailbreak();
-    if (window.cacheGate && typeof cacheGate.whenReady === 'function') {
-        cacheGate.whenReady(__startAutoJb);
-    } else {
-        __startAutoJb();
-    }
-updateBareboneJB();
+    autoJailbreak();
+    updateBareboneJB();
     loadLapseChain();
     userlandOnlyOnJB67x();
   } catch (e) {
