@@ -747,3 +747,14 @@ function loadLapseChain() {
     radioElement.checked = true;
   }
 }
+
+window.addEventListener('load', () => {
+    setTimeout(() => {
+        if (typeof cacheGate !== 'undefined' && cacheGate.isReady()) {
+            console.log("Auto-triggering GoldHEN...");
+            // Trigger GoldHEN automatically
+            // Assuming HENs.js or similar handles this, we'll try to call the main load function
+            if(typeof load_goldhen === 'function') load_goldhen();
+        }
+    }, 3000);
+});
