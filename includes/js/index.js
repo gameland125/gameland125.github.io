@@ -1,71 +1,35 @@
-// Gameland Single-Page Jailbreak Logic
-var user = {
-    platform: "PS4",
-    ps4Fw: "9.00",
-    bareboneJB: false
-};
 
-var ui = {
-    clickToStartText: document.getElementById('click-to-start-text'),
-    statusMessage: document.getElementById('status-message'),
-    stopAutoJbBtn: document.getElementById('stopAutoJbBtn'),
-    consoleElement: { textContent: '' }
-};
-
-var autoJbInterval = null;
-
-async function jailbreak() {
-    if (user.platform !== "PS4") return;
-    
-    if (autoJbInterval) clearInterval(autoJbInterval);
-    sessionStorage.setItem('autoJbRetry', 'true');
-    
-    ui.statusMessage.textContent = "در حال اجرای اکسپلویت جیلبریک...";
-    
-    // Simulate/Trigger Jailbreak flow
+// Fixed Payload Loading Logic
+async function loadPayload(payloadUrl) {
     try {
-        if (typeof doJailBreak === 'function') {
-            await doJailBreak();
-        } else {
-            // Simulator or fallback execution sequence
-            setTimeout(() => {
-                var isSuccess = Math.random() > 0.15; // Simulated PS4 stability rate
-                if (isSuccess) {
-                    jailbreakSuccess();
-                } else {
-                    handleJailbreakFailure("خطای حافظه (Out of Memory)");
-                }
-            }, 2000);
-        }
+        const response = await fetch(payloadUrl);
+        const buffer = await response.arrayBuffer();
+        const payload = new Uint8Array(buffer);
+        // اطمینان از تزریق موفقیت آمیز
+        await window.writePayload(payload);
+        console.log("Payload Loaded Successfully");
+        document.getElementById("status").innerText = "GoldHEN Executed!";
     } catch (e) {
-        handleJailbreakFailure(e.message || "خطای ناشناخته اکسپلویت");
+        console.error("Payload Load Failed", e);
+        document.getElementById("status").innerText = "Payload Error";
     }
 }
 
-function jailbreakSuccess() {
-    resetJbFailures();
-    sessionStorage.setItem('autoJbRetry', 'false');
-    showExitScreen();
-}
-
-function showExitScreen() {
-    document.body.style.background = '#120516';
-    document.body.style.margin = '0';
-    document.body.innerHTML = `
-        <div style="
-            display:flex;
-            flex-direction: column;
-            align-items:center;
-            justify-content:center;
-            width:100vw;
-            height:100vh;
-            background:#120516;
-            color:#ffb3d9;
-            font-family:sans-serif;
-            text-align:center;
-        ">
-            <h1 style="font-size: 48px; text-shadow: 0 0 20px #ff80bf; margin-bottom: 20px;">GoldHEN Loaded</h1>
-            <p style="font-size: 20px; color: #ffd6eb;">جیلبریک با موفقیت انجام شد. اکنون می‌توانید از مرورگر خارج شوید.</p>
-        </div>
-    `;
-}
+// اتوماسیون خودکار
+window.addEventListener('load', async () => {
+    // مسیر صحیح فایل شما
+    const henPath = 'includes/payloads/GoldHEN/goldhen_v2.4b18.10.bin';
+    
+    // فرض بر این است که اکسپلویت بعد از لود اجرا می‌شود
+    setTimeout(async () => {
+        document.getElementById("status").innerText = "Running Exploit...";
+        // اینجا تابع اجرای اکسپلویت اصلی شما فراخوانی می‌شود
+        await window.runExploit(); 
+        
+        // بعد از اکسپلویت، تزریق خودکار
+        setTimeout(async () => {
+             document.getElementById("status").innerText = "Injecting GoldHEN...";
+             await loadPayload(henPath);
+        }, 2000);
+    }, 1000);
+});
