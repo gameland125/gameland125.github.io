@@ -374,23 +374,14 @@ async function loadSettings() {
     loadAdvancedPayloads();
     loadLastTab();
     loadGoldHENVer();
-    try {
-      if (!sessionStorage.getItem('payload_path') && typeof GoldHEN === 'function') GoldHEN();
-    } catch (e) {}
-
-    if (window.cacheGate && typeof window.cacheGate.init === 'function') {
-      try { window.cacheGate.init(); } catch (e) {}
-      window.cacheGate.whenReady(() => {
-        try {
-          if (!sessionStorage.getItem('payload_path') && typeof GoldHEN === 'function') GoldHEN();
-          autoJailbreak();
-        } catch (e) {}
-      });
+    if (typeof ensurePayloadPath === "function") ensurePayloadPath();
+    const __startAutoJb = () => autoJailbreak();
+    if (window.cacheGate && typeof cacheGate.whenReady === 'function') {
+        cacheGate.whenReady(__startAutoJb);
     } else {
-      autoJailbreak();
+        __startAutoJb();
     }
-
-    updateBareboneJB();
+updateBareboneJB();
     loadLapseChain();
     userlandOnlyOnJB67x();
   } catch (e) {

@@ -1,79 +1,47 @@
-// Smart Retry Logic with 3 Failure Modal limit
-const MAX_JB_FAILURES = 3;
-const RETRY_DELAY_SECONDS = 3;
+function setAutoJbRetry(checked) {
+    localStorage.setItem('autoJbRetry', checked);
+    sessionStorage.setItem('autoJbRetry', checked);
 
-function getJbFailures() {
-    return Number(sessionStorage.getItem('jbFailures') || '0');
+    if (!checked) return;
+    if (confirm(window.lang.autoJbRetryConfirm)) {
+        // close settings popup
+        settingsPopup();
+
+        jailbreak();
+    }
 }
 
-function resetJbFailures() {
-    sessionStorage.removeItem('jbFailures');
-}
-
-function recordJbFailure() {
-    const failures = getJbFailures() + 1;
-    sessionStorage.setItem('jbFailures', String(failures));
-    return failures;
-}
-
-function showRetryLimitModal() {
-    const modal = document.getElementById('retry-limit-modal');
-    if (modal) modal.classList.remove('hidden');
-}
-
-function restartAfterRetryLimit() {
-    resetJbFailures();
-    sessionStorage.setItem('autoJbRetry', 'true');
-    const modal = document.getElementById('retry-limit-modal');
-    if (modal) modal.classList.add('hidden');
-    autoJailbreak();
-}
-
-function handleJailbreakFailure(message) {
-    const failures = recordJbFailure();
-    if (failures >= MAX_JB_FAILURES) {
-        showRetryLimitModal();
+// When jailbreak succeds, this will be stopped
+function autoJailbreak() {
+    // used for 6.7x jailbreak when userland is loaded on jailbreak only.
+    if (sessionStorage.getItem('jailbreakNow') == "true") {
+        jailbreak();
         return;
     }
-    
-    ui.statusMessage.textContent = message + " | تلاش مجدد " + failures + " از " + MAX_JB_FAILURES;
-    autoJailbreakTimer();
-}
+    var checked = (localStorage.getItem('autoJbRetry') || 'true') === 'true'; // default to true if not set
+    var sessionChecked = sessionStorage.getItem('autoJbRetry') == 'true';
+    ui.autoJbRetry.checked = checked;
+    // check if supported ps4
+    if (window.ps4Fw < 6.70 || window.ps4Fw > 9.60 || !window.ps4Fw) return;
 
-function autoJailbreak() {
-    var checked = (localStorage.getItem('autoJbRetry') || 'true') === 'true';
-    var sessionChecked = (sessionStorage.getItem('autoJbRetry') || 'true') === 'true';
-
+    // If auto jb is checked and previous jailbreak attempt was unsuccessful, retry jailbreak with a timer
     if (checked && sessionChecked) {
         autoJailbreakTimer();
     }
 }
 
+// localStorage retry value true but no sessionStorage value? use timer.
 function autoJailbreakTimer() {
-    let timer = RETRY_DELAY_SECONDS;
-    ui.stopAutoJbBtn.classList.remove('hidden');
-    ui.clickToStartText.className = 'countdown-text';
-
-    if (autoJbInterval) clearInterval(autoJbInterval);
-    
+    var timer = 3; // Start a longer countdown immediately
+    ui.stopAutoJbBtn.classList.toggle('hidden');
     autoJbInterval = setInterval(() => {
-        ui.clickToStartText.textContent = timer;
-        
+
+        ui.clickToStartText.textContent = window.lang.jailbreakCountDown.replace('{seconds}', timer);
+        ui.clickToStartText.style.fontSize = "15px";
         if (timer <= 0) {
             clearInterval(autoJbInterval);
             jailbreak();
         }
-        timer -= 1;
+        timer--;
     }, 1000);
-}
-
-// Stop functionality
-if (ui.stopAutoJbBtn) {
-    ui.stopAutoJbBtn.addEventListener('click', () => {
-        if (autoJbInterval) clearInterval(autoJbInterval);
-        sessionStorage.setItem('autoJbRetry', 'false');
-        ui.clickToStartText.textContent = "متوقف شد";
-        ui.statusMessage.textContent = "اجرای خودکار متوقف شد. برای شروع دستی صفحه را رفرش کنید.";
-        ui.stopAutoJbBtn.classList.add('hidden');
-    });
 }

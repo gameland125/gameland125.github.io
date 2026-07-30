@@ -60,3 +60,18 @@ function loadJbFlavor() {
         hen2Radio.checked = true;
     }
 }
+
+// Gameland Patch: ensure default payload path is set before auto jailbreak
+function ensurePayloadPath() {
+    try {
+        var p = sessionStorage.getItem('payload_path');
+        if (p == null || p === '') {
+            // prefer existing chooser logic
+            if (typeof chooseHEN === 'function') {
+                chooseHEN();
+            } else if (typeof GoldHEN === 'function') {
+                GoldHEN();
+            }
+        }
+    } catch (e) {}
+}
