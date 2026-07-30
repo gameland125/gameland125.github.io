@@ -1,23 +1,40 @@
 
+:root {
+    --main-bg: #1a0b14;
+    --accent-color: #ff00ff;
+    --text-color: #ffffff;
+    --border-color: #ff00ff;
+    --glow: 0 0 10px #ff00ff, 0 0 20px #ff00ff;
+}
 body {
-    background: linear-gradient(135deg, #1a0a16 0%, #3d0a2d 100%) !important;
+    background: var(--main-bg);
+    color: var(--text-color);
+    font-family: sans-serif;
+    text-align: center;
+    padding: 20px;
 }
-#initial-screen.compact {
-    background-color: #2a0d22 !important;
+.header {
+    font-size: 3rem;
+    color: var(--accent-color);
+    text-shadow: var(--glow);
+    margin-bottom: 20px;
 }
-#ps-logo {
-    fill: #ff4fa3 !important;
-}
-input[type="radio"]:checked {
-    background: #ff4fa3 !important;
-    border-color: #ff4fa3 !important;
-}
-.fwSelected {
-    background-color: #ff4fa3 !important;
-    color: white !important;
+.contact-info {
+    font-size: 1.5rem;
+    color: #ff99cc;
+    margin-bottom: 40px;
 }
 button {
-    background: #ff4fa3 !important;
-    color: white !important;
-    font-weight: bold !important;
+    background: transparent;
+    border: 2px solid var(--accent-color);
+    color: var(--accent-color);
+    padding: 20px 40px;
+    font-size: 2rem;
+    cursor: pointer;
+    text-shadow: var(--glow);
+    box-shadow: var(--glow);
+}
+button:hover {
+    background: var(--accent-color);
+    color: #000;
 }
