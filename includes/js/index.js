@@ -1,14 +1,4 @@
-
-  // Empty payloads sections
-  if (ui.payloadsList) {
-    ui.payloadsList.innerHTML = '';
-  }
-
-  // Wipe individual refs
-  const toDestroy = [
-    'settingsBtn', 'aboutBtn', 'initialScreen', 'chooseGoldHEN',
-    'psLogoContainer', 'clickToStartText',
-    'ps4FwStatus', '// @ts-nocheck
+// @ts-nocheck
 var user = {
   currentLanguage: localStorage.getItem('language') || 'fa',
   currentJbFlavor: localStorage.getItem('jailbreakFlavor') || 'GoldHEN',
@@ -21,7 +11,7 @@ var user = {
   bareboneJB: localStorage.getItem('bareboneJB') === 'true',
   lapseChain: localStorage.getItem('lapseChain') === "true", //Exploit chain method
   blockJailbreak: false,  // Prevent double jailbreak execution
-  jailbreakSuccessDone: false, // Flag: only close browser after successful jailbreak  // Prevent double jailbreak execution
+  jailbreakSuccessDone: false, // flag: only true after real jailbreak success
 }
 var autoJbInterval;
 let lastScrollY = 0;
@@ -148,6 +138,7 @@ function sleep(ms = 0) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
+
 // Jailbreak-related functions
 async function jailbreak() {
   if (user.platform !== "PS4") return;
@@ -165,6 +156,7 @@ async function jailbreak() {
 if (path == null || path === '') {
   chooseHEN();
 }
+
 
   cleanUp();
 
@@ -261,37 +253,47 @@ async function badHoistJailbreak() {
 }
 
 function jailbreakSuccess() {
-  sessionStorage.setItem('autoJbRetry', 'false');
-  updateJbStats(0, 1);
   user.jailbreakSuccessDone = true;
   sessionStorage.setItem('autoJbRetry', 'false');
   updateJbStats(0, 1);
   showExitScreen();
 }
 
+
 function showExitScreen() {
+  // Silent during cache/offline install or any non-success path
+  if (!user.jailbreakSuccessDone) return;
+
+  // Minimal UI only when GoldHEN is actually loaded
+  try {
     document.body.style.background = '#000';
     document.body.style.margin = '0';
     document.body.innerHTML = `
-        <div style="
-            display:flex;
-  // Safety: do NOT exit/close during cache install or before jailbreak success
-  if (!user.jailbreakSuccessDone) return;
-
-            align-items:center;
-            justify-content:center;
-            width:100vw;
-            height:100vh;
-            background:#000;
-            color:#fff;
-            font-family:sans-serif;
-            font-size:32px;
-            text-align:center;
-        ">
-            GoldHEN Loaded<br>اکنون از مرورگر خارج شوید
-        </div>
+      <div style="
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        width:100vw;
+        height:100vh;
+        background:#000;
+        color:#fff;
+        font-family:sans-serif;
+        font-size:34px;
+        font-weight:700;
+        text-align:center;
+        letter-spacing:0.5px;
+      ">
+        در حال اجرای GoldHEN...
+      </div>
     `;
+  } catch (e) {}
 }
+
+
+
+
+
+
 
 // Taken from Feyzee61's ps4jb
 function getScript(source) {
@@ -492,6 +494,7 @@ function terminateCache() {
   }
 }
 
+
 function setAdvancedPayloads(inputState) {
   // Update variable/localstorage value
   user.advancedPayloads = inputState;
@@ -637,7 +640,61 @@ function shutdownServer() {
 }
 
 /**
- * A Function to add an attempt and/or a succe', 'payloadsSection', 'payloadsList', 'payloadsSectionTitle',
+ * A Function to add an attempt and/or a success exploit and update the localStorage.
+ * @param {boolean} attemp - Set to true if a jailbreak attempt was made.
+ * @param {boolean} isSuccess - Set to true if the jailbreak was successful.
+ * - Set both to false will only update the stats, useful when reloading the page.
+ */
+function updateJbStats(attemp, isSuccess) {
+  let total = parseInt(localStorage.getItem('jbTotal') || 0);
+  let success = parseInt(localStorage.getItem('jbSuccess') || 0);
+
+  if (attemp) {
+    total++;
+    localStorage.setItem('jbTotal', total);
+  }
+  if (isSuccess) {
+    success++;
+    localStorage.setItem('jbSuccess', success);
+  }
+
+  // Update UI element if present, useful for the case of exploit.html not having the ui element.
+  if (ui.successRateText && window.lang) {
+    let rate = ((success / total) * 100).toFixed(0);
+    rate = isNaN(rate) ? "0" : rate; // Handle NaN case when total is 0
+    ui.successRateText.textContent = (window.lang.successRate || "Success Rate: ") + rate + "%" + ` (${success}/${total})`;
+  }
+}
+
+function clearStats() {
+  if (!confirm(window.lang.clearStatsConfirm)) return;
+  localStorage.removeItem('jbTotal');
+  localStorage.removeItem('jbSuccess');
+  ui.successRateText.textContent = window.lang.successRate + "0% (0/0)";
+}
+
+// A try to free up some memory to improve success rate
+function cleanUp() {
+  // terminateCache(); Still not sure if this drops the success rate and makes more crashes
+  if (!window.ps4Fw) return;
+
+  // Stop auto-jailbreak counter
+  if (autoJbInterval) {
+    clearInterval(autoJbInterval);
+    autoJbInterval = null;
+  }
+
+  // Empty payloads sections
+  if (ui.payloadsList) {
+    ui.payloadsList.innerHTML = '';
+  }
+
+
+  // Wipe individual refs
+  const toDestroy = [
+    'settingsBtn', 'aboutBtn', 'initialScreen', 'chooseGoldHEN',
+    'psLogoContainer', 'clickToStartText',
+    'ps4FwStatus', 'stopAutoJbBtn', 'payloadsSection', 'payloadsList', 'payloadsSectionTitle',
     'ps4IpInput', 'ps4FwSelect', 'scanGoldHENPayLoader', 'shutdownServerBtn',
     'aboutPopup', 'settingsPopup', 'chooseFanThreshold', 'autoJbRetry', 'chooselang',
     'toolsSection', 'toolsTab', 'linuxSection', 'linuxTab', 'advancedPayloadsSection', 'advancedPayloadsTab',
