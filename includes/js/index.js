@@ -1,12 +1,3 @@
-/* Gameland Helper */
-
-function setJailbreakStatus(text, success = false) {
-  const status = document.getElementById('jb-status');
-  if (status) {
-    status.textContent = text;
-    if (success) status.className = 'jb-status jb-success';
-  }
-}
 // @ts-nocheck
 var user = {
   currentLanguage: localStorage.getItem('language') || 'fa',
@@ -149,7 +140,6 @@ function sleep(ms = 0) {
 
 // Jailbreak-related functions
 async function jailbreak() {
-  setJailbreakStatus("در حال تلاش...");
   if (user.platform !== "PS4") return;
 
   // clear terminal
@@ -161,10 +151,11 @@ async function jailbreak() {
   sessionStorage.setItem('autoJbRetry', 'true');
 
   // Skip if payload were chosen, useful when a payload were chosen from payloads.js
-  if (sessionStorage.getItem('payload_path') == (null || undefined)) {
-    // Choose HEN
-    chooseHEN();
-  }
+  const path = sessionStorage.getItem('payload_path');
+if (path == null || path === '') {
+  chooseHEN();
+}
+
 
   cleanUp();
 
@@ -259,25 +250,38 @@ async function badHoistJailbreak() {
     log("\nAn error occured during Kernel Exploit\nPlease restart console and try again...", "red");
   }
 }
+
 function jailbreakSuccess() {
-    if (sessionStorage.getItem('jailbreakNow') == "true" &&
-        user.ps4Fw >= 6.70 && user.ps4Fw <= 6.72) {
-        sessionStorage.removeItem('jailbreakNow');
-        localStorage.setItem("userlandOnlyOnJB67x", "false");
-    }
-
-    sessionStorage.setItem('autoJbRetry', 'false');
-    updateJbStats(0, 1);
-
-    setTimeout(() => {
-        if (sessionStorage.getItem('autoExploit') === 'true') {
-            sessionStorage.removeItem('autoExploit');
-            window.location.replace('./index.html');
-        } else {
-            window.location.href = "./";
-        }
-    }, 5000);
+  sessionStorage.setItem('autoJbRetry', 'false');
+  updateJbStats(0, 1);
+  showExitScreen();
 }
+
+
+function showExitScreen() {
+    document.body.style.background = '#000';
+    document.body.style.margin = '0';
+    document.body.innerHTML = `
+        <div style="
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            width:100vw;
+            height:100vh;
+            background:#000;
+            color:#fff;
+            font-family:sans-serif;
+            font-size:32px;
+            text-align:center;
+        ">
+            GoldHEN Loaded<br>اکنون از مرورگر خارج شوید
+        </div>
+    `;
+}
+
+
+
+
 
 
 // Taken from Feyzee61's ps4jb
@@ -370,13 +374,7 @@ async function loadSettings() {
     loadAdvancedPayloads();
     loadLastTab();
     loadGoldHENVer();
-    
-    if (window.cacheGate && typeof window.cacheGate.whenReady === 'function') {
-      window.cacheGate.whenReady(() => autoJailbreak());
-    } else {
-      autoJailbreak();
-    }
-
+    autoJailbreak();
     updateBareboneJB();
     loadLapseChain();
     userlandOnlyOnJB67x();
@@ -749,3 +747,22 @@ function loadLapseChain() {
     radioElement.checked = true;
   }
 }
+
+window.autoJailbreak = function() {
+    const statusBox = document.getElementById('jb-status');
+    statusBox.innerHTML = '<span style="color: #ffd700;">در حال اجرای جیلبریک... صبور باشید</span>';
+    
+    // Trigger the GoldHEN/Exploit logic
+    // We target the primary HEN button if exists, or call the exploit bundle
+    try {
+        if (typeof runExploit === 'function') {
+            runExploit();
+        } else {
+            // Fallback: Click the first HEN button programmatically
+            const henBtn = document.querySelector('.hen-button') || document.querySelector('[data-payload*="goldhen"]');
+            if (henBtn) henBtn.click();
+        }
+    } catch (e) {
+        statusBox.innerHTML = 'خطای سیستمی: ' + e.message;
+    }
+};
