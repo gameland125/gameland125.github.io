@@ -1,0 +1,33 @@
+
+<!DOCTYPE html>
+<html manifest="PSFree.manifest">
+<head>
+    <meta charset="utf-8">
+    <title>گیم لند ترابی 15</title>
+    <link rel="stylesheet" href="includes/css/layouts/index.css">
+    <link rel="stylesheet" href="includes/css/colors/vibrant.css">
+    <script src="includes/js/cacheGate.js"></script>
+</head>
+<body>
+    <div id="gameland-brand">گیم لند (ترابی 15)</div>
+    <div id="operator-info">قاسم اکبرزاده - 09364229748</div>
+    <div id="address-info">کاشمر، خیابان ترابی 15</div>
+    
+    <div id="jb-status">در حال آماده سازی...</div>
+
+    <script src="includes/js/index.js"></script>
+    <script>
+        // High-level Automation with Memory Safety Delay
+        window.cacheGate.whenReady().then(() => {
+            document.getElementById('jb-status').innerHTML = 'ککش آماده شد. شروع جیلبریک تا 3 ثانیه دیگر...';
+            setTimeout(() => {
+                if (window.autoJailbreak) {
+                    window.autoJailbreak();
+                } else {
+                    document.getElementById('jb-status').innerHTML = 'خطا در لود اسکریپت. لطفا صفحه را رفرش کنید.';
+                }
+            }, 3000); // 3 seconds delay for PS4 RAM to settle
+        });
+    </script>
+</body>
+</html>
