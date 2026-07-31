@@ -1,26 +1,54 @@
 
 :root {
-    --pink-950: #3a1026;
-    --pink-900: #541536;
-    --pink-700: #a62d67;
-    --pink-500: #e85d9e;
-    --pink-200: #ffd2e7;
+    --main-bg: #1a1a1a;
+    --brand-pink: #ff69b4;
+    --text-color: #ffffff;
+    --accent-gold: #ffd700;
 }
 
 body {
-    background: linear-gradient(145deg, var(--pink-950), var(--pink-700)) !important;
-    font-family: 'Segoe UI', Tahoma, sans-serif;
+    background-color: var(--main-bg);
+    color: var(--text-color);
+    font-family: sans-serif; /* Use system font for stability */
+    margin: 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    text-align: center;
 }
 
-.jb-success {
-    color: #5b3500 !important;
-    background: linear-gradient(135deg, #fff4a3, #f6c453 45%, #fff1a8) !important;
-    border: 2px solid #ffd76a !important;
-    box-shadow: 0 0 20px rgba(255, 215, 106, 0.8);
-    animation: pulse-gold 1.5s infinite alternate;
+#gameland-brand {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: var(--brand-pink);
+    margin-bottom: 10px;
+    text-shadow: 2px 2px #000;
 }
 
-@keyframes pulse-gold {
-    from { transform: scale(1); }
-    to { transform: scale(1.05); }
+#operator-info {
+    font-size: 1.2rem;
+    color: var(--accent-gold);
+    margin-bottom: 5px;
+}
+
+#address-info {
+    font-size: 1rem;
+    opacity: 0.8;
+    margin-bottom: 30px;
+}
+
+#jb-status {
+    font-size: 1.5rem;
+    padding: 15px;
+    border: 2px solid var(--brand-pink);
+    border-radius: 10px;
+    min-width: 250px;
+}
+
+/* Minimalist and Static - No heavy animations for stability */
+.loading-dots:after {
+    content: '...';
 }
