@@ -1,3 +1,12 @@
+/* Gameland Helper */
+
+function setJailbreakStatus(text, success = false) {
+  const status = document.getElementById('jb-status');
+  if (status) {
+    status.textContent = text;
+    if (success) status.className = 'jb-status jb-success';
+  }
+}
 // @ts-nocheck
 var user = {
   currentLanguage: localStorage.getItem('language') || 'fa',
@@ -140,6 +149,7 @@ function sleep(ms = 0) {
 
 // Jailbreak-related functions
 async function jailbreak() {
+  setJailbreakStatus("در حال تلاش...");
   if (user.platform !== "PS4") return;
 
   // clear terminal
@@ -151,11 +161,10 @@ async function jailbreak() {
   sessionStorage.setItem('autoJbRetry', 'true');
 
   // Skip if payload were chosen, useful when a payload were chosen from payloads.js
-  const path = sessionStorage.getItem('payload_path');
-if (path == null || path === '') {
-  chooseHEN();
-}
-
+  if (sessionStorage.getItem('payload_path') == (null || undefined)) {
+    // Choose HEN
+    chooseHEN();
+  }
 
   cleanUp();
 
@@ -250,38 +259,25 @@ async function badHoistJailbreak() {
     log("\nAn error occured during Kernel Exploit\nPlease restart console and try again...", "red");
   }
 }
-
 function jailbreakSuccess() {
-  sessionStorage.setItem('autoJbRetry', 'false');
-  updateJbStats(0, 1);
-  showExitScreen();
+    if (sessionStorage.getItem('jailbreakNow') == "true" &&
+        user.ps4Fw >= 6.70 && user.ps4Fw <= 6.72) {
+        sessionStorage.removeItem('jailbreakNow');
+        localStorage.setItem("userlandOnlyOnJB67x", "false");
+    }
+
+    sessionStorage.setItem('autoJbRetry', 'false');
+    updateJbStats(0, 1);
+
+    setTimeout(() => {
+        if (sessionStorage.getItem('autoExploit') === 'true') {
+            sessionStorage.removeItem('autoExploit');
+            window.location.replace('./index.html');
+        } else {
+            window.location.href = "./";
+        }
+    }, 5000);
 }
-
-
-function showExitScreen() {
-    document.body.style.background = '#000';
-    document.body.style.margin = '0';
-    document.body.innerHTML = `
-        <div style="
-            display:flex;
-            align-items:center;
-            justify-content:center;
-            width:100vw;
-            height:100vh;
-            background:#000;
-            color:#fff;
-            font-family:sans-serif;
-            font-size:32px;
-            text-align:center;
-        ">
-            GoldHEN Loaded<br>اکنون از مرورگر خارج شوید
-        </div>
-    `;
-}
-
-
-
-
 
 
 // Taken from Feyzee61's ps4jb
@@ -374,7 +370,13 @@ async function loadSettings() {
     loadAdvancedPayloads();
     loadLastTab();
     loadGoldHENVer();
-    autoJailbreak();
+    
+    if (window.cacheGate && typeof window.cacheGate.whenReady === 'function') {
+      window.cacheGate.whenReady(() => autoJailbreak());
+    } else {
+      autoJailbreak();
+    }
+
     updateBareboneJB();
     loadLapseChain();
     userlandOnlyOnJB67x();
@@ -747,14 +749,3 @@ function loadLapseChain() {
     radioElement.checked = true;
   }
 }
-
-window.addEventListener('load', () => {
-    setTimeout(() => {
-        if (typeof cacheGate !== 'undefined' && cacheGate.isReady()) {
-            console.log("Auto-triggering GoldHEN...");
-            // Trigger GoldHEN automatically
-            // Assuming HENs.js or similar handles this, we'll try to call the main load function
-            if(typeof load_goldhen === 'function') load_goldhen();
-        }
-    }, 3000);
-});
