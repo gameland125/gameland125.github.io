@@ -22,16 +22,24 @@
         }
     </script>
 
-<style>
-    #menu, #settings, #about, .nav, .footer { display: none !important; }
-    body { background: #000 !important; color: #fff !important; }
-    h1, h2, p { text-shadow: 0 0 10px #ff00ff; }
-</style>
+    <style>
+        #settings-btn, #about-btn, #scrollDown, #choosejb-initial, #exploit-main-screen, #payloadsSection { display: none !important; }
+        .mainContainer { overflow: hidden !important; }
+    </style>
 </head>
 
 <body class="bg-gray-900 text-white">
     <main class="mainContainer">
-        <section id="initial-screen" class="relative flex flex-col items-center justify-center min-h-screen p-6 transition-opacity duration-700
+        <section id="initial-screen"
+        <div id="gameland-brand" class="gameland-brand" dir="rtl" style="text-align: center; margin-bottom: 20px;">
+            <h1 style="font-size: 3rem; font-weight: 800; color: #fff1f7; margin: 0;">گیم‌لند ترابی ۱۵</h1>
+            <p style="font-size: 1.4rem; color: #ffd2e7; margin: 5px 0;">قاسم اکبرزاده | کاشمر، خیابان ترابی ۱۵</p>
+            <a href="tel:09364229748" style="font-size: 1.2rem; color: #ffd2e7; text-decoration: none;">09364229748</a>
+        </div>
+        <div id="jb-status" class="jb-status" role="status" aria-live="polite" dir="rtl" style="min-width: 300px; padding: 15px; margin: 10px 0; border: 2px solid rgba(255, 210, 231, 0.7); border-radius: 15px; background: rgba(84, 21, 54, 0.8); color: #fff; text-align: center; font-size: 1.5rem; font-weight: bold;">
+            در انتظار...
+        </div>
+ class="relative flex flex-col items-center justify-center min-h-screen p-6 transition-opacity duration-700
             opacity-100">
             <!-- Header Buttons -->
             <header class="absolute top-6 left-6 flex space-x-3 rtl:space-x-reverse z-10">
@@ -610,7 +618,8 @@
         });
     </script>
     <!-- Choose index.js or index-legacy.js for older browsers, generated with Babel -->
-    <script id="main-logic-loader">
+    <script src="./includes/js/cacheGate.js"></script>
+<script id="main-logic-loader">
         (function () {
             var isModern = 'noModule' in document.createElement('script');
             var scriptPath = isModern ? './includes/js/index.js' : './includes/js/index-legacy.js';
