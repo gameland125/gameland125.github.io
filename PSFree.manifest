@@ -1,6 +1,6 @@
 CACHE MANIFEST
 # PSFree V9 offline cache - fixed GoldHEN path
-# Version: Gameland-Torabi-v9.0x-Auto
+# Version: 2026-08-01-gameland-torabi-fix
 
 CACHE:
 index.html
@@ -14,10 +14,10 @@ includes/js/autoJbRetry.js
 includes/js/checkFw.js
 includes/js/design.js
 includes/js/events.js
+includes/js/cacheGate.js
 includes/js/exploits/bundle.js
 includes/js/index-legacy.js
 includes/js/index.js
-includes/js/cacheGate.js
 includes/js/language.js
 includes/js/languages/ar.js
 includes/js/languages/en.js

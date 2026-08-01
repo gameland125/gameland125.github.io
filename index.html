@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-    <title>PSFree Enhanced</title>
+    <title>Gameland Torabi Offline PWA</title>
     <meta name="description" content="A feature rich PS4 exploit host"/>
     <meta name="author" content="ArabPixel">
     <meta name="keywords" content="PS4, PlayStation 4, webkit exploit, jailbreak, psfree lapse">
@@ -21,18 +21,11 @@
             document.getElementById('color-stylesheet').setAttribute('href', './includes/css/colors/' + savedColor + '.css');
         }
     </script>
-
-<style>
-body { background-color: #1a1a1a; color: #ff69b4; font-family: sans-serif; font-size: 1.2em; text-align: center; }
-.footer-branding { position: fixed; bottom: 10px; width: 100%; font-size: 0.8em; color: #ff1493; border-top: 1px solid #ff69b4; padding-top: 5px; }
-.btn { border: 2px solid #ff69b4 !important; color: #ff69b4 !important; font-weight: bold; }
-</style>
-
 </head>
 
-<body class="bg-gray-900 text-white">
-    <main class="mainContainer">
-        <section id="initial-screen" class="relative flex flex-col items-center justify-center min-h-screen p-6 transition-opacity duration-700
+<body class="bg-gray-200 text-gray-900">
+    <main class="mainContainer"><div class="brand-banner">گیم‌لند ترابی / قاسم اکبرزاده / کاشمر، خیابان ترابی ۱۵</div>
+        <section id="initial-screen" data-brand="gameland-torabi" class="relative flex flex-col items-center justify-center min-h-screen p-6 transition-opacity duration-700
             opacity-100">
             <!-- Header Buttons -->
             <header class="absolute top-6 left-6 flex space-x-3 rtl:space-x-reverse z-10">
@@ -72,7 +65,7 @@ body { background-color: #1a1a1a; color: #ff69b4; font-family: sans-serif; font-
                     </svg>
                 </div>
             </button>
-            <h3 class="text-white/70 text-lg mt-4" id="click-to-start-text">Click to start</h3>
+            <h3 class="text-white/70 text-lg mt-4" id="click-to-start-text">گیم‌لند ترابی / قاسم اکبرزاده / کاشمر، خیابان ترابی ۱۵">Click to start</h3>
             <button onclick="clearInterval(autoJbInterval);"
                 class="hidden mt-2 bg-red-600 hover:bg-red-700 p-3 rounded font-semibold transition-colors"
                 id="stopAutoJb">
@@ -317,7 +310,7 @@ body { background-color: #1a1a1a; color: #ff69b4; font-family: sans-serif; font-
     <div class="fixed inset-0 bg-black/50 z-50 flex backdrop-blur-sm items-center justify-center p-4 hidden"
         id="about-popup-overlay">
         <div id="about-popup" class="bg-gray-800 p-6 rounded-lg shadow-xl w-full max-w-md">
-            <h2 class="text-2xl font-bold">About PSFree Enhanced</h2>
+            <h2 class="text-2xl font-bold">About گیم‌لند ترابی</h2>
             <div class="space-y-2 text-white/80">
                 <p>Version: 2.0</p>
                 <p>A web interface to jailbreak your PS4 using PSFree chained with Lapse kernel exploit</p>
@@ -626,12 +619,6 @@ body { background-color: #1a1a1a; color: #ff69b4; font-family: sans-serif; font-
     <script src="./includes/js/checkFw.js"></script>
     <script src="./includes/js/autoJbRetry.js"></script>
     <script src="./includes/js/events.js"></script>
-
-<div class="footer-branding">
-    گیم‌لند ترابی - قاسم اکبرزاده<br>
-    کاشمر، خیابان ترابی ۱۵ - ۰۹۳۶۴۲۲۹۷۴۸
-</div>
 </body>
-
 
 </html>
