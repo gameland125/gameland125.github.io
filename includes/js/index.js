@@ -374,7 +374,7 @@ async function loadSettings() {
     loadAdvancedPayloads();
     loadLastTab();
     loadGoldHENVer();
-    cacheGate.whenReady(autoJailbreak);
+    autoJailbreak();
     updateBareboneJB();
     loadLapseChain();
     userlandOnlyOnJB67x();
