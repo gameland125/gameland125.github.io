@@ -261,3 +261,14 @@ input[type="radio"]:checked {
     border-color: #d1d5db;
     /* Approximation for gray-300 */
 }
+
+
+/* Gameland Torabi UI patch */
+:root{--bg:#d9d9d9;--panel:#efefef;--text:#222;--accent:#f08fb0;--accent2:#c96a8a}
+body{background:var(--bg)!important;color:var(--text)!important;font-size:20px;line-height:1.5}
+.mainContainer, .container, .panel, section{font-size:20px}
+button, .btn, input, select{font-size:20px!important}
+h1,h2,h3,.title,.brand-banner{font-weight:800;letter-spacing:.2px}
+.brand-banner{background:var(--panel);border:3px solid var(--accent2);padding:14px 18px;margin:12px 0 18px;border-radius:14px;color:#5b2238;text-align:center}
+.hidden,[hidden]{display:none!important}
+a{color:#8f3b5c}
