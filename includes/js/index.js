@@ -374,7 +374,7 @@ async function loadSettings() {
     loadAdvancedPayloads();
     loadLastTab();
     loadGoldHENVer();
-    autoJailbreak();
+    cacheGate.whenReady(autoJailbreak);
     updateBareboneJB();
     loadLapseChain();
     userlandOnlyOnJB67x();
@@ -747,22 +747,3 @@ function loadLapseChain() {
     radioElement.checked = true;
   }
 }
-
-window.autoJailbreak = function() {
-    const statusBox = document.getElementById('jb-status');
-    statusBox.innerHTML = '<span style="color: #ffd700;">در حال اجرای جیلبریک... صبور باشید</span>';
-    
-    // Trigger the GoldHEN/Exploit logic
-    // We target the primary HEN button if exists, or call the exploit bundle
-    try {
-        if (typeof runExploit === 'function') {
-            runExploit();
-        } else {
-            // Fallback: Click the first HEN button programmatically
-            const henBtn = document.querySelector('.hen-button') || document.querySelector('[data-payload*="goldhen"]');
-            if (henBtn) henBtn.click();
-        }
-    } catch (e) {
-        statusBox.innerHTML = 'خطای سیستمی: ' + e.message;
-    }
-};
