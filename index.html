@@ -1,52 +1,38 @@
 
 <!DOCTYPE html>
-<html manifest="PSFree.manifest">
+<html lang="fa" dir="rtl">
 <head>
-    <meta charset="utf-8">
-    <title>GAMELAND | گیم‌لند ترابی</title>
-    <link rel="stylesheet" href="includes/css/layouts/index.css">
+    <meta charset="UTF-8">
+    <title>Gameland - PS4 Exploit Host</title>
     <style>
-        
-body { background: #000; color: #ff00ff; font-family: sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; margin: 0; }
-#status-container { border: 2px solid #ff00ff; padding: 30px; border-radius: 15px; width: 80%; text-align: center; background: rgba(26, 26, 26, 0.9); box-shadow: 0 0 20px #ff00ff; }
-.progress-bar-bg { width: 100%; height: 20px; background: #333; border-radius: 10px; margin: 20px 0; overflow: hidden; }
-.progress-bar-fill { height: 100%; background: #ff00ff; width: 0%; transition: width 0.3s; }
-.branding { margin-top: 30px; color: #fff; font-size: 1.2em; }
-h1 { font-size: 3em; color: #ff00ff; text-shadow: 0 0 10px #ff00ff; }
-.hidden { display: none; }
-
+        body { margin: 0; padding: 0; background: #000; color: #fff; text-align: center; font-family: 'Tahoma', sans-serif; }
+        .container { padding: 20px; border: 2px solid #ff00aa; margin: 20px; border-radius: 15px; }
+        .branding { color: #ff00aa; font-weight: bold; margin-bottom: 20px; }
+        .progress-container { width: 80%; margin: 20px auto; background: #333; height: 30px; border-radius: 15px; overflow: hidden; }
+        #progress-bar { width: 0%; height: 100%; background: #ff00aa; transition: width 0.5s; }
+        #goldhen-btn { background: #ff00aa; color: white; padding: 15px 30px; border: none; border-radius: 10px; cursor: pointer; font-size: 1.2em; margin-top: 20px; }
     </style>
 </head>
 <body>
-    <div id="status-container">
+    <div class="container">
         <h1>GAMELAND</h1>
-        <div id="msgs" style="font-size: 1.5em; margin-bottom: 10px;">لطفاً منتظر بمانید...</div>
-        <div class="progress-bar-bg"><div id="progress" class="progress-bar-fill"></div></div>
-        <div id="perc">0%</div>
+        <div class="branding">قاسم اکبرزاده | کاشمر، خیابان ترابی ۱۵ | 09364229748</div>
+        <div id="loading-overlay">
+            <p>لطفاً منتظر بمانید تا کش نصب شود...</p>
+            <div class="progress-container"><div id="progress-bar"></div></div>
+            <div id="perc">0%</div>
+        </div>
+        <button id="goldhen-btn" style="display:none;" onclick="runGoldHEN()">اجرای GoldHEN</button>
     </div>
-    
-    <div class="branding">
-        <p>گیم‌لند ترابی | قاسم اکبرزاده</p>
-        <p>کاشمر، خیابان ترابی ۱۵ | 09364229748</p>
-    </div>
-
-    <!-- Scripts kept exactly as per stable build -->
-    <script src="includes/js/index.js"></script>
-    <script src="includes/js/autoJbRetry.js"></script>
     <script>
-        // Hooking into existing logic to update our UI
-        const progressBar = document.getElementById('progress');
-        const progressText = document.getElementById('perc');
-        const statusText = document.getElementById('msgs');
-        
-        // This is a minimal wrapper to ensure existing logic updates our new UI elements
-        window.addEventListener('load', () => {
-            // Logic injection to hide/show and update progress
-            const observer = new MutationObserver(() => {
-                // Logic to update bar based on actual host behavior could go here, 
-                // but we keep the stable hooks active.
-            });
-        });
+        // Placeholder for core logic connection
+        function DLProgress(e) {
+            let p = Math.round((e.loaded / e.total) * 100);
+            document.getElementById('progress-bar').style.width = p + '%';
+            document.getElementById('perc').innerText = p + '%';
+            if(p >= 100) document.getElementById('goldhen-btn').style.display = 'inline-block';
+        }
+        window.applicationCache.addEventListener("progress", DLProgress, false);
     </script>
 </body>
 </html>
