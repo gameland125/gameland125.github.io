@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
     <title>Gameland Torabi Offline PWA</title>
     <meta name="description" content="A feature rich PS4 exploit host"/>
-    <meta name="author" content="ArabPixel">
+    <meta name="author" content="GAMELAND / قاسم اکبرزاده">
     <meta name="keywords" content="PS4, PlayStation 4, webkit exploit, jailbreak, psfree lapse">
     <link rel="stylesheet" id="main-stylesheet" href="">
     <link rel="stylesheet" id="color-stylesheet" href="">
@@ -21,6 +21,45 @@
             document.getElementById('color-stylesheet').setAttribute('href', './includes/css/colors/' + savedColor + '.css');
         }
     </script>
+
+<style id="gameland-inline-ui">
+  :root{--gameland-fuchsia:#ff2ea6;--gameland-fuchsia2:#ff4bc1;--gameland-gray:#2b2b31;--gameland-bg:#1a1a1f;}
+  body{background:linear-gradient(180deg,#141418 0%,#1e1e24 100%) !important;color:#f2f2f5 !important;}
+  #initial-screen,#exploit-main-screen{background:transparent !important;}
+  #click-to-start-text,#PS4FW,#successRate,#DebugConsole,#console{color:#f4f4f7 !important;}
+  #exploitRun{background:linear-gradient(180deg,var(--gameland-fuchsia2),var(--gameland-fuchsia)) !important;color:#fff !important;border:0 !important;box-shadow:0 0 0 1px rgba(255,255,255,.08),0 10px 28px rgba(255,46,166,.24) !important;}
+  #settings-btn,#about-btn{opacity:.9;}
+  .cache-progress-overlay{position:fixed;inset:auto 18px 18px 18px;z-index:99999;background:rgba(22,22,28,.92);border:1px solid rgba(255,46,166,.42);border-radius:16px;padding:14px 16px;font-size:20px;line-height:1.4;display:none;box-shadow:0 20px 50px rgba(0,0,0,.35);}
+  .cache-progress-overlay strong{color:var(--gameland-fuchsia2);}
+  .cache-progress-bar{height:10px;background:#3b3b44;border-radius:999px;overflow:hidden;margin-top:10px}
+  .cache-progress-bar > span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--gameland-fuchsia2),var(--gameland-fuchsia));}
+  .gameland-badge{font-weight:700;letter-spacing:.4px}
+  .hide-by-gameland{display:none !important;}
+</style>
+<script>
+  window.DLProgress = window.DLProgress || function(e){
+    try{
+      var box=document.getElementById('gameland-cache-progress');
+      var fill=document.getElementById('gameland-cache-fill');
+      var txt=document.getElementById('gameland-cache-text');
+      if(!box) return;
+      box.style.display='block';
+      var p = (e && e.total) ? Math.max(0, Math.min(100, Math.round((e.loaded/e.total)*100))) : 0;
+      if(fill) fill.style.width=p+'%';
+      if(txt) txt.textContent='در حال آماده‌سازی کش: ' + p + '%';
+    }catch(_){ }
+  };
+  window.DisplayCacheProgress = window.DisplayCacheProgress || function(){
+    try{
+      var box=document.getElementById('gameland-cache-progress');
+      var txt=document.getElementById('gameland-cache-text');
+      var fill=document.getElementById('gameland-cache-fill');
+      if(box) box.style.display='block';
+      if(fill) fill.style.width='100%';
+      if(txt) txt.innerHTML='کش آفلاین آماده است — <strong>اجرای GoldHEN</strong> را بزنید.';
+    }catch(_){ }
+  };
+</script>
 </head>
 
 <body class="bg-gray-200 text-gray-900">
@@ -353,7 +392,7 @@
                     <p>Fire30</p>
                     <p>Al Azif</p>
                     <p>Feyzee61</p>
-                    <p>ArabPixel</p>
+                    <p>GAMELAND / قاسم اکبرزاده</p>
                 </div>
             </div>
 
