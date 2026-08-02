@@ -1,20 +1,20 @@
 #ps-logo {
-    fill: #3b82f6 !important;
+    fill: #ff2ea6 !important;
 }
 
 
 #initial-screen.compact{
-    background-color: #1f2937 !important;
+    background-color: #24242b !important;
 }
 
 input[type="radio"]:checked {
     border: none;
-    background: #3B82F6;
+    background: #ff2ea6;
 }
 
 .fwSelected {
     border-radius: 5px;
-    background-color: #2563eb;
+    background-color: #ff2ea6;
     color: white;
 }
 
@@ -24,7 +24,7 @@ input[type="radio"]:checked {
 
 /* Thumb of the scrollbar */
 ::-webkit-scrollbar-thumb {
-    background: #2563eb;
+    background: #ff2ea6;
     border-radius: 10px;
 }
 
@@ -54,15 +54,15 @@ input[type="radio"]:checked {
 
 /* Background Colors */
 .bg-gray-900 {
-    background-color: #111827;
+    background-color: #1b1b21;
 }
 
 .bg-gray-800 {
-    background-color: #1f2937;
+    background-color: #24242b;
 }
 
 .bg-gray-700 {
-    background-color: #374151;
+    background-color: #383845;
 }
 
 .bg-gray-700\/60 {
@@ -90,8 +90,8 @@ input[type="radio"]:checked {
 }
 
 /* 20% opacity */
-.bg-blue-600 {
-    background-color: #2563eb;
+.bg-fuchsia-600 {
+    background-color: #ff2ea6;
 }
 
 .bg-red-600 {
@@ -140,8 +140,8 @@ input[type="radio"]:checked {
 }
 
 /* For hover states */
-.text-blue-500 {
-    color: #3b82f6;
+.text-fuchsia-500 {
+    color: #ff2ea6;
 }
 
 
@@ -167,8 +167,8 @@ input[type="radio"]:checked {
     border-color: rgba(255, 255, 255, 0.2);
 }
 
-.border-blue-500 {
-    border-color: #3b82f6;
+.border-fuchsia-500 {
+    border-color: #ff2ea6;
 }
 
 .border-yellow-500\/50 {
@@ -184,13 +184,13 @@ input[type="radio"]:checked {
 }
 
 .border-gray-700 {
-    border-color: #374151;
+    border-color: #383845;
 }
 
 
 /* Hover States */
 .hover\:bg-gray-700:hover {
-    background-color: #374151;
+    background-color: #383845;
 }
 
 .hover\:text-white:hover {
@@ -201,7 +201,7 @@ input[type="radio"]:checked {
     background-color: rgba(255, 255, 255, 0.1);
 }
 
-.hover\:bg-blue-700:hover {
+.hover\:bg-fuchsia-700:hover {
     background-color: #1d4ed8;
 }
 
@@ -213,7 +213,7 @@ input[type="radio"]:checked {
     border-color: #d1d5db;
 }
 
-.hover\:bg-blue-500\/40:hover {
+.hover\:bg-fuchsia-500\/40:hover {
     background-color: rgba(59, 130, 246, 0.4);
 }
 
@@ -221,8 +221,8 @@ input[type="radio"]:checked {
 
 
 /* Focus States */
-.focus-within\:border-blue-500:focus-within {
-    border-color: #3b82f6;
+.focus-within\:border-fuchsia-500:focus-within {
+    border-color: #ff2ea6;
 }
 
 .focus\:ring-2:focus {
@@ -230,16 +230,16 @@ input[type="radio"]:checked {
 }
 
 /* Ring effect */
-.focus\:ring-blue-400:focus {
+.focus\:ring-fuchsia-400:focus {
     box-shadow: 0 0 0 2px #60a5fa;
 }
 
 /* Accent Color for Radio/Checkbox */
-.accent-blue-500 {
-    accent-color: #3b82f6;
+.accent-fuchsia-500 {
+    accent-color: #ff2ea6;
 }
 .tabs ul {
-    border-color: #374151;
+    border-color: #383845;
 }
 
 .tabs button {
@@ -251,9 +251,9 @@ input[type="radio"]:checked {
 }
 
 .tabs button[aria-selected="true"] {
-    border-color: #3b82f6;
-    color: #3b82f6;
-    border-bottom: 1px solid #3b82f6;
+    border-color: #ff2ea6;
+    color: #ff2ea6;
+    border-bottom: 1px solid #ff2ea6;
 }
 
 .tabs button:not([aria-selected="true"]):hover {
