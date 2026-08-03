@@ -1,20 +1,20 @@
 #ps-logo {
-    fill: #ff2ea6 !important;
+    fill: #3b82f6 !important;
 }
 
 
 #initial-screen.compact{
-    background-color: #24242b !important;
+    background-color: #1f2937 !important;
 }
 
 input[type="radio"]:checked {
     border: none;
-    background: #ff2ea6;
+    background: #3B82F6;
 }
 
 .fwSelected {
     border-radius: 5px;
-    background-color: #ff2ea6;
+    background-color: #2563eb;
     color: white;
 }
 
@@ -24,7 +24,7 @@ input[type="radio"]:checked {
 
 /* Thumb of the scrollbar */
 ::-webkit-scrollbar-thumb {
-    background: #ff2ea6;
+    background: #2563eb;
     border-radius: 10px;
 }
 
@@ -54,15 +54,15 @@ input[type="radio"]:checked {
 
 /* Background Colors */
 .bg-gray-900 {
-    background-color: #1b1b21;
+    background-color: #111827;
 }
 
 .bg-gray-800 {
-    background-color: #24242b;
+    background-color: #1f2937;
 }
 
 .bg-gray-700 {
-    background-color: #383845;
+    background-color: #374151;
 }
 
 .bg-gray-700\/60 {
@@ -90,8 +90,8 @@ input[type="radio"]:checked {
 }
 
 /* 20% opacity */
-.bg-fuchsia-600 {
-    background-color: #ff2ea6;
+.bg-blue-600 {
+    background-color: #2563eb;
 }
 
 .bg-red-600 {
@@ -140,8 +140,8 @@ input[type="radio"]:checked {
 }
 
 /* For hover states */
-.text-fuchsia-500 {
-    color: #ff2ea6;
+.text-blue-500 {
+    color: #3b82f6;
 }
 
 
@@ -167,8 +167,8 @@ input[type="radio"]:checked {
     border-color: rgba(255, 255, 255, 0.2);
 }
 
-.border-fuchsia-500 {
-    border-color: #ff2ea6;
+.border-blue-500 {
+    border-color: #3b82f6;
 }
 
 .border-yellow-500\/50 {
@@ -184,13 +184,13 @@ input[type="radio"]:checked {
 }
 
 .border-gray-700 {
-    border-color: #383845;
+    border-color: #374151;
 }
 
 
 /* Hover States */
 .hover\:bg-gray-700:hover {
-    background-color: #383845;
+    background-color: #374151;
 }
 
 .hover\:text-white:hover {
@@ -201,7 +201,7 @@ input[type="radio"]:checked {
     background-color: rgba(255, 255, 255, 0.1);
 }
 
-.hover\:bg-fuchsia-700:hover {
+.hover\:bg-blue-700:hover {
     background-color: #1d4ed8;
 }
 
@@ -213,7 +213,7 @@ input[type="radio"]:checked {
     border-color: #d1d5db;
 }
 
-.hover\:bg-fuchsia-500\/40:hover {
+.hover\:bg-blue-500\/40:hover {
     background-color: rgba(59, 130, 246, 0.4);
 }
 
@@ -221,8 +221,8 @@ input[type="radio"]:checked {
 
 
 /* Focus States */
-.focus-within\:border-fuchsia-500:focus-within {
-    border-color: #ff2ea6;
+.focus-within\:border-blue-500:focus-within {
+    border-color: #3b82f6;
 }
 
 .focus\:ring-2:focus {
@@ -230,16 +230,16 @@ input[type="radio"]:checked {
 }
 
 /* Ring effect */
-.focus\:ring-fuchsia-400:focus {
+.focus\:ring-blue-400:focus {
     box-shadow: 0 0 0 2px #60a5fa;
 }
 
 /* Accent Color for Radio/Checkbox */
-.accent-fuchsia-500 {
-    accent-color: #ff2ea6;
+.accent-blue-500 {
+    accent-color: #3b82f6;
 }
 .tabs ul {
-    border-color: #383845;
+    border-color: #374151;
 }
 
 .tabs button {
@@ -251,9 +251,9 @@ input[type="radio"]:checked {
 }
 
 .tabs button[aria-selected="true"] {
-    border-color: #ff2ea6;
-    color: #ff2ea6;
-    border-bottom: 1px solid #ff2ea6;
+    border-color: #3b82f6;
+    color: #3b82f6;
+    border-bottom: 1px solid #3b82f6;
 }
 
 .tabs button:not([aria-selected="true"]):hover {
@@ -262,13 +262,15 @@ input[type="radio"]:checked {
     /* Approximation for gray-300 */
 }
 
-
-/* Gameland Torabi UI patch */
-:root{--bg:#d9d9d9;--panel:#efefef;--text:#222;--accent:#f08fb0;--accent2:#c96a8a}
-body{background:var(--bg)!important;color:var(--text)!important;font-size:20px;line-height:1.5}
-.mainContainer, .container, .panel, section{font-size:20px}
-button, .btn, input, select{font-size:20px!important}
-h1,h2,h3,.title,.brand-banner{font-weight:800;letter-spacing:.2px}
-.brand-banner{background:var(--panel);border:3px solid var(--accent2);padding:14px 18px;margin:12px 0 18px;border-radius:14px;color:#5b2238;text-align:center}
-.hidden,[hidden]{display:none!important}
-a{color:#8f3b5c}
+/* Gameland UI-only fuchsia skin: core logic untouched */
+:root{--gl-bg:#090909;--gl-panel:#171717;--gl-panel2:#242424;--gl-text:#f5f5f5;--gl-muted:#b5b5b5;--gl-pink:#ff1493;--gl-pink2:#ff66c4}
+html,body{background:#090909!important;color:var(--gl-text)!important}
+#initial-screen,#exploit-main-screen{background:#090909!important;color:var(--gl-text)!important}
+#exploit-status-panel,#choosejb-initial,#DebugConsole{background:var(--gl-panel)!important;color:var(--gl-text)!important}
+#DebugConsole{background:#050505!important;border-color:#444!important}
+#ps-logo{fill:var(--gl-pink)!important}
+#exploitRun,#successRate{background:var(--gl-pink)!important;color:#090909!important;border-color:var(--gl-pink)!important;font-weight:800!important}
+#exploitRun:hover,#successRate:hover{background:var(--gl-pink2)!important}
+#settings-btn,#about-btn,#stopAutoJb{display:none!important}
+#exploitRun{display:inline-flex!important;visibility:visible!important;opacity:1!important}
+.gameland-brand{color:var(--gl-pink)!important;text-shadow:0 0 12px #ff149388;font-weight:900}
