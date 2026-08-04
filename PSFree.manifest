@@ -48,3 +48,4 @@ src/send.mjs
 
 NETWORK:
 *
+includes/js/checkCacheAndRun.js
