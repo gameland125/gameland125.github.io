@@ -2,34 +2,188 @@
 <html lang="fa" manifest="PSFree.manifest">
 <head>
     <meta charset="UTF-8">
-    <title>Gameland | گیم‌لند</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>گیم لند - PS4 Exploit</title>
     <style>
-        :root { --accent: #ff00ff; --bg: #000; --text: #fff; }
-        body { background: var(--bg); color: var(--text); font-family: sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; margin: 0; }
-        #exploitRun { background: var(--accent); color: #000; padding: 20px 40px; font-size: 2rem; border: none; cursor: pointer; border-radius: 10px; font-weight: bold; }
-        #branding { margin-top: 20px; text-align: center; color: #888; }
-        #status-area { margin-top: 20px; font-size: 1.5rem; color: var(--accent); }
-        .hidden { display: none; }
+    
+body {
+    background-color: #0b0b0c;
+    color: #e2e2e6;
+    font-family: system-ui, -apple-system, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    direction: rtl;
+    text-align: center;
+}
+.container {
+    width: 90%;
+    max-width: 600px;
+    padding: 30px;
+    background: #121214;
+    border: 1px solid #ff007f;
+    border-radius: 12px;
+    box-shadow: 0 0 20px rgba(255, 0, 127, 0.15);
+}
+h1 {
+    font-size: 2.2rem;
+    color: #ffffff;
+    margin-bottom: 5px;
+    font-weight: 800;
+}
+.brand-name {
+    color: #ff007f;
+    text-shadow: 0 0 8px rgba(255, 0, 127, 0.5);
+}
+.info-text {
+    font-size: 0.9rem;
+    color: #8c8c96;
+    margin-top: 5px;
+    line-height: 1.6;
+}
+#status-area {
+    margin-top: 25px;
+    padding: 15px;
+    background: #18181b;
+    border-radius: 8px;
+    border: 1px solid #27272a;
+}
+.status-title {
+    font-size: 1.1rem;
+    color: #ff007f;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+.progress-bar-container {
+    width: 100%;
+    height: 8px;
+    background-color: #27272a;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-top: 10px;
+}
+.progress-bar-fill {
+    width: 0%;
+    height: 100%;
+    background-color: #ff007f;
+    transition: width 0.3s ease;
+}
+.btn-goldhen {
+    display: inline-block;
+    background-color: #ff007f;
+    color: white;
+    border: none;
+    padding: 12px 35px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 20px;
+    box-shadow: 0 4px 14px rgba(255, 0, 127, 0.4);
+    transition: all 0.2s ease;
+}
+.btn-goldhen:hover {
+    background-color: #e00070;
+    transform: translateY(-2px);
+}
+.hidden {
+    display: none !important;
+}
+
     </style>
 </head>
 <body>
-    <button id="exploitRun">اجرای GoldHEN</button>
-    <div id="status-area"></div>
-    <div id="branding">
-        <h1>گیم‌لند</h1>
-        <p>قاسم اکبرزاده | کاشمر، خیابان ترابی ۱۵</p>
-        <p>09364229748</p>
+    <div class="container">
+        <h1>گیم لند <span class="brand-name">ترابی ۱۵</span></h1>
+        <p class="info-text">مدیریت: قاسم اکبرزاده | تلفن: 09364229748</p>
+        <p class="info-text" style="font-size: 0.8rem;">آدرس: کاشمر، خیابان ترابی ۱۵</p>
+
+        <div id="status-area">
+            <div id="status-title" class="status-title">در حال بررسی وضعیت سیستم...</div>
+            <div id="status-msg" class="info-text">آماده‌سازی لودر آفلاین...</div>
+            <div class="progress-bar-container" id="progress-container">
+                <div class="progress-bar-fill" id="progress-fill"></div>
+            </div>
+        </div>
+
+        <button id="run-btn" class="btn-goldhen hidden" onclick="startJailbreakProcess()">اجرای GoldHEN</button>
     </div>
-    
-    <!-- Scripts (Core loaded from source) -->
-    <script src="includes/js/index.js"></script>
-    <script src="includes/js/cacheGate.js"></script>
-    <script src="includes/js/autoJbRetry.js"></script>
+
+    <!-- Hidden elements required by core layout to prevent JS exceptions -->
+    <div class="hidden">
+        <div id="msgs"></div>
+        <div id="temp"></div>
+        <div id="log"></div>
+        <span id="clickToStartText"></span>
+    </div>
+
     <script>
-        // Minimal logic to trigger GoldHEN
-        document.getElementById('exploitRun').addEventListener('click', () => {
-            if(typeof jailbreak === 'function') jailbreak();
+        // Progress and cache management
+        function DLProgress(e) {
+            var percent = Math.round((e.loaded / e.total) * 100);
+            document.getElementById('status-title').innerText = "در حال ذخیره‌سازی کش آفلاین...";
+            document.getElementById('status-msg').innerText = percent + "% دریافت شد. پس از اتمام، صفحه خودکار بارگذاری می‌شود.";
+            document.getElementById('progress-fill').style.width = percent + "%";
+        }
+
+        function DisplayCacheProgress() {
+            document.getElementById('status-title').innerText = "حافظه پنهان با موفقیت نصب شد!";
+            document.getElementById('status-msg').innerText = "در حال هدایت به صفحه اصلی...";
+            document.getElementById('progress-fill').style.width = "100%";
+            setTimeout(function() {
+                window.location.reload();
+            }, 1500);
+        }
+
+        if (window.applicationCache) {
+            window.applicationCache.addEventListener("progress", DLProgress, false);
+            window.applicationCache.oncached = function (e) { DisplayCacheProgress(); };
+            window.applicationCache.onupdateready = function (e) { DisplayCacheProgress(); };
+        }
+
+        function startJailbreakProcess() {
+            document.getElementById('status-title').innerText = "در حال اجرای جیلبریک...";
+            document.getElementById('status-msg').innerText = "لطفا منتظر بمانید، این فرآیند خودکار است...";
+            document.getElementById('run-btn').classList.add('hidden');
+            if (typeof jailbreak === 'function') {
+                jailbreak();
+            } else {
+                // Fallback to core index.js trigger
+                var evt = new Event('click');
+                var btn = document.getElementById('run-btn');
+                if(btn) btn.dispatchEvent(evt);
+            }
+        }
+
+        // Auto trigger jailbreak on load if cache ready
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                var cacheStatus = window.applicationCache ? window.applicationCache.status : 0;
+                // status 1 = IDLE (cached and ready)
+                if (cacheStatus === 1 || cacheStatus === 4) {
+                    document.getElementById('status-title').innerText = "کش آماده است. در حال اجرای خودکار GoldHEN...";
+                    document.getElementById('progress-container').classList.add('hidden');
+                    startJailbreakProcess();
+                } else {
+                    document.getElementById('run-btn').classList.remove('hidden');
+                }
+            }, 1000);
         });
     </script>
+
+    <!-- Core Exploit Loaders (strictly untouched logic) -->
+    <script src="includes/payloads/payloads.js"></script>
+    <script src="includes/js/payloadsList.js"></script>
+    <script src="includes/js/design.js"></script>
+    <script src="includes/js/language.js"></script>
+    <script src="includes/js/HENs.js"></script>
+    <script src="includes/js/checkFw.js"></script>
+    <script src="includes/js/autoJbRetry.js"></script>
+    <script src="includes/js/events.js"></script>
+    <script type="module" src="index.js"></script>
 </body>
 </html>
