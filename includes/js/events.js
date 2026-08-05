@@ -21,18 +21,59 @@ ui.mainContainer.addEventListener('scroll', () => {
 
 // Launch jailbreak
 ui.exploitRunBtn.addEventListener('click', () => {
-    if (user.blockJailbreak) return;
-    user.blockJailbreak = true;
-    chooseHEN();
-    jailbreak();
+    autoStartExploit();
 });
 
-ui.psLogoContainer.addEventListener('click', () => {
+
+// تابع اجرای اصلی
+function autoStartExploit() {
     if (user.blockJailbreak) return;
     user.blockJailbreak = true;
-    chooseHEN();
-    jailbreak();
+    sessionStorage.setItem('autoExploit', 'true');
+    if (typeof chooseHEN === 'function') chooseHEN();
+    if (typeof jailbreak === 'function') jailbreak();
+}
+
+
+// گوش دادن به کلیک دستی
+ui.psLogoContainer.addEventListener('click', () => {
+    autoStartExploit();
 });
+
+
+
+// منطق اجرای خودکار فقط بعد از آماده شدن کش
+function checkCacheAndRun() {
+    if (window.applicationCache) {
+        if (
+            window.applicationCache.status === window.applicationCache.IDLE ||
+            window.applicationCache.status === window.applicationCache.UPDATEREADY
+        ) {
+            setTimeout(autoStartExploit, 2000);
+        } else if (
+            window.applicationCache.status === window.applicationCache.DOWNLOADING ||
+            window.applicationCache.status === window.applicationCache.CHECKING
+        ) {
+            window.applicationCache.addEventListener('noupdate', () => {
+                setTimeout(autoStartExploit, 2000);
+            }, { once: true });
+
+            window.applicationCache.addEventListener('cached', () => {
+                setTimeout(autoStartExploit, 2000);
+            }, { once: true });
+
+            window.applicationCache.addEventListener('updateready', () => {
+                setTimeout(autoStartExploit, 2000);
+            }, { once: true });
+        }
+    } else {
+        setTimeout(autoStartExploit, 2000);
+    }
+}
+
+checkCacheAndRun();
+
+
 
 // tabs switching
 ui.toolsTab.addEventListener('click', () => {

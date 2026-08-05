@@ -249,16 +249,26 @@ async function badHoistJailbreak() {
     log("\nAn error occured during Kernel Exploit\nPlease restart console and try again...", "red");
   }
 }
-
 function jailbreakSuccess() {
-  if (sessionStorage.getItem('jailbreakNow') == "true" && user.ps4Fw >= 6.70 && user.ps4Fw <= 6.72) {
-    sessionStorage.removeItem('jailbreakNow');
-    localStorage.setItem("userlandOnlyOnJB67x", "false");
-  }
-  sessionStorage.setItem('autoJbRetry', 'false');
-  updateJbStats(0, 1);
-  window.location.replace("./index.html");
+    if (sessionStorage.getItem('jailbreakNow') == "true" &&
+        user.ps4Fw >= 6.70 && user.ps4Fw <= 6.72) {
+        sessionStorage.removeItem('jailbreakNow');
+        localStorage.setItem("userlandOnlyOnJB67x", "false");
+    }
+
+    sessionStorage.setItem('autoJbRetry', 'false');
+    updateJbStats(0, 1);
+
+    setTimeout(() => {
+        if (sessionStorage.getItem('autoExploit') === 'true') {
+            sessionStorage.removeItem('autoExploit');
+            window.location.replace('./index.html');
+        } else {
+            window.location.href = "./";
+        }
+    }, 5000);
 }
+
 
 // Taken from Feyzee61's ps4jb
 function getScript(source) {
