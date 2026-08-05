@@ -13,7 +13,7 @@
     <script>
         // Prevent "Theme Flash" by applying the href before the body renders
         var savedTheme = localStorage.getItem('theme') || "index";
-        var savedColor = localStorage.getItem('color') || "default";
+        var savedColor = localStorage.getItem('color') || "photo";
         if (savedTheme) {
             document.getElementById('main-stylesheet').setAttribute('href', './includes/css/layouts/' + savedTheme + '.css');
         }
@@ -617,7 +617,6 @@
     <script src="./includes/js/language.js"></script>
     <script src="./includes/js/HENs.js"></script>
     <script src="./includes/js/checkFw.js"></script>
-  <script src="./includes/js/cacheGate.js"></script>
     <script src="./includes/js/autoJbRetry.js"></script>
     <script src="./includes/js/events.js"></script>
 </body>
