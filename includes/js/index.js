@@ -151,11 +151,10 @@ async function jailbreak() {
   sessionStorage.setItem('autoJbRetry', 'true');
 
   // Skip if payload were chosen, useful when a payload were chosen from payloads.js
-  const path = sessionStorage.getItem('payload_path');
-if (path == null || path === '') {
-  chooseHEN();
-}
-
+  if (sessionStorage.getItem('payload_path') == (null || undefined)) {
+    // Choose HEN
+    chooseHEN();
+  }
 
   cleanUp();
 
@@ -252,37 +251,14 @@ async function badHoistJailbreak() {
 }
 
 function jailbreakSuccess() {
+  if (sessionStorage.getItem('jailbreakNow') == "true" && user.ps4Fw >= 6.70 && user.ps4Fw <= 6.72) {
+    sessionStorage.removeItem('jailbreakNow');
+    localStorage.setItem("userlandOnlyOnJB67x", "false");
+  }
   sessionStorage.setItem('autoJbRetry', 'false');
   updateJbStats(0, 1);
-  showExitScreen();
+  window.location.replace("./index.html");
 }
-
-
-function showExitScreen() {
-    document.body.style.background = '#000';
-    document.body.style.margin = '0';
-    document.body.innerHTML = `
-        <div style="
-            display:flex;
-            align-items:center;
-            justify-content:center;
-            width:100vw;
-            height:100vh;
-            background:#000;
-            color:#fff;
-            font-family:sans-serif;
-            font-size:32px;
-            text-align:center;
-        ">
-            GoldHEN Loaded<br>اکنون از مرورگر خارج شوید
-        </div>
-    `;
-}
-
-
-
-
-
 
 // Taken from Feyzee61's ps4jb
 function getScript(source) {
