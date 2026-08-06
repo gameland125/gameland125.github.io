@@ -1,10 +1,8 @@
 CACHE MANIFEST
 # PSFree V9 offline cache - fixed GoldHEN path
-# Version: 2026-07-12-goldhen-v2.4b18.10
+# Version: 2026-08-01-gameland-torabi-fix
 
 CACHE:
-assets/gameland-theme.jpeg
-includes/css/photo.css
 index.html
 PSFree.manifest
 includes/css/colors/default.css
@@ -16,6 +14,7 @@ includes/js/autoJbRetry.js
 includes/js/checkFw.js
 includes/js/design.js
 includes/js/events.js
+includes/js/cacheGate.js
 includes/js/exploits/bundle.js
 includes/js/index-legacy.js
 includes/js/index.js
