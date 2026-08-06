@@ -1,40 +1,15 @@
-/* Gameland promotional background and centered cache progress */
-html, body {
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  background: #000 !important;
-  overflow: hidden;
-}
-
-#initial-screen {
-  position: fixed !important;
-  inset: 0 !important;
-  width: 100vw !important;
-  height: 100vh !important;
-  background:
-    linear-gradient(rgba(0,0,0,.48), rgba(0,0,0,.72)),
-    url("../assets/photo_1785965309122.jpeg") center center / cover no-repeat !important;
-}
-
-#cache-progress {
-  position: fixed;
-  z-index: 2147483647;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  min-width: 2.6em;
-  padding: .15em .28em;
-  box-sizing: border-box;
-  text-align: center;
-  direction: ltr;
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: clamp(56px, 12vw, 120px);
-  line-height: 1;
-  font-weight: 900;
-  color: #ff4da6;
-  text-shadow: 0 0 8px #000, 0 0 18px rgba(255,77,166,.85);
-  pointer-events: none;
-}
-
-#cache-progress.cache-complete { color: #71ff9a; }
+/* Gameland full photo theme - UI only */
+:root { --gl-pink:#ff2b91; --gl-pink2:#ff78bd; --gl-black:#050507; --gl-panel:rgba(8,8,12,.82); }
+html, body { background:#050507 !important; color:#fff; }
+body { background: #050507 url("../../assets/gameland-theme.jpeg") center/cover fixed no-repeat !important; }
+body::before { content:""; position:fixed; inset:0; z-index:-1; background:linear-gradient(180deg,rgba(0,0,0,.48),rgba(0,0,0,.84)); pointer-events:none; }
+#initial-screen, #exploit-main-screen, .mainContainer { background:transparent !important; }
+#initial-screen { position:relative; box-sizing:border-box; width:min(94vw,1100px); min-height:min(88vh,760px); margin:auto; padding:clamp(28px,5vw,64px); border:2px solid rgba(255,43,145,.72); border-radius:28px; background:linear-gradient(145deg,rgba(0,0,0,.72),rgba(23,3,17,.78)) !important; box-shadow:0 0 0 1px rgba(255,120,189,.2),0 0 55px rgba(255,43,145,.35),inset 0 0 50px rgba(255,43,145,.08); overflow:hidden; }
+#initial-screen::after { content:""; position:absolute; inset:10px; border:1px solid rgba(255,120,189,.22); border-radius:20px; pointer-events:none; }
+#initial-screen > * { position:relative; z-index:1; }
+#ps-logo-container { background:rgba(0,0,0,.48) !important; border:1px solid rgba(255,120,189,.55); box-shadow:0 0 30px rgba(255,43,145,.28); }
+#ps-logo { filter:drop-shadow(0 0 12px var(--gl-pink)); }
+#click-to-start-text { color:#fff !important; font-size:clamp(20px,3vw,34px) !important; font-weight:800; text-align:center; min-width:240px; padding:13px 24px; border:2px solid var(--gl-pink); border-radius:14px; background:rgba(0,0,0,.7); text-shadow:0 0 10px var(--gl-pink); }
+#PS4FW { color:var(--gl-pink2) !important; font-weight:700; }
+button { border-color:rgba(255,43,145,.55) !important; }
+#exploit-main-screen, #settings-screen, #about-screen { background:rgba(5,5,7,.84) !important; }
