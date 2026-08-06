@@ -49,15 +49,15 @@ function loadTheme() {
 }
 
 function loadColor() {
-    var savedColor = localStorage.getItem('color') || 'photo';
+    var savedColor = localStorage.getItem('color') || 'default';
 
     // Find the radio button
     var radioElement = document.querySelector(`input[name="colorTheme"][value="${savedColor}"]`);
 
     // Fallback if the saved theme doesn't exist or is invalid
     if (!radioElement) {
-        savedColor = 'photo';
-        radioElement = document.querySelector(`input[name="colorTheme"][value="photo"]`);
+        savedColor = 'index';
+        radioElement = document.querySelector(`input[name="colorTheme"][value="default"]`);
         localStorage.setItem('color', 'default');
         // Apply the CSS file
         setColors(savedColor);
