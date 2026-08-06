@@ -438,22 +438,19 @@ function renderPayloads(payloads) {
 
 // Handling cache
 function DLProgress(e) {
-    Percent = Math.round((e.loaded / e.total) * 100);
-    document.title = ((window.lang && window.lang.cache) || "Caching ") + " " + Percent + "%";
+  var Percent = (Math.round(e.loaded / e.total * 100));
+  document.title = ((window.lang && window.lang.cache) || "Caching ") + " " + Percent + "%";
     var progressText = document.getElementById("click-to-start-text");
-    if (progressText) {
-        progressText.textContent = "در حال نصب کش آفلاین: " + Percent + "%";
-    }
+    if (progressText) progressText.textContent = ((window.lang && window.lang.cache) || "Caching") + " " + Percent + "%";
 }
 function DisplayCacheProgress() {
-    document.title = "✓";
-    var progressText = document.getElementById("click-to-start-text");
-    if (progressText) {
-        progressText.textContent = "کش آفلاین با موفقیت نصب شد ✓";
-    }
-    setTimeout(function () {
-        document.title = ((window.lang && window.lang.title) || "PSFree Enhanced");
-    }, 1500);
+  setTimeout(function () {
+    document.title = "\u2713";
+  }, 1000);
+  setTimeout(function () {
+    // location.reload();
+    document.title = ((window.lang && window.lang.title) || "PSFree Enhanced");
+  }, 2000);
 }
 
 function terminateCache() {
