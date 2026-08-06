@@ -151,10 +151,11 @@ async function jailbreak() {
   sessionStorage.setItem('autoJbRetry', 'true');
 
   // Skip if payload were chosen, useful when a payload were chosen from payloads.js
-  if (sessionStorage.getItem('payload_path') == (null || undefined)) {
-    // Choose HEN
-    chooseHEN();
-  }
+  const path = sessionStorage.getItem('payload_path');
+if (path == null || path === '') {
+  chooseHEN();
+}
+
 
   cleanUp();
 
@@ -249,25 +250,38 @@ async function badHoistJailbreak() {
     log("\nAn error occured during Kernel Exploit\nPlease restart console and try again...", "red");
   }
 }
+
 function jailbreakSuccess() {
-    if (sessionStorage.getItem('jailbreakNow') == "true" &&
-        user.ps4Fw >= 6.70 && user.ps4Fw <= 6.72) {
-        sessionStorage.removeItem('jailbreakNow');
-        localStorage.setItem("userlandOnlyOnJB67x", "false");
-    }
-
-    sessionStorage.setItem('autoJbRetry', 'false');
-    updateJbStats(0, 1);
-
-    setTimeout(() => {
-        if (sessionStorage.getItem('autoExploit') === 'true') {
-            sessionStorage.removeItem('autoExploit');
-            window.location.replace('./index.html');
-        } else {
-            window.location.href = "./";
-        }
-    }, 5000);
+  sessionStorage.setItem('autoJbRetry', 'false');
+  updateJbStats(0, 1);
+  showExitScreen();
 }
+
+
+function showExitScreen() {
+    document.body.style.background = '#000';
+    document.body.style.margin = '0';
+    document.body.innerHTML = `
+        <div style="
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            width:100vw;
+            height:100vh;
+            background:#000;
+            color:#fff;
+            font-family:sans-serif;
+            font-size:32px;
+            text-align:center;
+        ">
+            GoldHEN Loaded<br>اکنون از مرورگر خارج شوید
+        </div>
+    `;
+}
+
+
+
+
 
 
 // Taken from Feyzee61's ps4jb
@@ -440,8 +454,6 @@ function renderPayloads(payloads) {
 function DLProgress(e) {
   var Percent = (Math.round(e.loaded / e.total * 100));
   document.title = ((window.lang && window.lang.cache) || "Caching ") + " " + Percent + "%";
-    var progressText = document.getElementById("click-to-start-text");
-    if (progressText) progressText.textContent = ((window.lang && window.lang.cache) || "Caching") + " " + Percent + "%";
 }
 function DisplayCacheProgress() {
   setTimeout(function () {
