@@ -1,0 +1,8 @@
+Gameland patch:
+- Added includes/css/photo.css
+- Linked photo.css in index.html
+- Updated includes/js/index.js:
+  * DLProgress now writes progress into #click-to-start-text
+  * DisplayCacheProgress now shows cache success message in #click-to-start-text
+- Updated PSFree.manifest to cache includes/css/photo.css
+- Preserved exploit-related files and src/ structure
