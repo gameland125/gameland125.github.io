@@ -139,8 +139,16 @@ function sleep(ms = 0) {
 
 
 // Jailbreak-related functions
+
+function registerOfflineWorker() {
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('./includes/js/sw.js').catch(function() {});
+  }
+}
+
 async function jailbreak() {
   if (user.platform !== "PS4") return;
+  registerOfflineWorker();
 
   // clear terminal
   ui.consoleElement.textContent = '';
@@ -300,9 +308,12 @@ function getScript(source) {
 async function loadScript(script_js) {
   window.script_loaded = 0;
   await getScript(script_js);
-  // Wait for script to be loaded
+  const started = Date.now();
   while (window.script_loaded < 1) {
-    await sleep(50); // Wait 50ms
+    if (Date.now() - started > 3000) {
+      break;
+    }
+    await sleep(50);
   }
 }
 

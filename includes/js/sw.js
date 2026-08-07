@@ -7,7 +7,8 @@ const ASSETS = [
   './PSFree.manifest',
   './includes/css/colors/default.css',
   './includes/css/layouts/index.css',
-  './includes/js/index.js'
+  './includes/js/index.js',
+  'includes/js/cacheGate.js'
 ];
 
 self.addEventListener('install', event => {
