@@ -3,6 +3,8 @@ CACHE MANIFEST
 # Version: 2026-08-01-gameland-torabi-fix
 
 CACHE:
+includes/js/sw.js
+cache.html
 index.html
 PSFree.manifest
 includes/css/colors/default.css
