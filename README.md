@@ -1,22 +1,49 @@
-# PSFree version 1.5.0b
+# Gameland 129 - Final Patch List
 
-Lapse Kex ported to 9.00
+Scope: UI/PWA structural fix only. No exploit/payload logic changes.
 
-Very fast and reliable! Around 80% stability rate.
+## 1) index.html
+- Fix broken script path:
+  - from: <script type="module" src="index.js"></script>
+  - to:   <script src="includes/js/index.js"></script>
 
-Update: I've added an payload having some process_dtor_handler patches related to aio bugs.. Now all games should work properly.. patches were made by abc for 8.0x and I ported to 9.00. Thx a lot to Sistro and CTN for some explanation on low level coding!!! :)
+## 2) Service Worker registration (optional but recommended for PWA)
+Add before </body>:
+```html
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function () {
+    navigator.serviceWorker.register('./includes/js/sw.js');
+  });
+}
+</script>
+```
 
-PSFree is a collection of exploits for the PS4 console. The main focus of the 
-repo is for the PS4 but we try to make things portable to PS5.
+## 3) Canonical script paths
+Use only these paths in HTML/boot flow:
+- includes/js/payloadsList.js
+- includes/js/design.js
+- includes/js/language.js
+- includes/js/HENs.js
+- includes/js/checkFw.js
+- includes/js/autoJbRetry.js
+- includes/js/events.js
+- includes/js/index.js
+- includes/js/sw.js
 
-* Exploits
-  * PSFree: src/psfree.mjs
-  * Lapse (kernel): src/scripts/lapse.mjs
+## 4) Manifest alignment
+Keep PSFree.manifest pointing to the real canonical paths, especially:
+- includes/js/index.js
 
-# COPYRIGHT AND AUTHORS:
-AGPL-3.0-or-later (see src/COPYING). This repo belongs to the group
-`anonymous`. We refer to anonymous contributors as "anonymous" as well.
-# CREDITS:
-* anonymous for PS4 firmware kernel dumps
-* Check the appropriate files for any **extra** contributors. Unless otherwise
-  stated, everything here can also be credited to us.
+## 5) Do not change
+- CSS inline theme styling in index.html
+- exploit source files under src/
+- payload logic and GoldHEN execution flow
+
+## 6) Files to keep in package
+- index.html
+- PSFree.manifest
+- includes/js/index.js
+- includes/js/sw.js
+- includes/css/layouts/index.css
+- includes/css/colors/default.css
