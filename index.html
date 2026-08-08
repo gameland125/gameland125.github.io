@@ -135,7 +135,7 @@ h1 {
             document.getElementById('status-msg').innerText = "در حال هدایت به صفحه اصلی...";
             document.getElementById('progress-fill').style.width = "100%";
             setTimeout(function() {
-                window.location.replace("./index.html?cached=1");
+                window.location.reload();
             }, 1500);
         }
 
@@ -162,11 +162,9 @@ h1 {
         // Auto trigger jailbreak on load if cache ready
         window.addEventListener('load', function() {
             setTimeout(function() {
-                var cachedLaunch = new URLSearchParams(window.location.search).get('cached') === '1';
-        var cacheStatus = window.applicationCache ? window.applicationCache.status : 0;
-        // Cache-complete redirect bypasses unreliable ApplicationCache status.
+                var cacheStatus = window.applicationCache ? window.applicationCache.status : 0;
                 // status 1 = IDLE (cached and ready)
-                if (cachedLaunch || cacheStatus === 1 || cacheStatus === 4) {
+                if (cacheStatus === 1 || cacheStatus === 4) {
                     document.getElementById('status-title').innerText = "کش آماده است. در حال اجرای خودکار GoldHEN...";
                     document.getElementById('progress-container').classList.add('hidden');
                     startJailbreakProcess();
