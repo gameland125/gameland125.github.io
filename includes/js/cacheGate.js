@@ -105,10 +105,3 @@
     init();
   }
 })(window);
-
-
-(function registerWorker(){
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('./includes/js/sw.js').catch(function() {});
-  }
-})();

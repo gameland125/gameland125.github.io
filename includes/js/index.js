@@ -139,16 +139,8 @@ function sleep(ms = 0) {
 
 
 // Jailbreak-related functions
-
-function registerOfflineWorker() {
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('./includes/js/sw.js').catch(function() {});
-  }
-}
-
 async function jailbreak() {
   if (user.platform !== "PS4") return;
-  registerOfflineWorker();
 
   // clear terminal
   ui.consoleElement.textContent = '';
@@ -159,11 +151,10 @@ async function jailbreak() {
   sessionStorage.setItem('autoJbRetry', 'true');
 
   // Skip if payload were chosen, useful when a payload were chosen from payloads.js
-  const path = sessionStorage.getItem('payload_path');
-if (path == null || path === '') {
-  chooseHEN();
-}
-
+  if (sessionStorage.getItem('payload_path') == (null || undefined)) {
+    // Choose HEN
+    chooseHEN();
+  }
 
   cleanUp();
 
@@ -258,38 +249,25 @@ async function badHoistJailbreak() {
     log("\nAn error occured during Kernel Exploit\nPlease restart console and try again...", "red");
   }
 }
-
 function jailbreakSuccess() {
-  sessionStorage.setItem('autoJbRetry', 'false');
-  updateJbStats(0, 1);
-  showExitScreen();
+    if (sessionStorage.getItem('jailbreakNow') == "true" &&
+        user.ps4Fw >= 6.70 && user.ps4Fw <= 6.72) {
+        sessionStorage.removeItem('jailbreakNow');
+        localStorage.setItem("userlandOnlyOnJB67x", "false");
+    }
+
+    sessionStorage.setItem('autoJbRetry', 'false');
+    updateJbStats(0, 1);
+
+    setTimeout(() => {
+        if (sessionStorage.getItem('autoExploit') === 'true') {
+            sessionStorage.removeItem('autoExploit');
+            window.location.replace('./index.html');
+        } else {
+            window.location.href = "./";
+        }
+    }, 5000);
 }
-
-
-function showExitScreen() {
-    document.body.style.background = '#000';
-    document.body.style.margin = '0';
-    document.body.innerHTML = `
-        <div style="
-            display:flex;
-            align-items:center;
-            justify-content:center;
-            width:100vw;
-            height:100vh;
-            background:#000;
-            color:#fff;
-            font-family:sans-serif;
-            font-size:32px;
-            text-align:center;
-        ">
-            GoldHEN Loaded<br>اکنون از مرورگر خارج شوید
-        </div>
-    `;
-}
-
-
-
-
 
 
 // Taken from Feyzee61's ps4jb
@@ -308,12 +286,9 @@ function getScript(source) {
 async function loadScript(script_js) {
   window.script_loaded = 0;
   await getScript(script_js);
-  const started = Date.now();
+  // Wait for script to be loaded
   while (window.script_loaded < 1) {
-    if (Date.now() - started > 3000) {
-      break;
-    }
-    await sleep(50);
+    await sleep(50); // Wait 50ms
   }
 }
 
@@ -465,6 +440,8 @@ function renderPayloads(payloads) {
 function DLProgress(e) {
   var Percent = (Math.round(e.loaded / e.total * 100));
   document.title = ((window.lang && window.lang.cache) || "Caching ") + " " + Percent + "%";
+    var progressText = document.getElementById("click-to-start-text");
+    if (progressText) progressText.textContent = ((window.lang && window.lang.cache) || "Caching") + " " + Percent + "%";
 }
 function DisplayCacheProgress() {
   setTimeout(function () {
