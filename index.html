@@ -95,6 +95,14 @@ h1 {
 }
 
     </style>
+
+<script>
+(function () {
+  var cached = new URLSearchParams(window.location.search).get('cached') === '1';
+  if (cached) { document.documentElement.setAttribute('data-cached', '1'); }
+  window.GAMELAND_CACHED = cached;
+})();
+</script>
 </head>
 <body>
     <div class="container">
@@ -183,6 +191,7 @@ h1 {
     <script src="includes/js/HENs.js"></script>
     <script src="includes/js/checkFw.js"></script>
     <script src="includes/js/autoJbRetry.js"></script>
+<script src="includes/js/cacheGate.js"></script>
     <script src="includes/js/events.js"></script>
     <script type="module" src="index.js"></script>
 </body>
