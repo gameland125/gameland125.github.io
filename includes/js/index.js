@@ -300,9 +300,13 @@ function getScript(source) {
 async function loadScript(script_js) {
   window.script_loaded = 0;
   await getScript(script_js);
-  // Wait for script to be loaded
+  // Never wait forever: PS4 browser can lose the load callback after a failed cache read.
+  const deadline = Date.now() + 10000;
   while (window.script_loaded < 1) {
-    await sleep(50); // Wait 50ms
+    if (Date.now() >= deadline) {
+      throw new Error('Timed out loading script: ' + script_js);
+    }
+    await sleep(50);
   }
 }
 
