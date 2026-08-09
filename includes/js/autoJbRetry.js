@@ -1,20 +1,3 @@
-/* Gameland safe retry guard: prevents browser deadlock and offers recovery after 3 failures. */
-(function () {
-  window.GAMELAND_MAX_FAILURES = 3;
-  var key = 'gameland_jb_failures';
-  window.gamelandRecordFailure = function () {
-    var n = Number(sessionStorage.getItem(key) || 0) + 1;
-    sessionStorage.setItem(key, String(n));
-    if (n >= 3) {
-      var retry = window.confirm('اجرای جیل‌بریک سه بار ناموفق بود. مرورگر را دوباره راه‌اندازی و تلاش شود؟');
-      if (retry) { sessionStorage.removeItem(key); window.location.reload(); }
-      return true;
-    }
-    return false;
-  };
-  window.gamelandClearFailures = function () { sessionStorage.removeItem(key); };
-})();
-
 function setAutoJbRetry(checked) {
     localStorage.setItem('autoJbRetry', checked);
     sessionStorage.setItem('autoJbRetry', checked);

@@ -297,14 +297,14 @@ function getScript(source) {
 }
 
 // Taken from Feyzee61's ps4jb
-async function loadScript(script_js) {
+async function loadScript(script_js, timeoutMs = 15000) {
   window.script_loaded = 0;
   await getScript(script_js);
-  // Never wait forever: PS4 browser can lose the load callback after a failed cache read.
-  const deadline = Date.now() + 10000;
+
+  const deadline = Date.now() + timeoutMs;
   while (window.script_loaded < 1) {
     if (Date.now() >= deadline) {
-      throw new Error('Timed out loading script: ' + script_js);
+      throw new Error(`Timed out loading script: ${script_js}`);
     }
     await sleep(50);
   }

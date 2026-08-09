@@ -4,10 +4,22 @@ const ASSETS = [
   './index.html',
   './about.html',
   './cache.html',
-  './PSFree.manifest',
-  './includes/css/colors/default.css',
-  './includes/css/layouts/index.css',
-  './includes/js/index.js'
+  './PSplus.manifest',
+  './src/alert.mjs',
+  './src/config.mjs',
+  './psfree.mjs',
+  './config.mjs',
+  './includes/payloads/payloads.js',
+  './includes/js/payloadsList.js',
+  './includes/js/design.js',
+  './includes/js/language.js',
+  './includes/js/HENs.js',
+  './includes/js/checkFw.js',
+  './includes/js/autoJbRetry.js',
+  './includes/js/events.js',
+  './includes/js/cacheGate.js',
+  './includes/js/index.js',
+  './includes/js/exploits/bundle.js'
 ];
 
 self.addEventListener('install', event => {
