@@ -109,7 +109,32 @@
                 </svg>
             </button>
         </section>
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>گیم لند <span class="brand-name">ترابی ۱۵</span></h1>
+        <p class="info-text">مدیریت: قاسم اکبرزاده | تلفن: 09364229748</p>
+        <p class="info-text" style="font-size: 0.8rem;">آدرس: کاشمر، خیابان ترابی ۱۵</p>
 
+        <div id="status-area">
+            <div id="status-title" class="status-title">در حال بررسی وضعیت سیستم...</div>
+            <div id="status-msg" class="info-text">آماده‌سازی لودر آفلاین...</div>
+            <div class="progress-bar-container" id="progress-container">
+                <div class="progress-bar-fill" id="progress-fill"></div>
+            </div>
+        </div>
+
+        <button id="run-btn" class="btn-goldhen hidden" onclick="startJailbreakProcess()">اجرای GoldHEN</button>
+    </div>
+
+    <!-- Hidden elements required by core layout to prevent JS exceptions -->
+    <div class="hidden">
+        <div id="msgs"></div>
+        <div id="temp"></div>
+        <div id="log"></div>
+        <span id="clickToStartText"></span>
+    </div>
         <!-- Exploit section -->
         <section id="exploit-main-screen" class="flex w-full bg-gray-900 text-white transition-opacity duration-700">
             <div id="exploitContainer" class="grid md:grid-cols-2">
