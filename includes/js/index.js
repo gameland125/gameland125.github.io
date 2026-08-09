@@ -297,16 +297,12 @@ function getScript(source) {
 }
 
 // Taken from Feyzee61's ps4jb
-async function loadScript(script_js, timeoutMs = 15000) {
+async function loadScript(script_js) {
   window.script_loaded = 0;
   await getScript(script_js);
-
-  const deadline = Date.now() + timeoutMs;
+  // Wait for script to be loaded
   while (window.script_loaded < 1) {
-    if (Date.now() >= deadline) {
-      throw new Error(`Timed out loading script: ${script_js}`);
-    }
-    await sleep(50);
+    await sleep(50); // Wait 50ms
   }
 }
 
