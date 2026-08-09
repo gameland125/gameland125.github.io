@@ -106,7 +106,7 @@ h1 {
             document.getElementById('status-msg').innerText = "سیستم آماده کار به صورت آفلاین است. در حال هدایت...";
             document.getElementById('progress-fill').style.width = "100%";
             setTimeout(function() {
-                window.location.replace('./index.html?cached=1');
+                window.location.replace('./index.html');
             }, 1500);
         }
         window.applicationCache.addEventListener("progress", DLProgress, false);

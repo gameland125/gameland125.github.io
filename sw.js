@@ -1,5 +1,130 @@
-const CACHE_NAME = 'gameland-safe-clean-v2';
-const ASSETS = ['./','./index.html','./bundle.js','./sw.js','./payloads/payloads.js'];
-self.addEventListener('install', event => { event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(ASSETS))); self.skipWaiting(); });
-self.addEventListener('activate', event => { event.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(k => k !== CACHE_NAME).map(k => caches.delete(k))))); self.clients.claim(); });
-self.addEventListener('fetch', event => { event.respondWith(caches.match(event.request).then(cached => cached || fetch(event.request).then(response => { if (event.request.method === 'GET' && response.ok) { const copy=response.clone(); caches.open(CACHE_NAME).then(cache=>cache.put(event.request,copy)); } return response; }).catch(() => caches.match('./index.html')))); });
+const CACHE_NAME = 'gameland120-v2';
+const ASSETS = [
+  './',
+  './COPYING',
+  './LICENSE',
+  './PSFree.manifest',
+  './README.md',
+  './about.html',
+  './aio_patches.bin',
+  './alert.mjs',
+  './cache.html',
+  './config.mjs',
+  './gameland-loading.jpeg',
+  './includes/css/colors/default.css',
+  './includes/css/colors/photo.css',
+  './includes/css/colors/vibrant.css',
+  './includes/css/layouts/compact.css',
+  './includes/css/layouts/index.css',
+  './includes/css/photo.css',
+  './includes/js/HENs.js',
+  './includes/js/autoJbRetry.js',
+  './includes/js/cacheGate.js',
+  './includes/js/checkFw.js',
+  './includes/js/design.js',
+  './includes/js/events.js',
+  './includes/js/exploits/bundle.js',
+  './includes/js/index-legacy.js',
+  './includes/js/index.js',
+  './includes/js/language.js',
+  './includes/js/languages/ar.js',
+  './includes/js/languages/en.js',
+  './includes/js/languages/es.js',
+  './includes/js/languages/fa.js',
+  './includes/js/languages/ru.js',
+  './includes/js/languages/tr.js',
+  './includes/js/languages/zh-cn.js',
+  './includes/js/payloadsList.js',
+  './includes/payloads/Bins/Orbis-Toolbox-900.bin',
+  './includes/payloads/Bins/WebRTE.bin',
+  './includes/payloads/Bins/appcache-install.bin',
+  './includes/payloads/Bins/elfldr.bin',
+  './includes/payloads/Bins/elfldr.elf',
+  './includes/payloads/Bins/fan-thresholds/ps4-fan-threshold60.bin',
+  './includes/payloads/Bins/fan-thresholds/ps4-fan-threshold70.bin',
+  './includes/payloads/Bins/fan-thresholds/ps4-fan-threshold80.bin',
+  './includes/payloads/Bins/fan-thresholds/ps4-fan-threshold85.bin',
+  './includes/payloads/Bins/np-fake-signin-ps4.elf',
+  './includes/payloads/Bins/ps4-app-dumper.bin',
+  './includes/payloads/Bins/ps4-app2usb.bin',
+  './includes/payloads/Bins/ps4-backup.bin',
+  './includes/payloads/Bins/ps4-disable-aslr.bin',
+  './includes/payloads/Bins/ps4-disable-updates.bin',
+  './includes/payloads/Bins/ps4-enable-updates.bin',
+  './includes/payloads/Bins/ps4-exit-idu.bin',
+  './includes/payloads/Bins/ps4-ftp.bin',
+  './includes/payloads/Bins/ps4-history-blocker.bin',
+  './includes/payloads/Bins/ps4-kernel-dumper.bin',
+  './includes/payloads/Bins/ps4-module-dumper.bin',
+  './includes/payloads/Bins/ps4-permanent-uart.bin',
+  './includes/payloads/Bins/ps4-pup-decrypt.bin',
+  './includes/payloads/Bins/ps4-restore.bin',
+  './includes/payloads/Bins/ps4-rif-renamer.bin',
+  './includes/payloads/Bins/ps4-websrv.bin',
+  './includes/payloads/Bins/ps4debug.bin',
+  './includes/payloads/GoldHEN/goldhen_v2.4b18.10.bin',
+  './includes/payloads/Linux/linux-1024mb.elf',
+  './includes/payloads/Linux/linux-128mb.elf',
+  './includes/payloads/Linux/linux-2048mb.elf',
+  './includes/payloads/Linux/linux-256mb.elf',
+  './includes/payloads/Linux/linux-3072mb.elf',
+  './includes/payloads/Linux/linux-32mb.elf',
+  './includes/payloads/Linux/linux-4096mb.elf',
+  './includes/payloads/Linux/linux-512mb.elf',
+  './includes/payloads/Linux/linux-64mb.elf',
+  './includes/payloads/payloads.js',
+  './index.html',
+  './lapse.mjs',
+  './psfree.mjs',
+  './psfree_lapse.cache',
+  './src/alert.mjs',
+  './src/config.mjs',
+  './src/fonts/FONTS.LICENSE',
+  './src/fonts/LiberationMono-Regular.ttf',
+  './src/fonts/README.txt',
+  './src/lapse.mjs',
+  './src/lapse/ps4/700.mjs',
+  './src/lapse/ps4/750.mjs',
+  './src/lapse/ps4/751.mjs',
+  './src/lapse/ps4/800.mjs',
+  './src/lapse/ps4/850.mjs',
+  './src/lapse/ps4/852.mjs',
+  './src/lapse/ps4/900.mjs',
+  './src/lapse/ps4/903.mjs',
+  './src/lapse/ps4/950.mjs',
+  './src/module/chain.mjs',
+  './src/module/int64.mjs',
+  './src/module/mem.mjs',
+  './src/module/memtools.mjs',
+  './src/module/offset.mjs',
+  './src/module/rw.mjs',
+  './src/module/utils.mjs',
+  './src/module/view.mjs',
+  './src/psfree.mjs',
+  './src/rop/ps4/700.mjs',
+  './src/rop/ps4/750.mjs',
+  './src/rop/ps4/800.mjs',
+  './src/rop/ps4/850.mjs',
+  './src/rop/ps4/900.mjs',
+  './src/rop/ps4/950.mjs',
+  './src/send.mjs'
+];
+
+self.addEventListener('install', event => {
+  event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(ASSETS)).then(() => self.skipWaiting()));
+});
+
+self.addEventListener('activate', event => {
+  event.waitUntil(caches.keys().then(keys => Promise.all(
+    keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key))
+  )).then(() => self.clients.claim()));
+});
+
+self.addEventListener('fetch', event => {
+  if (event.request.method !== 'GET') return;
+  event.respondWith(caches.match(event.request).then(cached => cached || fetch(event.request).then(response => {
+    const copy = response.clone();
+    caches.open(CACHE_NAME).then(cache => cache.put(event.request, copy));
+    return response;
+  }).catch(() => caches.match('./index.html'))));
+});
