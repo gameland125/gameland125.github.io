@@ -5,7 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>گیم لند - PS4 Exploit</title>
     <style>
-    
+    <script>
+        // Prevent "Theme Flash" by applying the href before the body renders
+        var savedTheme = localStorage.getItem('theme') || "index";
+        var savedColor = localStorage.getItem('color') || "default";
+        if (savedTheme) {
+            document.getElementById('main-stylesheet').setAttribute('href', './includes/css/layouts/' + savedTheme + '.css');
+        }
+        if (savedColor){
+            document.getElementById('color-stylesheet').setAttribute('href', './includes/css/colors/' + savedColor + '.css');
+                }
 body {
     background-color: #0b0b0c;
     color: #e2e2e6;
