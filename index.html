@@ -109,7 +109,46 @@ h1 {
                 <div class="progress-bar-fill" id="progress-fill"></div>
             </div>
         </div>
-
+</div>
+            <!-- Choose GoldHEN version -->
+            <div id="chooseGoldHEN" class="mb-4">
+                <h3 class="text-lg font-semibold mb-2" id="ghVer">GoldHEN versions</h3>
+                <div class="radio-group space-y-2">
+                    <label class="flex items-center text-white/80">
+                        <input type="radio" name="goldhen" value="GHv2.4b18.10" onchange="setGoldHENVer(this.value);">
+                        <p>GoldHEN v2.4b18.10 - </p>
+                        <pre id="latestVer"> Latest</pre>
+                    </label>
+                    <details>
+                        <summary>Other versions</summary>
+                        <label class="flex items-center text-white/80">
+                            <input type="radio" name="goldhen" value="GHv2.4b18.9"
+                                onchange="setGoldHENVer(this.value);">
+                            <p>GoldHEN v2.4b18.9</p>
+                        </label>
+                        <label class="flex items-center text-white/80">
+                            <input type="radio" name="goldhen" value="GHv2.4b18.8"
+                                onchange="setGoldHENVer(this.value);">
+                            <p>GoldHEN v2.4b18.8</p>
+                        </label>
+                        <label class="flex items-center text-white/80">
+                            <input type="radio" name="goldhen" value="GHv2.4b18.7"
+                                onchange="setGoldHENVer(this.value);">
+                            <p>GoldHEN v2.4b18.7</p>
+                        </label>
+                        <label class="flex items-center text-white/80">
+                            <input type="radio" name="goldhen" value="GHv2.4b18.6"
+                                onchange="setGoldHENVer(this.value);">
+                            <p>GoldHEN v2.4b18.6</p>
+                        </label>
+                        <label class="flex items-center text-white/80">
+                            <input type="radio" name="goldhen" value="GHv2.4b18.5"
+                                onchange="setGoldHENVer(this.value);">
+                            <p>GoldHEN v2.4b18.5</p>
+                        </label>
+                    </details>
+                </div>
+            </div>
         <button id="run-btn" class="btn-goldhen hidden" onclick="startJailbreakProcess()">اجرای GoldHEN</button>
     </div>
 
