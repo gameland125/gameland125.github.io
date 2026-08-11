@@ -1,6 +1,39 @@
 <!DOCTYPE html>
 <html lang="fa" manifest="PSFree.manifest">
 <head>
+    <script>
+        window.autoJailbreak = window.autoJailbreak || function() { return false; };
+        window.loadSettings = window.loadSettings || function() { };
+    </script>
+    
+<style>
+    /* Hide top navigation and cache bar (the white/gray bar at top) */
+    #settings-btn, #about-btn, .top-nav-icons, .cache-info, .cache-status, #cache-overlay { 
+        display: none !important; 
+    }
+    
+    /* Hide "Click to start" and any floating hint text */
+    #click-to-start-text, .click-hint { 
+        display: none !important; 
+    }
+    
+    /* Hide Payload/HEN selection UI and "extra" empty options */
+    #advancedPayloads, #autoJbContainer, #bareboneJBOption, .payload-picker, .extra-options { 
+        display: none !important; 
+    }
+    
+    /* Hide Status panel / Success rate / Footer info */
+    #status-panel, #status-msg, #status-title, .status-container, footer, .footer-info { 
+        display: none !important; 
+    }
+
+    /* Force background to be clean to avoid ghost elements when scrolling */
+    body { 
+        overflow: hidden !important; /* Prevents scrolling to "empty" areas */
+        user-select: none;
+    }
+</style>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>گیم لند - PS4 Exploit</title>
@@ -95,14 +128,6 @@ h1 {
 }
 
     </style>
-
-<style>
-  /* Hide only the top header/navigation */
-  #initial-screen > header { display: none !important; }
-  /* Keep the center progress/status UI visible */
-  #status-area { display: block !important; }
-</style>
-
 </head>
 <body>
     <div class="container">
