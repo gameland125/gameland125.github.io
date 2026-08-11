@@ -2,14 +2,37 @@
 <html lang="fa" manifest="PSFree.manifest">
 <head>
     <script>
-        if (typeof window.autoJailbreak === 'undefined') {
-            window.autoJailbreak = function() { console.log("Placeholder"); };
-            window.autoJailbreak.valueOf = function() { return false; };
-        }
-        if (typeof window.loadSettings !== 'function') {
-            window.loadSettings = function() { };
-        }
+        window.autoJailbreak = window.autoJailbreak || function() { return false; };
+        window.loadSettings = window.loadSettings || function() { };
     </script>
+    
+<style>
+    /* Hide top navigation and cache bar (the white/gray bar at top) */
+    #settings-btn, #about-btn, .top-nav-icons, .cache-info, .cache-status, #cache-overlay { 
+        display: none !important; 
+    }
+    
+    /* Hide "Click to start" and any floating hint text */
+    #click-to-start-text, .click-hint { 
+        display: none !important; 
+    }
+    
+    /* Hide Payload/HEN selection UI and "extra" empty options */
+    #advancedPayloads, #autoJbContainer, #bareboneJBOption, .payload-picker, .extra-options { 
+        display: none !important; 
+    }
+    
+    /* Hide Status panel / Success rate / Footer info */
+    #status-panel, #status-msg, #status-title, .status-container, footer, .footer-info { 
+        display: none !important; 
+    }
+
+    /* Force background to be clean to avoid ghost elements when scrolling */
+    body { 
+        overflow: hidden !important; /* Prevents scrolling to "empty" areas */
+        user-select: none;
+    }
+</style>
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -105,22 +128,6 @@ h1 {
 }
 
     </style>
-
-<style>
-    /* Hide top icons (settings/info) */
-    .flex.justify-center.gap-4.mb-4 { display: none !important; }
-    
-    /* Hide "Click to start" text */
-    #click-to-start-text { display: none !important; }
-    
-    /* Hide HEN selection flavor */
-    #hen-selection-container, 
-    .mb-6:has(p#choose-hen-flavor) { display: none !important; }
-    
-    /* Hide Status panel at the bottom */
-    #status-panel,
-    .bg-white\/5.rounded-xl.p-4.mb-6:has(#status-title) { display: none !important; }
-</style>
 </head>
 <body>
     <div class="container">
@@ -796,5 +803,3 @@ h1 {
             document.write('<script src="' + scriptPath + '"><\/script>');
         })();
     </script>
-</body>
-</html>
