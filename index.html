@@ -1,16 +1,6 @@
 <!DOCTYPE html>
 <html lang="fa" manifest="PSFree.manifest">
 <head>
-<script>
-  if (typeof window.autoJailbreak === 'undefined') {
-    window.autoJailbreak = function() { return false; };
-    window.autoJailbreak.valueOf = function() { return false; };
-  }
-  if (typeof window.loadSettings !== 'function') {
-    window.loadSettings = function() {};
-  }
-</script>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>گیم لند - PS4 Exploit</title>
@@ -107,8 +97,10 @@ h1 {
     </style>
 
 <style>
-  /* Keep header buttons hidden; do not touch the cache/status area */
-  #settings-btn, #about-btn { display: none !important; }
+  /* Hide only the top header/navigation */
+  #initial-screen > header { display: none !important; }
+  /* Keep the center progress/status UI visible */
+  #status-area { display: block !important; }
 </style>
 
 </head>
@@ -786,6 +778,3 @@ h1 {
             document.write('<script src="' + scriptPath + '"><\/script>');
         })();
     </script>
-
-</body>
-</html>
