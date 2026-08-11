@@ -2,52 +2,14 @@
 <html lang="fa" manifest="PSFree.manifest">
 <head>
 <script>
-    // Critical safety fixes for PS4 browser
-    if (typeof window.autoJailbreak === 'undefined') {
-        window.autoJailbreak = function() { return false; };
-        window.autoJailbreak.valueOf = function() { return false; };
-    }
-    if (typeof window.loadSettings !== 'function') {
-        window.loadSettings = function() { };
-    }
+  if (typeof window.autoJailbreak === 'undefined') {
+    window.autoJailbreak = function() { return false; };
+    window.autoJailbreak.valueOf = function() { return false; };
+  }
+  if (typeof window.loadSettings !== 'function') {
+    window.loadSettings = function() {};
+  }
 </script>
-
-<style>
-    /* HIDE CACHE INSTALL BAR AND ALL STATUS MESSAGES */
-    #status-area, 
-    #status-title, 
-    #status-msg, 
-    #progress-container, 
-    #progress-fill,
-    .progress-bar-container,
-    .progress-bar-fill,
-    #cache-overlay,
-    .cache-status {
-        display: none !important;
-        visibility: hidden !important;
-        height: 0 !important;
-        margin: 0 !important;
-        padding: 0 !important;
-        border: 0 !important;
-        overflow: hidden !important;
-    }
-
-    /* HIDE NAVIGATION ICONS AND START TEXT */
-    #settings-btn, #about-btn, .top-nav-icons,
-    #click-to-start-text, .click-hint {
-        display: none !important;
-    }
-
-    /* HIDE PAYLOAD SELECTION / HEN PICKER */
-    #advancedPayloads, #autoJbContainer, #bareboneJBOption, .payload-picker {
-        display: none !important;
-    }
-
-    /* PREVENT SCROLLING TO EMPTY AREAS */
-    body {
-        overflow: hidden !important;
-    }
-</style>
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -143,6 +105,12 @@ h1 {
 }
 
     </style>
+
+<style>
+  /* Keep header buttons hidden; do not touch the cache/status area */
+  #settings-btn, #about-btn { display: none !important; }
+</style>
+
 </head>
 <body>
     <div class="container">
@@ -818,3 +786,6 @@ h1 {
             document.write('<script src="' + scriptPath + '"><\/script>');
         })();
     </script>
+
+</body>
+</html>
