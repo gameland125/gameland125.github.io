@@ -1,6 +1,29 @@
 <!DOCTYPE html>
 <html lang="fa" manifest="PSFree.manifest">
 <head>
+<!-- Gameland compatibility patch: must load before any legacy scripts -->
+<script>
+(function () {
+  /* Legacy settings scripts may read this as an unqualified global. */
+  if (typeof window.autoJailbreak === 'undefined') {
+    window.autoJailbreak = false;
+  }
+  if (typeof window.loadSettings !== 'function') {
+    window.loadSettings = function () {};
+  }
+}());
+/* Global binding for old PS4 WebKit scripts (prevents: Can't find variable: autoJailbreak) */
+var autoJailbreak = window.autoJailbreak;
+</script>
+<style id="gameland-final-ui-patch">
+  /* Hide only the upper header/actions. Keep the central GoldHEN status visible. */
+  #initial-screen > header,
+  #settings-btn,
+  #about-btn {
+    display: none !important;
+  }
+</style>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>گیم لند - PS4 Exploit</title>
